@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 TOK=$(printf "protocol=https\nhost=github.com\n\n" | git credential fill 2>/dev/null | sed -n 's/^password=//p')
 if [ -z "${TOK:-}" ]; then echo "拿不到 GitHub 凭据（git credential fill 为空）"; exit 1; fi
 
-REPO="worldmodel-research-map"
+REPO="awesome-world-model-memory"
 OWNER="ghf2458526136-sys"
 
 echo "[1/4] 检查仓库是否存在"
