@@ -308,14 +308,35 @@ HTML = r"""<!DOCTYPE html>
   #legend .n{margin-left:auto;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
   ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:rgba(15,23,42,.15);border-radius:8px}
   @media(max-width:900px){.hint{display:none}#q{width:180px}#q:focus{width:200px}#panel{width:100vw}}
+  #stage{touch-action:none}
+  .card.faint{opacity:.34}
+  .card.future{opacity:.05;pointer-events:none}
+  .link{transition:opacity .2s,stroke .2s}
+  .link.on{stroke:var(--accent);stroke-width:2.6}
+  .link.faint{opacity:.1}
+  .link-dot{fill:#B6C0D4}
+  .lbg{fill:var(--card);stroke:rgba(15,23,42,.12);opacity:0;transition:opacity .18s;filter:url(#sh)}
+  .stuck .lbg{opacity:.93}
+  #qc{font-size:12.5px;color:var(--accent);font-weight:600;white-space:nowrap;min-width:0}
+  #mini{position:fixed;right:74px;bottom:18px;z-index:25;padding:5px;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-sm);cursor:pointer;line-height:0;
+    transition:right .38s var(--ease)}
+  #mini .vr{fill:rgba(79,70,229,.10);stroke:var(--accent);stroke-width:14}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;z-index:40;pointer-events:none;
+    padding:10px 20px;border-radius:999px;background:rgba(15,23,42,.88);color:#fff;font-size:14px;font-weight:600;transition:.3s var(--ease)}
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+  #dock{transition:right .38s var(--ease)}
+  body.panel-open #dock{right:458px} body.panel-open #mini{right:514px}
+  @media(max-width:900px){#mini{display:none}body.panel-open #dock{right:18px}}
 </style>
 </head>
 <body>
 <header>
   <h1>__TITLE__</h1>
   <input id="q" placeholder="搜索标题 / 机制 / 一句话">
+  <span id="qc"></span>
   <button id="play">按时间播放</button>
-  <span class="hint">滚轮缩放 · 拖拽平移 · 双击全览 · 点卡片看详情 · 每条路线独立时间轴 · 绿色标签=免训 · 连线为机制同构非引用</span>
+  <span class="hint">Ctrl+滚轮缩放 · 滚轮/拖拽平移 · 双击空白全览 · ←→ 切换论文 · / 搜索 · 连线为机制同构非引用</span>
 </header>
 <div id="stage">
   <svg id="svg"><defs>
@@ -333,125 +354,188 @@ HTML = r"""<!DOCTYPE html>
   <button id="zfit" title="全览">⛶</button>
 </div>
 <div id="legend"></div>
+<div id="mini" title="点击或拖动以导航"></div>
+<div id="toast"></div>
 <script>
 window.BADGE = __BADGE__;
 const DATA = __DATA__;
-const svg = document.getElementById("svg"), vp = document.getElementById("vp");
-let scale = 1, tx = 0, ty = 0;
+const svg = document.getElementById("svg"), vp = document.getElementById("vp"),
+  stage = document.getElementById("stage"), panel = document.getElementById("panel");
+let scale = 1, tx = 0, ty = 0, anim = 0;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v)), cs = s => clamp(s, .12, 3);
+const PANEL_W = () => panel.classList.contains("open") ? panel.offsetWidth : 0;
+const byId = {}, cards = {}, links = {}, kids = {}, stickies = [];
+DATA.nodes.forEach(n => {
+  byId[n.id] = n;
+  n.hay = [n.title, n.mechanism, n.one_liner, n.lane, n.branch, (n.tags||[]).join(" "), n.explain].join(" ").toLowerCase();
+});
+DATA.nodes.forEach(n => { if(n.parent && byId[n.parent]) (kids[n.parent] = kids[n.parent] || []).push(n.id); });
 
 function el(tag, attrs, parent){
   const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
-  for(const [k,v] of Object.entries(attrs || {})){
-    if(v == null) continue;
-    n.setAttribute(k, v);
-  }
-  (parent || vp).appendChild(n);
-  return n;
+  for(const [k,v] of Object.entries(attrs || {})) if(v != null) n.setAttribute(k, v);
+  (parent || vp).appendChild(n); return n;
 }
-function apply(){ vp.setAttribute("transform", `translate(${tx},${ty}) scale(${scale})`); }
-function resetView(){ scale = DATA.init.scale; tx = DATA.init.tx; ty = DATA.init.ty; apply(); }
+
+/* ---------- 相机 ---------- */
+function apply(){
+  const w = svg.clientWidth, h = svg.clientHeight, m = 120;
+  tx = clamp(tx, m - DATA.width*scale, Math.max(24, (w - DATA.width*scale)/2)); ty = clamp(ty, m - DATA.height*scale, Math.max(14, (h - DATA.height*scale)/2));
+  vp.setAttribute("transform", `translate(${tx},${ty}) scale(${scale})`);
+  stick(); drawMini();
+}
+function flyTo(ns, ntx, nty, dur){
+  cancelAnimationFrame(anim);
+  const s0 = scale, x0 = tx, y0 = ty, t0 = performance.now(); dur = dur || 560;
+  (function step(now){
+    const k = Math.min(1, (now - t0)/dur), e = 1 - Math.pow(1 - k, 3);
+    scale = s0 + (ns - s0)*e; tx = x0 + (ntx - x0)*e; ty = y0 + (nty - y0)*e; apply();
+    if(k < 1) anim = requestAnimationFrame(step);
+  })(t0);
+}
+function zoomAt(mx, my, ns){ ns = cs(ns); tx = mx - (mx - tx)*(ns/scale); ty = my - (my - ty)*(ns/scale); scale = ns; apply(); }
+function zoomBtn(k){ cancelAnimationFrame(anim); const w = svg.clientWidth - PANEL_W(); zoomAt(w/2, svg.clientHeight/2, scale*k); }
 function fitAll(){
-  const w = svg.clientWidth, h = svg.clientHeight;
-  scale = Math.min((w - 60) / DATA.width, (h - 40) / DATA.height, 1.2);
-  tx = Math.max(16, (w - DATA.width * scale) / 2);
-  ty = 14; apply();
+  const w = svg.clientWidth, h = svg.clientHeight, s = Math.min((w-60)/DATA.width, (h-40)/DATA.height, 1.2);
+  flyTo(s, Math.max(16, (w - DATA.width*s)/2), 14);
 }
-function hexA(hex, a){
-  const n = parseInt(hex.slice(1), 16);
-  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+function resetView(now){ const i = DATA.init; now ? (scale = i.scale, tx = i.tx, ty = i.ty, apply()) : flyTo(i.scale, i.tx, i.ty); }
+function focusNode(n){
+  const w = svg.clientWidth - PANEL_W(), h = svg.clientHeight, ns = cs(Math.max(scale, .85));
+  const cx = (DATA.labelW*ns + w)/2;   // 让出左侧固定标签列
+  flyTo(ns, cx - (n.x + DATA.card.w/2)*ns, h/2 - (n.y + DATA.card.h/2)*ns);
+}
+function focusLane(l){
+  const w = svg.clientWidth - PANEL_W(), h = svg.clientHeight;
+  const s = cs(Math.min((w-50)/(DATA.labelW + l.plotW + 32), (h-40)/(l.height+20), 1));
+  flyTo(s, 20 - 8*s, 20 - (l.top - 10)*s);
 }
 
+/* ---------- 吸附标签：随镜头滑进可视区 ---------- */
+function mkSticky(parent, kind, lane, extra){
+  const g = el("g", {class:"stk"}, parent);
+  return {g, kind, lane, ...extra};
+}
+function finishSticky(s){
+  const bb = s.g.getBBox(); s.bb = bb;
+  el("rect", {class:"lbg", x:bb.x-9, y:bb.y-5, width:bb.width+18, height:bb.height+10, rx:10}, s.g);
+  s.g.insertBefore(s.g.lastChild, s.g.firstChild);
+  stickies.push(s);
+}
+function stick(){
+  const L = -tx/scale, T = -ty/scale, px = 16/scale, py = 14/scale, laneX = {};
+  for(const s of stickies){
+    const l = s.lane, R = DATA.labelW + l.plotW + 32 - 10, B = l.top + l.height - 10, bb = s.bb;
+    let dx = 0, dy = 0, anchor = L + px;
+    if(s.kind === "year") anchor = Math.max(anchor, laneX[l.name] + DATA.labelW - 36);
+    dx = clamp(anchor - bb.x, 0, Math.max(0, (s.right || R) - (bb.x + bb.width) ));
+    if(s.kind !== "branch") dy = clamp(T + py - bb.y, 0, Math.max(0, B - (bb.y + bb.height)));
+    if(s.kind === "lane") { laneX[l.name] = bb.x + dx; l.dy = dy; }
+    if(s.kind === "year") dy = l.dy || 0;
+    s.g.setAttribute("transform", `translate(${dx},${dy})`);
+    s.g.classList.toggle("stuck", dx > 1 || dy > 1);
+  }
+}
+
+/* ---------- 构建 ---------- */
 function build(){
-  const laneColor = {};
-  DATA.lanes.forEach(l => laneColor[l.name] = l.color);
-
+  const laneColor = {}; DATA.lanes.forEach(l => laneColor[l.name] = l.color);
   DATA.lanes.forEach((l, li) => {
     el("rect", {class:"lane-box", x:8, y:l.top-10, width:DATA.labelW + l.plotW + 24, height:l.height+8, rx:20,
-      fill: (li % 2 ? "var(--band-b)" : "var(--band-a)")});
+      fill: li % 2 ? "var(--band-b)" : "var(--band-a)"});
     el("rect", {x:9, y:l.top-6, width:5, height:l.height-4, rx:2.5, fill:l.color, opacity:.9});
-    el("text", {class:"lane-name", x:26, y:l.top+16, fill:l.color}).textContent = l.name;
-    el("text", {class:"lane-count", x:26, y:l.top+34}).textContent = l.count + " 篇";
-  });
-
-  // 每条分支 = 一条紧凑时间轴：卡片按日期连续排，跨年画分隔线
-  // 泳道级年份分隔线（同一大分类内跨分支对齐）
-  // 泳道级年份分隔线（同一大分类内跨分支对齐）
-  // 泳道级年份分隔线（同一大分类内跨分支对齐）
-  // 泳道级年份分隔线（同一大分类内跨分支对齐）
-  DATA.lanes.forEach(l => {
-    l.years.forEach(y => {
-      el("line", {class:"year-sep", x1:y.x, y1:l.top - 2, x2:y.x, y2:l.top + l.height - 6});
-      const t = el("text", {class:"year-label", x:y.x + 6, y:l.top + 16, fill:l.color});
-      t.textContent = y.label;
-    });
+    l.years.forEach(y => el("line", {class:"year-sep", x1:y.x, y1:l.top-2, x2:y.x, y2:l.top+l.height-6}));
     l.branches.forEach(b => {
       const baseY = b.y + DATA.card.h + 16;
-      el("line", {class:"axis-line", x1:DATA.labelW - 14, y1:baseY,
-        x2:DATA.labelW + l.plotW - 10, y2:baseY});
-      if(b.name){
-        el("circle", {cx:30, cy:b.y + 30, r:3.4, fill:l.color, opacity:.75});
-        el("text", {class:"branch", x:40, y:b.y + 34}).textContent = b.name;
-      }
+      el("line", {class:"axis-line", x1:DATA.labelW-14, y1:baseY, x2:DATA.labelW + l.plotW - 10, y2:baseY});
     });
   });
-
-  const pos = {};
-  DATA.nodes.forEach(n => pos[n.id] = n);
   DATA.nodes.forEach(n => {
     if(n.sx == null) return;
-    const x1 = n.sx, y1 = n.sy, x2 = n.x, y2 = n.y + DATA.card.h/2;
-    const mid = (x1 + x2) / 2;
-    el("path", {d:`M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`, class: n.cross ? "link cross" : "link"});
-    el("circle", {cx:x1, cy:y1, r:2.6, fill:"#c7d0dd"});
+    const x1 = n.sx, y1 = n.sy, x2 = n.x, y2 = n.y + DATA.card.h/2, mid = (x1 + x2)/2;
+    const path = el("path", {d:`M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`, class: n.cross ? "link cross" : "link"});
+    const dot = el("circle", {cx:x1, cy:y1, r:2.6, class:"link-dot"});
+    links[n.id] = {path, dot};
+    links[n.id].show = v => { path.style.display = dot.style.display = v ? "" : "none"; };
   });
-
   DATA.nodes.forEach(n => {
-    const g = el("g", {class:"card", "data-id":n.id, transform:`translate(${n.x},${n.y})`});
+    const g = el("g", {class:"card", "data-id":n.id, transform:`translate(${n.x},${n.y})`}); cards[n.id] = g;
+    el("title", {}, g).textContent = n.one_liner || n.title;
     el("rect", {class:"bg", width:DATA.card.w, height:DATA.card.h, rx:16}, g);
-    if(n.key){
-      el("rect", {class:"keyring", x:-4, y:-4, width:DATA.card.w+8, height:DATA.card.h+8, rx:19,
-        fill:"none", stroke:laneColor[n.lane] || "#333", "stroke-width":2.4}, g);
-    }
-    el("rect", {class:"stripe", width:5, height:DATA.card.h-16, x:1.5, y:8,
-      fill:laneColor[n.lane] || "#888", rx:2.5, opacity:.9}, g);
-
-    // 右上角：免训标记（绿）优先，其次论文特征标签（泳道色）
-    const FREE = {"免训": "免训", "推理期技巧": "推理期"};
-    let tagW = 0;
-    const tagList = (FREE[n.training] ? [{t: FREE[n.training], free: true}] : [])
-      .concat((n.tags || []).map(t => ({t, free: false})));
-    if(tagList.length){
-      let xRight = DATA.card.w - 10;
-      tagList.slice(0, 3).forEach(o => {
-        const w = o.t.length * 10.5 + 12;
-        if(xRight - w < 12) return;
-        el("rect", {x: xRight - w, y: 9, width: w, height: 17, rx: 8,
-          fill: o.free ? "#0E9F6E" : (laneColor[n.lane] || "#6b7280"),
-          opacity: o.free ? 1 : .12}, g);
-        const tx = el("text", {x: xRight - w + 6, y: 21.5, class: "tag-t",
-          fill: o.free ? "#ffffff" : (laneColor[n.lane] || "#6b7280")}, g);
-        tx.textContent = o.t;
-        xRight -= w + 5;
-      });
-      tagW = DATA.card.w - xRight;
-    }
-    const t1 = el("text", {class:"t-title", x:15, y:50}, g);
-    t1.textContent = n.title;
-    const maxW = DATA.card.w - 24;
-    while(t1.textContent.length > 4 && t1.getComputedTextLength() > maxW){
-      t1.textContent = t1.textContent.slice(0, -2) + "…";
-    }
-    const t2 = el("text", {class:"t-date", x:15, y:DATA.card.h - 14}, g);
-    t2.textContent = n.date.slice(0, 7) + (n.precision === "month" || n.precision === "unknown" ? "" : "-" + n.date.slice(8, 10));
-    g.addEventListener("click", ev => { ev.stopPropagation(); openPanel(n); });
+    if(n.key) el("rect", {class:"keyring", x:-4, y:-4, width:DATA.card.w+8, height:DATA.card.h+8, rx:19,
+      fill:"none", stroke:laneColor[n.lane] || "#333", "stroke-width":2.4}, g);
+    el("rect", {class:"stripe", width:5, height:DATA.card.h-16, x:1.5, y:8, fill:laneColor[n.lane] || "#888", rx:2.5, opacity:.9}, g);
+    const FREE = {"免训":"免训", "推理期技巧":"推理期"};
+    const tagList = (FREE[n.training] ? [{t:FREE[n.training], free:true}] : []).concat((n.tags || []).map(t => ({t, free:false})));
+    let xRight = DATA.card.w - 10;
+    tagList.slice(0, 3).forEach(o => {
+      const w = o.t.length*10.5 + 12; if(xRight - w < 12) return;
+      el("rect", {x:xRight-w, y:9, width:w, height:17, rx:8, fill:o.free ? "#0E9F6E" : (laneColor[n.lane] || "#6b7280"), opacity:o.free ? 1 : .12}, g);
+      el("text", {x:xRight-w+6, y:21.5, class:"tag-t", fill:o.free ? "#fff" : (laneColor[n.lane] || "#6b7280")}, g).textContent = o.t;
+      xRight -= w + 5;
+    });
+    const t1 = el("text", {class:"t-title", x:15, y:50}, g); t1.textContent = n.title;
+    while(t1.textContent.length > 4 && t1.getComputedTextLength() > DATA.card.w - 24) t1.textContent = t1.textContent.slice(0, -2) + "…";
+    el("text", {class:"t-date", x:15, y:DATA.card.h-14}, g).textContent =
+      n.date.slice(0, 7) + (n.precision === "month" || n.precision === "unknown" ? "" : "-" + n.date.slice(8, 10));
+    g.addEventListener("click", ev => { ev.stopPropagation(); if(moved < 6) openPanel(n); });
+    g.addEventListener("mouseenter", () => { hoverId = n.id; refresh(); });
+    g.addEventListener("mouseleave", () => { hoverId = null; refresh(); });
+  });
+  // 标签层放最上面，吸附时才不会被卡片盖住
+  const lab = el("g", {id:"labels"});
+  DATA.lanes.forEach(l => {
+    const s = mkSticky(lab, "lane", l);
+    el("text", {class:"lane-name", x:26, y:l.top+16, fill:l.color}, s.g).textContent = l.name;
+    el("text", {class:"lane-count", x:26, y:l.top+34}, s.g).textContent = l.count + " 篇";
+    finishSticky(s);
+    l.branches.forEach(b => { if(!b.name) return;
+      const t = mkSticky(lab, "branch", l);
+      el("circle", {cx:30, cy:b.y+30, r:3.4, fill:l.color, opacity:.75}, t.g);
+      el("text", {class:"branch", x:40, y:b.y+34}, t.g).textContent = b.name;
+      finishSticky(t);
+    });
+    l.years.forEach((y, i) => {
+      const t = mkSticky(lab, "year", l, {right: (l.years[i+1] ? l.years[i+1].x : DATA.labelW + l.plotW + 22) - 8});
+      el("text", {class:"year-label", x:y.x+6, y:l.top+16, fill:l.color}, t.g).textContent = y.label;
+      finishSticky(t);
+    });
   });
 }
 
+/* ---------- 状态：高亮脉络 / 搜索 / 图例 / 播放 ---------- */
+let activeId = null, hoverId = null, q = "", reveal = null; const hidden = new Set();
+function related(id){
+  const s = new Set([id]); let c = id;
+  while(byId[c] && byId[c].parent && byId[byId[c].parent]){ c = byId[c].parent; s.add(c); }
+  const st = [id]; while(st.length){ (kids[st.pop()] || []).forEach(k => { s.add(k); st.push(k); }); }
+  return s;
+}
+function refresh(){
+  const f = reveal ? null : (hoverId || activeId), rel = f ? related(f) : null; let hit = 0;
+  DATA.nodes.forEach(n => {
+    const c = cards[n.id], hide = hidden.has(n.lane), match = !q || n.hay.includes(q);
+    c.style.display = hide ? "none" : ""; if(match && !hide) hit++;
+    c.classList.toggle("dim", !match);
+    c.classList.toggle("faint", !!rel && !rel.has(n.id));
+    c.classList.toggle("future", !!reveal && !reveal.has(n.id));
+    c.classList.toggle("active", n.id === activeId);
+    const lk = links[n.id]; if(!lk) return;
+    const p = byId[n.parent], gone = hide || hidden.has(p.lane) || (reveal && !(reveal.has(n.id) && reveal.has(p.id)));
+    lk.show(!gone);
+    const on = !!rel && rel.has(n.id) && rel.has(p.id);
+    lk.path.classList.toggle("on", on);
+    lk.path.classList.toggle("faint", (!!rel && !on) || (!!q && !(match && p.hay.includes(q))));
+  });
+  document.getElementById("qc").textContent = q ? hit + " 篇匹配" : "";
+}
+function setActive(n){
+  activeId = n ? n.id : null; refresh();
+  try{ history.replaceState(null, "", n ? "#" + n.id : location.pathname + location.search); }catch(e){}
+}
+function closePanel(){ panel.classList.remove("open"); document.body.classList.remove("panel-open"); setActive(null); }
 function openPanel(n){
-  document.querySelectorAll(".card.active").forEach(c => c.classList.remove("active"));
-  const cur = document.querySelector(`.card[data-id="${n.id}"]`);
-  if(cur) cur.classList.add("active");
-  const panel = document.getElementById("panel");
+  setActive(n);
   panel.querySelector("#phead .t").textContent = n.title;
   const meta = [n.date, n.precision === "month" ? "日期只到月" : "", n.training, n.status, n.lane + " / " + (n.branch || "主支")]
     .filter(Boolean).join(" · ");
@@ -509,86 +593,111 @@ function openPanel(n){
     n.links.forEach(u => { const a = document.createElement("a"); a.href = u; a.target = "_blank"; a.textContent = u; b.appendChild(a); b.appendChild(document.createElement("br")); });
   }
   if(n.note){ add("lab", "备注"); add("p", n.note); }
-  panel.classList.add("open");
+  panel.classList.add("open"); document.body.classList.add("panel-open"); focusNode(n); b.scrollTop = 0;
 }
-document.getElementById("pclose").onclick = () => document.getElementById("panel").classList.remove("open");
 
-let lastX = 0, lastY = 0, dragging = false;
-svg.addEventListener("mousedown", ev => { dragging = true; lastX = ev.clientX; lastY = ev.clientY; document.getElementById("stage").classList.add("drag"); });
-window.addEventListener("mouseup", () => { dragging = false; document.getElementById("stage").classList.remove("drag"); });
-window.addEventListener("mousemove", ev => {
-  if(!dragging) return;
-  tx += ev.clientX - lastX; ty += ev.clientY - lastY;
-  lastX = ev.clientX; lastY = ev.clientY; apply();
+document.getElementById("pclose").onclick = closePanel;
+
+/* ---------- 输入：拖拽 / 双指缩放 / 滚轮 ---------- */
+const ptrs = new Map(); let moved = 0, pinch0 = null;
+svg.addEventListener("pointerdown", ev => {
+  if(ev.pointerType === "mouse" && ev.button !== 0) return;
+  cancelAnimationFrame(anim); ptrs.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+  if(ptrs.size === 1) moved = 0;
+  if(ptrs.size === 2){ const [a, b] = [...ptrs.values()]; pinch0 = {d:Math.hypot(a.x-b.x, a.y-b.y), s:scale}; }
+  stage.classList.add("drag");
 });
+window.addEventListener("pointermove", ev => {
+  const p = ptrs.get(ev.pointerId); if(!p) return;
+  const dx = ev.clientX - p.x, dy = ev.clientY - p.y; p.x = ev.clientX; p.y = ev.clientY;
+  if(ptrs.size === 1){ moved += Math.abs(dx) + Math.abs(dy); tx += dx; ty += dy; apply(); }
+  else if(pinch0){
+    const [a, b] = [...ptrs.values()], r = svg.getBoundingClientRect(); moved = 99;
+    zoomAt((a.x+b.x)/2 - r.left, (a.y+b.y)/2 - r.top, pinch0.s * Math.hypot(a.x-b.x, a.y-b.y) / pinch0.d);
+  }
+});
+const endPtr = ev => { ptrs.delete(ev.pointerId); if(ptrs.size < 2) pinch0 = null; if(!ptrs.size) stage.classList.remove("drag"); };
+window.addEventListener("pointerup", endPtr); window.addEventListener("pointercancel", endPtr);
+svg.addEventListener("click", ev => { if(!ev.target.closest(".card") && moved < 6 && panel.classList.contains("open")) closePanel(); });
 svg.addEventListener("wheel", ev => {
-  ev.preventDefault();
-  const r = svg.getBoundingClientRect();
-  const mx = ev.clientX - r.left, my = ev.clientY - r.top;
-  const k = ev.deltaY < 0 ? 1.12 : 1/1.12;
-  const ns = Math.min(3, Math.max(0.12, scale * k));
-  tx = mx - (mx - tx) * (ns / scale);
-  ty = my - (my - ty) * (ns / scale);
-  scale = ns; apply();
+  ev.preventDefault(); cancelAnimationFrame(anim);
+  if(ev.ctrlKey || ev.metaKey){            // 触控板捏合 / Ctrl+滚轮 = 缩放
+    const r = svg.getBoundingClientRect();
+    zoomAt(ev.clientX - r.left, ev.clientY - r.top, scale * Math.exp(-ev.deltaY * (Math.abs(ev.deltaY) > 40 ? .0016 : .01)));
+  } else {                                  // 普通滚轮 / 双指滑动 = 平移
+    const sw = ev.shiftKey && !ev.deltaX; tx -= sw ? ev.deltaY : ev.deltaX; ty -= sw ? 0 : ev.deltaY; apply();
+  }
 }, {passive:false});
-svg.addEventListener("dblclick", fitAll);
-document.getElementById("zin").onclick = () => { scale = Math.min(3, scale*1.2); apply(); };
-document.getElementById("zout").onclick = () => { scale = Math.max(0.12, scale/1.2); apply(); };
-document.getElementById("zreset").onclick = resetView;
-document.getElementById("zfit").onclick = fitAll;
+svg.addEventListener("dblclick", ev => { if(!ev.target.closest(".card")) fitAll(); });
+zin.onclick = () => zoomBtn(1.25); zout.onclick = () => zoomBtn(1/1.25);
+zreset.onclick = () => resetView(); zfit.onclick = fitAll;
 
-document.getElementById("q").addEventListener("input", ev => {
-  const q = ev.target.value.trim().toLowerCase();
-  document.querySelectorAll(".card").forEach(c => {
-    const n = DATA.nodes.find(x => x.id === c.dataset.id);
-    const hay = (n.title + " " + n.mechanism + " " + n.one_liner + " " + n.lane + " " + n.branch).toLowerCase();
-    c.classList.toggle("dim", !!q && !hay.includes(q));
-  });
+/* ---------- 搜索 / 图例 / 键盘 ---------- */
+const qi = document.getElementById("q");
+qi.addEventListener("input", () => { q = qi.value.trim().toLowerCase(); refresh(); });
+qi.addEventListener("keydown", ev => {
+  if(ev.key === "Enter"){ const n = DATA.nodes.find(x => !hidden.has(x.lane) && (!q || x.hay.includes(q))); if(n) { setActive(n); focusNode(n); } }
+  if(ev.key === "Escape"){ qi.value = ""; q = ""; refresh(); qi.blur(); }
 });
-
-const legend = document.getElementById("legend");
-const hd = document.createElement("div");
-hd.className = "hd";
-hd.innerHTML = "图例 <span>−</span>";
-legend.appendChild(hd);
-const rows = document.createElement("div");
-rows.style.display = "none";
-legend.appendChild(rows);
-hd.querySelector("span").textContent = "+";
-hd.onclick = () => { rows.style.display = rows.style.display === "none" ? "" : "none"; hd.querySelector("span").textContent = rows.style.display === "none" ? "+" : "−"; };
+const legend = document.getElementById("legend"), hd = document.createElement("div"), rows = document.createElement("div");
+hd.className = "hd"; hd.innerHTML = "路线导航 <span>−</span>"; legend.append(hd, rows);
+hd.onclick = () => { const c = rows.style.display === "none"; rows.style.display = c ? "" : "none"; hd.lastChild.textContent = c ? "−" : "+"; };
 DATA.lanes.forEach(l => {
-  const row = document.createElement("div");
-  row.className = "row";
+  const row = document.createElement("div"); row.className = "row"; row.title = "点名称飞到该路线；点圆点显示/隐藏";
   row.innerHTML = `<i style="background:${l.color}"></i><span>${l.name}</span><span class="n">${l.count}</span>`;
-  row.onclick = () => {
-    row.classList.toggle("off");
-    const off = row.classList.contains("off");
-    document.querySelectorAll(".card").forEach(c => {
-      const n = DATA.nodes.find(x => x.id === c.dataset.id);
-      if(n.lane === l.name) c.style.display = off ? "none" : "";
-    });
-  };
+  row.querySelector("i").onclick = ev => { ev.stopPropagation();
+    hidden.has(l.name) ? hidden.delete(l.name) : hidden.add(l.name); row.classList.toggle("off", hidden.has(l.name)); refresh(); };
+  row.onclick = () => { hidden.delete(l.name); row.classList.remove("off"); refresh(); focusLane(l); };
   rows.appendChild(row);
 });
+const laneOrder = n => DATA.nodes.filter(x => x.lane === n.lane).sort((a, b) => a.date.localeCompare(b.date));
+window.addEventListener("keydown", ev => {
+  if(ev.target.tagName === "INPUT") return;
+  if(ev.key === "/"){ ev.preventDefault(); qi.focus(); }
+  else if(ev.key === "Escape"){ timer ? stopPlay() : closePanel(); }
+  else if((ev.key === "ArrowRight" || ev.key === "ArrowLeft") && activeId){
+    const l = laneOrder(byId[activeId]), i = l.findIndex(x => x.id === activeId) + (ev.key === "ArrowRight" ? 1 : -1);
+    if(l[i]){ ev.preventDefault(); openPanel(l[i]); }
+  }
+});
 
-let playing = null;
-document.getElementById("play").onclick = () => {
-  if(playing){ clearInterval(playing); playing = null; return; }
-  const order = [...DATA.nodes].sort((a,b) => a.date.localeCompare(b.date));
-  let i = 0;
-  playing = setInterval(() => {
-    if(i >= order.length){ clearInterval(playing); playing = null; return; }
-    const n = order[i++];
-    openPanel(n);
-    document.querySelectorAll(".card.active").forEach(c => c.classList.remove("active"));
-    const cur = document.querySelector(`.card[data-id="${n.id}"]`);
-    if(cur) cur.classList.add("active");
-  }, 900);
+/* ---------- 缩略导航 ---------- */
+const mini = document.getElementById("mini"), MW = 150, MH = Math.round(MW * DATA.height / DATA.width);
+const msvg = el("svg", {viewBox:`0 0 ${DATA.width} ${DATA.height}`, width:MW, height:MH}, mini);
+DATA.lanes.forEach(l => el("rect", {x:8, y:l.top-10, width:DATA.labelW + l.plotW + 24, height:l.height+8, fill:l.color, opacity:.14, rx:30}, msvg));
+DATA.nodes.forEach(n => el("rect", {x:n.x, y:n.y, width:DATA.card.w, height:DATA.card.h, fill:(DATA.lanes.find(l => l.name === n.lane) || {}).color, opacity:.8, rx:14}, msvg));
+const vr = el("rect", {class:"vr", rx:10}, msvg);
+function drawMini(){
+  const w = svg.clientWidth, h = svg.clientHeight;
+  vr.setAttribute("x", -tx/scale); vr.setAttribute("y", -ty/scale); vr.setAttribute("width", w/scale); vr.setAttribute("height", h/scale);
+}
+let mdrag = false;
+const miniGo = ev => { const r = msvg.getBoundingClientRect(), w = svg.clientWidth - PANEL_W();
+  tx = w/2 - (ev.clientX - r.left)/r.width*DATA.width*scale; ty = svg.clientHeight/2 - (ev.clientY - r.top)/r.height*DATA.height*scale; apply(); };
+mini.addEventListener("pointerdown", ev => { cancelAnimationFrame(anim); mdrag = true; miniGo(ev); ev.stopPropagation(); });
+window.addEventListener("pointermove", ev => { if(mdrag) miniGo(ev); });
+window.addEventListener("pointerup", () => mdrag = false);
+
+/* ---------- 按时间播放：镜头跟随、逐个亮起 ---------- */
+let timer = null; const playBtn = document.getElementById("play"), toast = document.getElementById("toast");
+function stopPlay(){ clearInterval(timer); timer = null; reveal = null; playBtn.textContent = "按时间播放"; toast.classList.remove("on"); refresh(); }
+playBtn.onclick = () => {
+  if(timer){ stopPlay(); return; }
+  const order = DATA.nodes.filter(n => !hidden.has(n.lane)).sort((a, b) => a.date.localeCompare(b.date));
+  closePanel(); reveal = new Set(); playBtn.textContent = "■ 停止"; let i = 0;
+  const step = () => {
+    if(i >= order.length){ const last = order[order.length-1]; stopPlay(); setActive(last); return; }
+    const n = order[i++]; reveal.add(n.id); setActive(n); focusNode(n);
+    toast.textContent = `${n.date.slice(0, 7)} · ${n.title}　${i}/${order.length}`; toast.classList.add("on");
+  };
+  step(); timer = setInterval(step, 1300);
 };
 
-build();
-resetView();
+build(); resetView(true); refresh();
+const h0 = decodeURIComponent(location.hash.slice(1));
+if(byId[h0]) setTimeout(() => openPanel(byId[h0]), 60);
 </script>
+
 </body>
 </html>
 """
