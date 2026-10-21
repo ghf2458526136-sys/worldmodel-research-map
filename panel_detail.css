@@ -1,0 +1,169 @@
+/* panel_detail.css — 详情面板「机制详解」折叠块
+ * 用 build_map.py 里已有的变量：--ink/--ink2/--muted/--line/--line2/--accent/--accent-weak/--card/--sh-sm/--ring/--ease
+ * 注意：面板里已有较宽泛的 .body p / .body li / .body ul 规则，所以这里的选择器
+ * 一律带 .pd 前缀把优先级抬到 (0,2,0)，否则字号会被 .body p 压回 13.5px。
+ */
+
+.pd{
+  margin:6px 0 18px;
+  border-left:3px solid var(--accent);
+  border-radius:12px;
+  background:rgba(15,23,42,.035);
+  overflow:hidden;
+}
+
+/* ---------- 折叠按钮 ---------- */
+.pd .pd-toggle{
+  display:block;
+  width:100%;
+  margin:0;
+  padding:12px 16px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:700;
+  line-height:1.5;
+  letter-spacing:.02em;
+  color:var(--accent);
+  text-align:left;
+  cursor:pointer;
+  transition:background .2s var(--ease),color .2s var(--ease);
+}
+.pd .pd-toggle:hover{background:var(--accent-weak)}
+.pd .pd-toggle:focus-visible{outline:none;box-shadow:var(--ring)}
+.pd .pd-toggle.on{color:var(--ink2)}
+
+/* ---------- 展开区 ---------- */
+.pd .pd-body[hidden]{display:none}
+.pd .pd-body{
+  padding:2px 18px 18px 16px;
+  font-size:15px;
+  line-height:1.8;
+  color:var(--ink2);
+}
+
+.pd .pd-sec{margin:16px 0 0}
+.pd .pd-sec:first-child{margin-top:2px}
+
+.pd .pd-h{
+  margin:0 0 9px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.6;
+  letter-spacing:.12em;
+  color:var(--accent);
+}
+.pd .pd-h::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.pd .pd-p{
+  margin:0;
+  font-size:15px;
+  line-height:1.8;
+  color:var(--ink2);
+  white-space:pre-wrap;
+}
+
+/* ---------- 做法步骤：圆形序号徽标 + 竖线 ---------- */
+.pd .pd-steps{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.pd .pd-step{
+  position:relative;
+  display:flex;
+  gap:11px;
+  margin:0;
+  padding:0 0 13px 0;
+  font-size:15px;
+  line-height:1.8;
+  color:var(--ink2);
+}
+.pd .pd-step:last-child{padding-bottom:0}
+.pd .pd-step:not(:last-child)::before{
+  content:"";
+  position:absolute;
+  left:10.5px;
+  top:25px;
+  bottom:1px;
+  width:1px;
+  background:var(--line2);
+}
+.pd .pd-num{
+  flex:none;
+  width:22px;
+  height:22px;
+  margin-top:3px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:var(--accent-weak);
+  box-shadow:inset 0 0 0 1px rgba(79,70,229,.20);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.pd .pd-step-text{flex:1;min-width:0}
+
+/* ---------- 公式 ---------- */
+.pd .pd-fig{
+  margin:0 0 10px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--card);
+  box-shadow:var(--sh-sm);
+}
+.pd .pd-fig:last-child{margin-bottom:0}
+
+.pd .pd-tex{
+  overflow-x:auto;
+  overflow-y:hidden;
+  margin:0;
+  padding:2px 0;
+  font-size:15px;
+  line-height:1.4;
+  color:var(--ink);
+}
+.pd .pd-tex .katex-display{margin:0}
+.pd .pd-tex .katex{font-size:1.05em}
+
+/* katex 未加载 / 公式语法坏掉时的原文兜底 */
+.pd .pd-code{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:8px;
+  background:rgba(15,23,42,.05);
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,"Courier New",monospace;
+  font-size:12.5px;
+  line-height:1.6;
+  color:var(--ink);
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.pd .pd-cap{
+  margin-top:9px;
+  font-size:12.5px;
+  line-height:1.65;
+  color:var(--muted);
+}
+
+/* ---------- 摘要缺失提示 ---------- */
+.pd .pd-note{
+  margin:16px 0 0;
+  padding-top:10px;
+  border-top:1px dashed var(--line);
+  font-size:12px;
+  line-height:1.6;
+  color:var(--muted);
+}
