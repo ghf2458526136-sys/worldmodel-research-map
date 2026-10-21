@@ -1909,8 +1909,8 @@ nodes:
     formulas:
     - tex: O_{ij}=\frac{\operatorname{Vol}(C_i\cap H_j)}{\operatorname{Vol}(C_i)}
       caption: 标准写法，非原文：计算当前视锥 slab \(C_i\) 与历史 slab \(H_j\) 的归一化空间重叠度。
-    - tex: \tilde{s}_{\ell j}=s_{\ell j}+\lambda\,\mathbf{1}[i\text{ 有几何覆盖}]\;O_{ij},\qquad
-        \mathcal{R}_{\ell}=\operatorname{TopK}_{j}(\tilde{s}_{\ell j})
+    - tex: \tilde{s}_{\ell j}=s_{\ell j}+\lambda\,\mathbf{1}[i]\;O_{ij},\qquad \mathcal{R}_{\ell}=\operatorname{TopK}_{j}(\tilde{s}_{\ell
+        j})
       caption: 标准写法，非原文：用几何重叠度软调节模型派生的重要性分数，并按分数选择历史块；无几何覆盖时不加几何偏置。
     train: Velox 是 training-free 方法，无需训练。推理时异步构建 frustum slabs，并与 denoising 在同一张 H200
       上并行；摘要报告在 chunk 48 时 attention 加速 4.36 倍、denoising 加速 2.43 倍。
@@ -1960,8 +1960,8 @@ nodes:
     formulas:
     - tex: \mathcal{R}_t=\operatorname{TopK}_{c}\,s\!\left(g_t,g_c\right)
       caption: 按当前场景与历史块的几何关系检索相关块；标准写法，非原文
-    - tex: S_t^{(c)}=A_cS_{t-1}^{(c)}+b_c,\qquad S_t^{\mathrm{ret}}=\left(\prod_{c\in\mathcal{R}_t}^{\text{时间顺序}}
-        A_c\right)S_0+\sum_{c\in\mathcal{R}_t}^{\text{时间顺序}}\left(\prod_{j>c}A_j\right)b_c
+    - tex: S_t^{(c)}=A_cS_{t-1}^{(c)}+b_c,\qquad S_t^{\mathrm{ret}}=\left(\prod_{c\in\mathcal{R}_t}
+        A_c\right)S_0+\sum_{c\in\mathcal{R}_t}\left(\prod_{j>c}A_j\right)b_c
       caption: 以仿射转移摘要重组检索块，得到 query-specific recurrent state；标准写法，非原文
     train: HLA-WM 是 training-free 方法，无需额外训练。推理时缓存分块转移摘要，按相机几何检索相关历史块并重组 recurrent
       state；摘要未给出更具体的实现设置。
@@ -3741,9 +3741,8 @@ nodes:
     - 将检索到的多个局部记忆交给多锚编织控制器，以在生成过程中调和不同视角间的几何不一致。
     - 依据这些局部几何条件生成受相机控制的视频，以改善长时段场景一致性并维持视觉质量。
     formulas:
-    - tex: C(M_i,\tau)=\frac{1}{T}\sum_{t=1}^{T}\mathbf{1}\!\left[\text{目标相机在时刻 }t\text{
-        的视野与局部记忆 }M_i\text{ 覆盖区域相交}\right],\qquad \mathcal{R}(\tau)=\operatorname{TopK}_{M_i}
-        C(M_i,\tau)
+    - tex: C(M_i,\tau)=\frac{1}{T}\sum_{t=1}^{T}\mathbf{1}\left[\mathrm{vis}(M_i,t)\right],\qquad
+        \mathcal{R}(\tau)=\operatorname{TopK}_{M_i} C(M_i,\tau)
       caption: 按目标相机轨迹计算局部记忆覆盖率并检索 Top-K；标准写法，非原文
     - tex: \alpha_{t,i}=\operatorname{softmax}_{i}\!\left(\frac{q_t^{\top}k_i}{\sqrt{d}}+\lambda
         C(M_i,\tau)\right),\qquad z_t=\sum_{M_i\in\mathcal{R}(\tau)}\alpha_{t,i}v_i
@@ -5046,8 +5045,7 @@ nodes:
     - 通过在线轨迹蒸馏将 teacher 转为少步流式 student，以降低因果交互的推理延迟。
     - 在交互推理时同步生成画面和相机锚定的空间声场，以支持实时视听联合演化。
     formulas:
-    - tex: \mathcal{L}_{\mathrm{distill}}=\mathbb{E}_{t,\mathbf{z}_t,\mathbf{c}}\left[\left\|\mathbf{v}_{\mathrm{student}}(\mathbf{z}_t,t,\mathbf{c})-\mathbf{v}_{\mathrm{teacher}}(\mathbf{z}_t,t,\mathbf{c})\right\|_2^2\right],\quad
-        \mathbf{c}=(\text{6-DoF 相机位姿},\text{用户动作})
+    - tex: \mathcal{L}_{\mathrm{distill}}=\mathbb{E}_{t,\mathbf{z}_t,\mathbf{c}}\left[\left\|\mathbf{v}_{\mathrm{student}}(\mathbf{z}_t,t,\mathbf{c})-\mathbf{v}_{\mathrm{teacher}}(\mathbf{z}_t,t,\mathbf{c})\right\|_2^2\right]
       caption: 以教师预测监督学生的视听联合去噪/流场；标准写法，非原文
     train: 先在真实立体声和米制相机位姿数据上预训练由 6-DoF 相机轨迹与用户动作条件化的双向 teacher，再用在线轨迹蒸馏训练少步流式 student。推理采用因果流式生成，摘要报告单
       GPU 上达到 24 FPS；其他训练超参数和推理设置摘要未给。
