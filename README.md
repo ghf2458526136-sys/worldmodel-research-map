@@ -2,7 +2,7 @@
 
 **用时间轴读世界模型：124 篇论文、8 条技术路线、每条路线各自的时钟。**
 
-在线打开：**https://ghf2458526136-sys.github.io/awesome-world-model-memory/**
+在线打开：**https://mngli-ai.github.io/awesome-world-model-memory/**
 
 一张可交互的时间轴地图，回答一个具体问题：**长视频世界模型到底怎么记住并找回它看过的东西。**
 每篇论文落在一个"时间 × 路线"的坐标上，点开有机制走读、关键公式、官方演示和链接。

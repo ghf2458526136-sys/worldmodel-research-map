@@ -11,11 +11,11 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-UA = "awesome-world-model-memory/1.0 (+https://github.com/ghf2458526136-sys/awesome-world-model-memory)"
+UA = "awesome-world-model-memory/1.0 (+https://github.com/mngli-ai/awesome-world-model-memory)"
 
 
 def head(url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": "https://ghf2458526136-sys.github.io/"})
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": "https://mngli-ai.github.io/"})
     req.get_method = lambda: "HEAD"
     try:
         with OPENER.open(req, timeout=25) as r:
@@ -26,6 +26,29 @@ def head(url):
         return e.code, str(e.reason)[:60]
     except Exception as e:
         return 0, type(e).__name__
+
+
+def get_range(url):
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": "https://mngli-ai.github.io/", "Range": "bytes=0-1023"})
+    try:
+        with OPENER.open(req, timeout=30) as r:
+            r.read(1024)
+            return r.status, r.headers.get("Content-Type", "")
+    except urllib.error.HTTPError as e:
+        return e.code, str(e.reason)[:60]
+    except Exception as e:
+        return 0, type(e).__name__
+
+
+def probe(url):
+    code, info = head(url)
+    if code in (0, 403, 405, 501):
+        c2, i2 = get_range(url)
+        if c2 in (200, 206):
+            return c2, i2
+        if c2:
+            return c2, i2
+    return code, info
 
 
 def main():
@@ -39,7 +62,7 @@ def main():
     print(f"检查 {len(uniq)} 个链接…")
     bad = []
     with cf.ThreadPoolExecutor(max_workers=8) as ex:
-        for (nid, url), (code, info) in zip(uniq, ex.map(lambda t: head(t[1]), uniq)):
+        for (nid, url), (code, info) in zip(uniq, ex.map(lambda t: probe(t[1]), uniq)):
             if code == 0 or code >= 400:
                 bad.append({"id": nid, "url": url, "status": code, "info": info})
     print(f"失效 {len(bad)} / {len(uniq)}")

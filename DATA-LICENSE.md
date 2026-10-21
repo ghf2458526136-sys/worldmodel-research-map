@@ -26,7 +26,7 @@
 
 ```
 World Model Memory Atlas (世界模型记忆图谱), 2026.
-https://github.com/ghf2458526136-sys/awesome-world-model-memory
+https://github.com/mngli-ai/awesome-world-model-memory
 Licensed under CC BY 4.0.
 ```
 

@@ -7,7 +7,7 @@ TOK=$(printf "protocol=https\nhost=github.com\n\n" | git credential fill 2>/dev/
 if [ -z "${TOK:-}" ]; then echo "拿不到 GitHub 凭据（git credential fill 为空）"; exit 1; fi
 
 REPO="awesome-world-model-memory"
-OWNER="ghf2458526136-sys"
+OWNER="mngli-ai"
 
 echo "[1/4] 检查仓库是否存在"
 code=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOK" \

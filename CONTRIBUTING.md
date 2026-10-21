@@ -5,7 +5,7 @@
 ## 最短路径
 
 ```bash
-git clone https://github.com/ghf2458526136-sys/awesome-world-model-memory.git
+git clone https://github.com/mngli-ai/awesome-world-model-memory.git
 cd awesome-world-model-memory
 
 # 1. 在 research-map.yaml 的 nodes 列表末尾加一条（字段见下）
