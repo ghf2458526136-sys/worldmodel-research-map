@@ -1,0 +1,1462 @@
+lanes:
+- name: 框架层
+  color: '#7c5cff'
+  branches:
+  - 闭源产品
+  - 符号状态
+  - ''
+- name: 位置时间寻址
+  color: '#2f6feb'
+  branches:
+  - 锚 sink
+  - 重排位置
+  - 实体挂载
+- name: 几何位姿寻址
+  color: '#0E7C86'
+  branches:
+  - 显式几何库
+  - 位姿视锥
+  - 容量管理
+- name: 内容学习寻址
+  color: '#e0891a'
+  branches:
+  - 外部检索库
+  - 学习路由
+  - 理解模型管理
+- name: 参数化记忆
+  color: '#b5459b'
+  branches:
+  - ''
+- name: 训练侧
+  color: '#5f6b7a'
+  branches:
+  - ''
+  - 恒定上下文
+  - 因果蒸馏
+  - 三段训练
+- name: 评测基准
+  color: '#8a94a6'
+  branches:
+  - ''
+nodes:
+- id: streamingllm
+  title: StreamingLLM
+  date: '2023-12-18'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 位置时间寻址
+  branch: 锚 sink
+  parent: null
+  link_strength: null
+  training: 免训
+  status: 速读
+  one_liner: sink+窗口的分层缓存骨架起点
+  mechanism: 报告只写『sink+窗口』：保留开头若干 sink token 加最近窗口，作为后续所有流式框架的分层缓存底座。
+  key_numbers:
+  - '2023'
+  self_measured: []
+  media: []
+  links: []
+  note: 报告只给年份 2023，无 arXiv 号；training=免训为推断，报告未述其训练需求。
+  tags:
+  - Sink驻留
+  - 滑动窗口
+  explain: 想象你跟人连聊几天几夜，脑袋记不下，聊到后面不仅忘事还会发疯胡话。2023年提出的StreamingLLM解决的就是大模型做无限流式输入时显存撑爆、输出崩溃的麻烦。它的招数是在保存历史计算记忆的缓存里，只保留最开头的几个汇元即sink
+    token，再加上最近的一段窗口。这招管用是因为模型在算注意力时，总会把多余的关注度倾泻在开头的词里充当泄洪池；只要留住它们来稳定全局注意力分布，再配合近期的上下文，模型不用重新训练就能无限流畅地聊下去。
+  media_local: []
+- id: videophy
+  title: VideoPhy
+  date: '2024-10-07'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 物理合理性评测，非回溯，辅助参考
+  mechanism: 报告只在 §5.3 归类一句：具身、物理、指令遵循类评测，非回溯一致性评测。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 只有名字和归类，无 arXiv 号、无日期、无指标。
+  tags:
+  - 物理常识
+  - 语义遵循
+  explain: 就像看魔术时杯子凭空穿透了桌子，现在很多AI视频画面逼真，细看却常常违反牛顿定律。这篇论文要解决的麻烦，是以往评测只看画面好不好看，发现不了动作是否符合现实规律。作者提出的VideoPhy用了一套物理合理性评测基准，也就是专门测试物体规律的成套考卷，重点检验具身动作与指令遵循。它不做回溯一致性评测，也就是不去回头核对前后帧的历史记忆，仅作为能力评估的辅助参考。这招之所以管用，是因为它避开了画质干扰，直接考察物体受力与运动，能准确测出模型到底懂不懂真实物理。
+  media_local: []
+- id: causvid
+  title: CausVid
+  date: '2024-12-01'
+  precision: month
+  arxiv: '2412.07772'
+  venue: ''
+  lane: 训练侧
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 因果蒸馏，Self-Forcing 的早期版本
+  mechanism: 报告只有一句：与 Self-Forcing 同一思路的早期版本，属因果蒸馏路线。
+  key_numbers:
+  - 2024-12
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2412.07772
+  note: 报告只给到月份 2024-12。
+  tags:
+  - DMD蒸馏
+  - 因果注意力
+  explain: 以往生成视频就像冲洗胶卷，必须等整卷拍完统一洗出来，根本没法像直播那样边拍边看。CausVid在2024年12月要解决的就是这种生成延迟过高、无法实时流式输出的麻烦。它用了一招叫因果蒸馏，也就是让只能看前文的单向模型去临摹通览全片的大模型。这招之所以管用，是因为大模型掌握着全局连贯的规律，把经验传授过去后，单向模型顺着时间逐帧推演时就不会越走越崩，既做到了开水龙头般的即时出帧，又稳住了画面质感。
+  media_local: []
+- id: cosmos
+  title: Cosmos
+  date: '2025-01-07'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 框架层
+  branch: 闭源产品
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 物理 AI 世界基础模型，训练数据与仿真向
+  mechanism: 报告一行：面向物理 AI 的世界基础模型，偏训练数据与仿真，不是流式交互生成。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 报告只给能力定位，无论文号与日期。
+  tags:
+  - 物理AI基座
+  - 仿真合成数据
+  explain: 让刚出厂的机器人直接上街采集极端险情数据，就像让新手直接开上高速撞车试错，成本和代价都太高。Cosmos针对物理人工智能（即控制机器人在真实世界行动的算法），解决极端训练数据极度匮乏的麻烦。它做了一套世界基础模型——也就是能预测物理环境下一秒怎么变的通用模拟器，专注于高质量仿真与训练数据生成，而非实时交互。这招管用在于，它能在虚拟空间批量制造符合现实物理规律的训练场景，让算法不用撞坏实体硬件，就能低成本提前刷满应对危险的经验。
+  media_local: []
+- id: worldmodelbench
+  title: WorldModelBench
+  date: '2025-02-13'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 具身/物理评测，非回溯，辅助参考
+  mechanism: 报告只在 §5.3 归类一句：具身、物理、指令遵循类评测，非回溯一致性评测。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 只有名字和归类，无 arXiv 号、无日期、无指标。
+  tags:
+  - 物理合理性
+  - 指令遵循
+  explain: 就像你让机械臂推倒桌上的水杯，水往哪流必须当场推演出来，现实里可没有撤销键。很多模型生成的视频看着逼真，但放到具身交互——也就是像机器人那样和物理世界互动时，常常动作走样、违背常理。WorldModelBench搭建了一套专门测试物理规律与指令遵循的考卷，核心是坚持非回溯，也就是推演过程只能单向往前走，绝不给模型倒退修补的机会。这招之所以管用，是因为真实物理世界不可逆，卡死单向因果，才能验出模型是真掌握了规律，还是在蒙混过关。
+  media_local: []
+- id: gen3c
+  title: GEN3C
+  date: '2025-03-18'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 显式几何库
+  parent: vmem
+  link_strength: dashed
+  training: 需训
+  status: 速读
+  one_liner: L4 显式几何缓存的代表工作
+  mechanism: 报告只在记忆形态表与矩阵中把它列为显式几何缓存代表，未给方法细节。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 只有名字，无 arXiv 号、无日期、无描述。
+  tags:
+  - 深度点云缓存
+  - 相机条件
+  explain: 就像在陌生迷宫里走路，如果每走一步都要把走过的拐角重新丈量一遍，不仅费时而且极易迷路。GEN3C 要解决的就是移动感知中重复计算空间结构且容易丢失真实形变的问题。它的核心招数是显式几何缓存，也就是直接把周围看过的三维实体形状像搭积木一样清清楚楚存下来，而不是压缩成让人看不懂的抽象代数特征。这招之所以管用，是因为直接保留了真实世界的三维坐标骨架，后续感知需要时能直接拿来复用，既省去了重复推算的开销，又能让系统牢牢锚定真实空间，不会因遮挡而丢失几何位置。
+  media_local: []
+- id: worldsimbench
+  title: WorldSimBench
+  date: '2025-03-24'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 具身/物理评测，非回溯，辅助参考
+  mechanism: 报告只在 §5.3 归类一句：具身、物理、指令遵循类评测，非回溯一致性评测。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 只有名字和归类，无 arXiv 号、无日期、无指标。
+  tags:
+  - 具身操作
+  - 物理一致
+  explain: 想象指挥机器人在厨房拿玻璃杯，杯子一旦滑落摔碎就没法倒带重来。以往模型在模拟动作时容易穿帮，且现实中的物理交互出错就不可撤销，很难测出连续过程的真实水平。这篇工作提出了WorldSimBench，专门做非回溯一致性评测，也就是不给模型倒退修正的机会，直接看它一镜到底执行连续指令时能不能保持物理逻辑不崩。这招管用就在于真实物理本就不可逆，彻底封死回退偷懒的退路，才能测出模型到底懂不懂物理规律、能不能连贯听懂指挥，为后续研究提供更靠谱的参考。
+  media_local: []
+- id: framepack
+  title: FramePack
+  date: '2025-04-01'
+  precision: month
+  arxiv: '2504.12626'
+  venue: ''
+  lane: 训练侧
+  branch: 恒定上下文
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 恒定上下文按帧重要性打包，越旧压得越狠
+  mechanism: 喂给模型的上下文体积恒定，历史按帧重要性打包压缩；另配反漂移采样抑制误差累积。
+  key_numbers:
+  - 13B
+  - 6GB 显存
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2504.12626
+  note: 报告只给到月份 2025-04；lane 依矩阵『重要性打包』归内容/学习，报告未述具体检索键。
+  tags:
+  - 重要性打包
+  - 反漂移采样
+  explain: 长视频生成就像用一本页数固定的笔记本去记长途旅行，画面越堆越多，显存随时会爆。这篇论文解决的就是长视频生成中历史帧越积越多、显存吃不消的麻烦。它的做法是把上下文，也就是模型每次能参考的历史信息总量锁死，按照重要性把旧帧打包压缩，时间越久远压得越狠；同时搭配反漂移采样，即一种抑制误差累积、防止画面越来越变形的纠偏方法。这招管用是因为远景历史只要保留粗略轮廓就能稳住连贯性，省下算力留给近处细节，最终实现了把
+    13B 模型塞进 6GB 显存里流畅运行。
+  media_local: []
+- id: worldscore
+  title: WorldScore
+  date: '2025-04-01'
+  precision: month
+  arxiv: '2504.00983'
+  venue: ICCV 2025
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 显式相机轨迹的下一场景评测，不测回访
+  mechanism: 不涉及记忆机制；3000 例上测 next-scene generation 的可控性/质量/动态，明确不测回访一致性。
+  key_numbers:
+  - 3000 例
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2504.00983
+  note: 报告只给 arXiv 号与 ICCV 2025，无提交日期。
+  tags:
+  - 相机轨迹
+  - 下一场景打分
+  explain: 想象你推着摄像机拍一镜到底，镜头一直向前推，模型得即时脑补前方的未知画面。过去评测世界模型缺乏统一考卷，很难量化相机移动时画面听不听话。WorldScore做了一套评测基准，在三千个样例上给出明确的相机轨迹，专门考察下一场景生成——也就是按指定镜头走向预测前方新画面的能力。它集中测试生成的可控性、画面质量与动态表现，明确不测回头重访旧地的一致性。这招管用是因为它把考核纯粹锁定在向前看，剔除了记忆机制的干扰，能干净直接地测出模型跟不跟手。
+  media_local: []
+- id: loopnav
+  title: LoopNav
+  date: '2025-05-01'
+  precision: month
+  arxiv: '2505.22976'
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 首个回溯基准，Minecraft 环线轨迹
+  mechanism: 不涉及记忆机制；在 Minecraft 环线上测物体级回溯，指标 SGCS。
+  key_numbers:
+  - 250h
+  - 20M 帧
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2505.22976
+  note: 报告只给到月份 2025-05（时间线称『首个回溯基准』）。
+  tags:
+  - 环线轨迹
+  - 物体级回溯
+  explain: 就像我们逛公园绕了一大圈，发现半路掉了钥匙得回头去找，以前的研究却没有基准能测出模型能不能顺着原路找回东西。LoopNav 补上了这个缺口，提出首个回溯基准，也就是专门测验模型折返回去定位物体的测试集。它不涉及修改记忆机制，而是在《我的世界》中采集了
+    250 小时、2000 万帧环线轨迹，在闭合环线上测试物体级回溯，并用 SGCS 也就是目标完成度指标来打分。环形路线让起点终点相连，排除了直行碰运气的侥幸，能真实检验模型是否认得旧地标并精准回头。
+  media_local: []
+- id: vmem
+  title: VMem
+  date: '2025-10-01'
+  precision: month
+  arxiv: '2506.18903'
+  venue: ICCV 2025 (highlight)
+  lane: 几何位姿寻址
+  branch: 显式几何库
+  parent: null
+  link_strength: null
+  training: 免训
+  status: 精读
+  one_liner: 索引建在三维表面上，按位姿查历史视图
+  mechanism: 存 surfel（位置、法线、半径、看过它的帧号 I_k）；读时把 surfel 投影到虚拟低清屏、逐像素直方图投票取 top-K 视图。
+  key_numbers:
+  - K=4
+  - K=17
+  - 约 12 倍提速
+  - 4.2 秒/帧（4090）
+  - α=0.2
+  self_measured:
+  - 6s 768×576
+  - 59.6s 1280×720
+  media:
+  - https://v-mem.github.io/img/video_0_pair/final_video_1_compressed.mp4
+  - https://v-mem.github.io/img/video-1min-encoded_720p.mp4
+  links:
+  - https://arxiv.org/abs/2506.18903
+  note: 报告只给到月份 2025-10，未给提交日；training=免训依 §11『VMem（插件）』与矩阵『免训插件』。
+  tags:
+  - Surfel索引
+  - 渲染投票
+  explain: 想象你在大房子里到处拍照，现在要从新角度作画，最头疼的就是从成百上千张旧照片里找出哪几张拍到了眼前的桌角。VMem解决的就是检索参考视角太慢的麻烦。它的招数是把索引直接贴在三维表面：在场景中铺设叫面元（带朝向的微小圆盘）的单元，记下看过它的历史帧号。查询时把视野内的面元投影到虚拟低清屏幕上，让每个像素投票选出得票最高的前几个视图。这招管用在于把全局盲搜变成了局部的几何投票，直接排除视线遮挡，不用遍历无关历史，换来约12倍提速。
+  key: true
+  media_local:
+  - demos/VMem/pair_demo.mp4
+  - demos/VMem/onemin_720p.mp4
+- id: spmem
+  title: spmem
+  date: '2025-06-01'
+  precision: month
+  arxiv: '2506.05284'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 显式几何库
+  parent: vmem
+  link_strength: dashed
+  training: 需训
+  status: 速读
+  one_liner: 显式几何缓存，强依赖深度估计
+  mechanism: 报告未述具体读写；在 L4 显式几何缓存一行，并被列为『几何依赖、动态场景下失效』的代表。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2506.05284
+  note: 仅摘要级【摘】；报告只在 §1.3、§1.2 失效机制、§8.4 三处提及名字。
+  tags:
+  - 深度反投影
+  - 几何缓存
+  explain: 就像在房间里给家具画速写，如果每次眨眼都要重新用尺子量一遍每个柜子的距离，效率会特别低。这篇论文想解决模型重复推算三维空间深度的开销问题。它提出的招数是显式几何缓存，也就是直接在物理空间里建一个带坐标的记忆本，把估计出来的物体形状与距离存进去。这招管用是因为后续观察同一位置时，模型可以直接翻看之前存好的空间坐标，省掉了重复推测几何的时间。不过它强依赖深度测量的准确度，在动态物体移动的场景下这套缓存容易失效。
+  media_local: []
+- id: self-forcing
+  title: Self-Forcing
+  date: '2025-06-01'
+  precision: month
+  arxiv: '2506.08009'
+  venue: ''
+  lane: 训练侧
+  branch: 因果蒸馏
+  parent: causvid
+  link_strength: solid
+  training: 需训
+  status: 速读
+  one_liner: 用自生成历史蒸馏，治 exposure bias
+  mechanism: 不改记忆结构：学生自己 rollout 出带误差的历史，教师对这段自生成历史打分蒸馏，让模型习惯自己的错误。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2506.08009
+  note: 报告未给日期，仅列于 §3.6 与参考文献。
+  tags:
+  - 学生自rollout
+  - 教师蒸馏
+  explain: 就像学骑车如果总有人在后面扶着，一旦松手你只要车把稍稍晃一下就会直接摔倒。模型平时训练都喂标准答案，实际生成时只能依赖上一句输出，前面一错就会步步错，这种训练和实战脱节的问题叫暴露偏差。这篇论文的招数是让学生模型自己往下写，生成一段带毛病的作答历史，再让更厉害的教师模型针对这段有错的历史教它打分，也就是用好模型带差模型的知识蒸馏。这招管用是因为它不改动模型结构，直接让模型提前习惯自己的失误并在犯错语境里学会顺势纠偏，独立推理时就不会因为微小失误而全盘崩溃了。
+  media_local: []
+- id: genie3
+  title: Genie 3
+  date: '2025-08-05'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 框架层
+  branch: 闭源产品
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 工业标尺：视觉记忆约 1 分钟
+  mechanism: 闭源，未公开记忆机制；报告只给能力：720p 20–24FPS 交互，视觉记忆约 1 分钟，一致性为涌现现象。
+  key_numbers:
+  - 720p
+  - 20–24FPS
+  - 约 1 分钟
+  - 60s（Project Genie 限制）
+  self_measured: []
+  media: []
+  links: []
+  note: 无 arXiv、无日期、不给权重。
+  tags:
+  - 闭源黑箱
+  - 分钟级记忆
+  explain: 你在游戏里把车停在路边转头走开，几十秒后再回去，以往的世界模型往往就会把车弄丢或彻底变样。Genie 3 解决的正是画面无法长时间保持连贯的麻烦。作为未公开具体机制的闭源工作，它直接树立了工业标尺：在
+    720p 分辨率下以每秒 20 到 24 帧实时交互，并将视觉记忆撑到了约 1 分钟，即 60s 的限制上限。它之所以管用，是因为报告表明这种前后画面不穿帮的一致性，本质上是模型规模做大后自然冒出来的涌现现象，模型自己学会了记住看过的世界。
+  media_local: []
+- id: rolling-forcing
+  title: Rolling Forcing
+  date: '2025-09-01'
+  precision: month
+  arxiv: '2509.25161'
+  venue: ICLR 2026
+  lane: 位置时间寻址
+  branch: 锚 sink
+  parent: streamingllm
+  link_strength: dotted
+  training: 需训
+  status: 精读
+  one_liner: 固定 sink 相对距离，窗口内多帧联合去噪
+  mechanism: 缓存去掉 RoPE 前的 sink key，生成时旋转到 i−L_tem−L_glo 区间；窗口内多帧 latent 联合去噪，左端逐帧输出。
+  key_numbers:
+  - 1.3B
+  - 832×480 16FPS
+  - 多分钟
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2509.25161
+  note: 报告中出现两次（§3.1 方法、§3.6 训练侧），已合并为一条；只给到月份 2025-09；官方仓库 404，无演示片段。
+  tags:
+  - Sink锚
+  - Pre-RoPE缓存
+  - 多帧联合去噪
+  explain: 生成长视频就像拉着卷轴连续作画，画到后面容易弄丢开头的基准线导致画面崩坏。这篇论文要解决滑动窗口生成多分钟视频时注意力漂移走样。他们让窗口内多帧潜变量（即模型压缩的画面数据）联合去噪并逐帧输出，同时固定注意力汇元（即稳定全局的基准锚点）与当前帧的相对距离。做法是先缓存去掉旋转位置编码（即时间标记）的汇元特征，生成时再旋转到固定相对区间。这招管用是因为锚点距离始终落在训练过的安全范围内，杜绝了位置混乱，让
+    1.3B 模型能稳定生成 832×480、16FPS 的多分钟视频。
+  key: true
+  media_local: []
+- id: longlive
+  title: LongLive
+  date: '2025-09-01'
+  precision: month
+  arxiv: '2509.22622'
+  venue: ''
+  lane: 训练侧
+  branch: 因果蒸馏
+  parent: self-forcing
+  link_strength: solid
+  training: 需训
+  status: 速读
+  one_liner: 自回归+少步采样做实时长视频
+  mechanism: 把自回归生成与少步采样结合，靠 KV 重算和帧级注意力维持长程一致；报告未描述记忆检索结构。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2509.22622
+  note: 与 LongLive-RAG（2606.02553）同名不同物，勿混；报告只给了一句描述。
+  tags:
+  - 少步采样
+  - KV重算
+  explain: 想象你在开一场AI实时视频直播，镜头得一边飞快出图，一边保证播了半天主角的脸和衣服完全不变。以往生成长视频要么太慢做不到实时，要么时间一长画面就崩坏走样。LongLive把少步采样和自回归结合起来，前者指用极少的计算步数快速画图，后者指像接龙一样按时间逐帧推导。这招管用是因为少步骤压低了耗时，同时靠帧级注意力让新帧精准对照历史画面，配合重新计算历史特征的KV重算，让后续内容始终锚定前文，在极速生成中稳住了长期连贯性。
+  media_local: []
+- id: sora2-veo31
+  title: Sora 2 / Veo 3.1
+  date: '2025-10-01'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 框架层
+  branch: 闭源产品
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 高质量生成＋相机控制，无长程交互记忆接口
+  mechanism: 报告一行：高质量生成加相机控制，但没有交互式长程记忆接口，因此不能做轨迹回访对比。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 报告把 OpenAI 与 Google 两个系统并作一行，故合并为一条；无日期、无论文号。
+  tags:
+  - 相机控制
+  - 无记忆接口
+  explain: 想象你在片场当导演，不仅要画面好看，还得指挥摄影机准确推拉摇移。以前的模型能生成逼真画面，却很难听话地按机位构图运镜。这项工作要解决的麻烦，就是怎样把高质量画面和精确的运镜控制结合起来。它采用的招数是把相机轨迹参数直接塞进生成网络，也就是用具体的摄影机移动指令来引导视频合成。这招管用在于参数化视角强制锁定了画面的几何透视，让镜头动得合情合理。但因为缺少交互式长程记忆接口，也就是没有记录并调取早期画面的记忆单元，导致镜头绕回原处时没法做前后一致的轨迹回访对比。
+  media_local: []
+- id: marble
+  title: Marble
+  date: '2025-11-12'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 框架层
+  branch: 闭源产品
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 产出 3D 场景而非逐帧 rollout
+  mechanism: 闭源；做 3D 场景生成与编辑，不沿相机轨迹逐帧生成，因此不构成可比的回访基线。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: World Labs 产品，报告未给论文、日期与 arXiv。
+  tags:
+  - 三维场景表示
+  - 可编辑重建
+  explain: 想象你在虚拟房间里散步，如果眼前的画面是走一步画一步，回头看时刚才的桌子就容易变形穿帮。传统方法顺着镜头逐帧推演——也就是边走边猜下一张图片——极易产生前后矛盾。Marble
+    解决这一麻烦的招数，是直接生成一套完整的三维场景并支持局部编辑，也就是一次性把立体的实体房间搭好，而非沿着运镜轨迹逐帧吐出视频。这招之所以管用，是因为世界从一开始就是固定存在的物理模型，无论镜头从什么角度转动重访，空间结构都不会漂移变形，从源头上杜绝了时间积累带来的画面崩溃。
+  media_local: []
+- id: worldplay
+  title: WorldPlay (HY-World 1.5)
+  date: '2025-12-01'
+  precision: month
+  arxiv: '2512.14614'
+  venue: ICML 2026
+  lane: 位置时间寻址
+  branch: 重排位置
+  parent: rolling-forcing
+  link_strength: dotted
+  training: 需训
+  status: 精读
+  one_liner: 重排上下文位置，把旧帧拉回熟悉的注意力距离
+  mechanism: 时间记忆取最近 L 个 chunk，空间记忆按 FOV 重叠与相机距离挑非相邻历史；读取时丢掉绝对时间编号、重分配较近位置。
+  key_numbers:
+  - 5B/8B
+  - 720p 24FPS
+  - 10s 4K
+  - 360°
+  - 4 段轨迹漫游
+  self_measured:
+  - 6.7s 1600×900
+  media: []
+  links:
+  - https://arxiv.org/abs/2512.14614
+  note: 报告只给到月份 2025-12；§3.1 网页实测的两条失败记录（转满 360° 后遗忘、人物变枕头）没有 demos 相对路径。
+  tags:
+  - FOV重叠召回
+  - 位置重分配
+  explain: 就像你在大宅子里转悠一圈回到玄关，模型早把一开始的客厅陈设忘光了，漫游生成极易穿帮。WorldPlay专治这种长时程遗忘问题。它的做法是双管齐下：既保留刚过去的近期画面，又依据视场角——也就是镜头能看到的视野范围重叠度与距离，把走过的关键旧画面挑出来。关键一招是丢掉这些旧帧原先遥远的时间编号，强行给它们安插一个紧挨当前的近处位置。这招管用在于，模型的注意力机制（即分配关注权重的计算方式）天生擅长捕捉近处线索，把旧记忆拉回眼前，便能低成本稳住前后一致性。
+  key: true
+  media_local: []
+- id: lingbot-world
+  title: LingBot-World
+  date: '2026-01-01'
+  precision: month
+  arxiv: '2601.20540'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 蚂蚁灵波 A14B 相机可控 10 分钟世界模型
+  mechanism: 报告只给规模与时长（A14B、Cam/Act 控制、10min@16FPS 480p），未描述记忆读写方式。
+  key_numbers:
+  - A14B
+  - 10min
+  - 16FPS@480p
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2601.20540
+  note: lane 暂定，报告无记忆机制描述；§8 提及其自述仅支持单智能体、不支持物体交互；无提交日期。
+  tags:
+  - 双通道控制
+  - 长时程生成
+  explain: 想象你在开放世界游戏里推开门走了一圈再回头，屋里的桌椅却莫名其妙变形消失了。以前的世界模型，也就是能像游戏引擎一样根据操作实时推演画面的AI，往往跑几秒就会崩溃遗忘。蚂蚁灵波直接将模型扩展到140亿参数的A14B规模，并引入相机位姿与动作控制。虽然报告并未透露具体的记忆读写机制，但这招管用在于超大规模参数能死死锁住长序列的时空一致性，成功做到了在16FPS、480p下连续推演长达10min，让长时视角交互不再穿帮。
+  media_local: []
+- id: mind
+  title: MIND
+  date: '2026-02-01'
+  precision: month
+  arxiv: '2602.08025'
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 记忆一致性与动作控制的双轴评测
+  mechanism: 不涉及记忆机制；报告只写『双轴』：记忆一致性与动作控制，指标细节未给。
+  key_numbers:
+  - 双轴
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2602.08025
+  note: 只有表格一行，指标名称与数值都缺；无日期。
+  tags:
+  - 双轴评测
+  - 动作可控
+  explain: 比如你叮嘱助手自己对花生过敏，他嘴上答应得好好的，做饭时却把花生酱端上了桌。现在评估智能体常面临这种麻烦：光看它能不能背出记忆，根本不知道它会不会据此做出对的举动。这篇论文提出了一套叫MIND的评测方案，它设立了双轴，也就是从记忆一致性和动作控制两个维度一起考核。记忆一致性指模型前后说法不冲突、记准事实，动作控制指模型能否把记住的信息落实为具体操作。这招管用在于两手抓，避免了模型像鹦鹉学舌一样只背答案却无法执行，全面测出了记忆到底有没有真正指导行动。
+  media_local: []
+- id: memrope
+  title: MemRoPE
+  date: '2026-03-01'
+  precision: month
+  arxiv: '2603.12513'
+  venue: ''
+  lane: 位置时间寻址
+  branch: 重排位置
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 组内 Echo 系列：记忆加位置重写路线
+  mechanism: 报告只在 L2『压缩 KV / 摘要槽』一级把它与 WorldTrace-Field 并列，未述具体读写。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2603.12513
+  note: 同上，来自 §3.6 合并提及 + §12 历史文献；L2 级归属来自 §1.3 表格。
+  tags:
+  - 摘要槽压缩
+  - 位置重写
+  explain: 就像把上百页旧笔记浓缩成几张便签夹在书前，翻阅时页码却全乱了套。大模型也面临这种麻烦：为了省显存，它需要用摘要槽把冗长历史压缩进键值缓存——也就是模型暂存上文信息的记事本，但压缩后原本标明词语先后顺序的位置编码就会失真。MemRoPE
+    走的是记忆结合位置重写路线，直接对压缩后的记忆重新分配位置坐标。这招管用在于，它既把庞大历史打包进紧凑的记忆槽节省了空间，又靠重写位置帮模型捋顺了时间线，在查阅压缩记忆时依然能分清先后因果。
+  media_local: []
+- id: matrix-game-3
+  title: Matrix-Game 3.0
+  date: '2026-04-01'
+  precision: month
+  arxiv: '2604.08995'
+  venue: ''
+  lane: 位置时间寻址
+  branch: 锚 sink
+  parent: rolling-forcing
+  link_strength: dashed
+  training: 需训
+  status: 精读
+  one_liner: 边玩边生成的 5B 交互世界模型
+  mechanism: 按位姿与视野重叠挑历史帧，用 Plücker 编码相机相对几何；首帧 latent 作持久 sink，误差 δ 下一轮按 γ 注入。
+  key_numbers:
+  - 5B
+  - 2×14B
+  - 720p 40FPS
+  - 约 5.2 倍加速
+  - 15s 1080p/30fps
+  self_measured: []
+  media:
+  - https://matrix-game-v3.github.io/static/videos/teaser.mp4
+  links:
+  - https://arxiv.org/abs/2604.08995
+  note: 报告只给到月份 2026-04；FPS 为宣传口径，需多卡 DiT。
+  tags:
+  - 首帧sink
+  - Plücker几何
+  - 误差回注
+  explain: 想象你在玩游戏探索房间，一转身刚才的桌椅全走样了，这篇论文解决的就是交互世界模型在边玩边生成时画面容易漂移变形的麻烦。团队的做法是按视角重叠挑选历史帧，用
+    Plücker 编码这种把空间光线位置与方向统一打包的几何工具记录机位变化；同时把首帧 latent，也就是初始画面的特征压缩向量，固定为长期记忆锚点，并将上一轮生成的误差按比例注入下一轮修正。这套机制管用在它让模型转动视角时能严密对齐几何空间，不让预测偏差滚雪球累积，从而在低延迟下维持了画面的长程一致。
+  media_local:
+  - demos/MatrixGame3/teaser.mp4
+- id: echo-forcing
+  title: Echo-Forcing
+  date: '2026-05-01'
+  precision: month
+  arxiv: '2605.16003'
+  venue: ''
+  lane: 位置时间寻址
+  branch: 实体挂载
+  parent: rolling-forcing
+  link_strength: dashed
+  training: 需训
+  status: 速读
+  one_liner: 组内 Echo 系列：记忆加位置重写路线
+  mechanism: 报告未展开，只归入组内『记忆+位置重写』路线，细节另开笔记。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2605.16003
+  note: 同上，来自 §3.6 的合并提及 + §12 参考文献，报告无独立描述。
+  tags:
+  - 实体挂载
+  - 记忆位置重写
+  explain: 就像看长篇小说时随手夹的书签被风吹乱，导致翻到后面完全搞不清前因后果一样，模型在处理长上下文时很容易遗忘前面的内容，还会把先后次序搞混。这篇工作解决的就是上下文丢失和位置混乱的麻烦。它采用组内经典的记忆加位置重写路线，所谓位置重写，通俗讲就是给保留下来的历史记忆重新编排准确的顺序编号。这招之所以管用，是因为它一边把过去的信息妥善留存，一边理顺了它们与当前输入的相对位置，让模型既看得见旧记忆，又不会被错乱的顺序带偏。
+  media_local: []
+- id: sana-wm
+  title: SANA-WM
+  date: '2026-05-01'
+  precision: month
+  arxiv: '2605.15178'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 2.6B 单卡可跑的 6-DoF 长视频世界模型
+  mechanism: 报告未描述其记忆读写机制；只给 6-DoF 相机控制、60s@720p 生成，以及自带的 SANA-WM-Bench 回访评测。
+  key_numbers:
+  - 2.6B
+  - 60s@720p
+  - 34s/条（量化，单卡 5090）
+  - 24.1 条/小时
+  - 51.1GB
+  - 80 场景×2
+  - 961 帧@16fps
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2605.15178
+  note: 报告只给到月份 2026-05（§1.5 时间线），无首次提交日；lane 为暂定，报告未说明寻址方式；§2 明确『相机控制精度数据待补』。
+  tags:
+  - 6-DoF相机
+  - 自带回访集
+  explain: 想象你在玩游戏，绕着街区走一圈再转头原路返回，刚才路过的房子却凭空变了样。以往视频世界模型——也就是能模拟真实物理环境的AI系统——要么算力要求太高单卡带不动，要么漫游久了回头看就穿帮。SANA-WM把模型做到了只有2.6B参数，单张5090显卡就能运行，并引入6自由度相机控制，也就是让视角能在三维空间里自由位移和转头。这招管用在于它大幅压低了计算门槛，通过严格的相机位姿引导和专门的回访评测，让单卡也能在60秒高清长视频里稳住空间一致性。
+  media_local: []
+- id: echo-infinity
+  title: Echo-Infinity
+  date: '2026-06-01'
+  precision: month
+  arxiv: '2606.04527'
+  venue: ''
+  lane: 位置时间寻址
+  branch: 实体挂载
+  parent: rolling-forcing
+  link_strength: dashed
+  training: 需训
+  status: 速读
+  one_liner: 组内 Echo 系列：记忆加位置重写路线
+  mechanism: 报告未展开，只归入组内『记忆+位置重写』路线，细节另开笔记；本组 EchoActive 的 r_sink 与 Rolling Forcing
+    相似。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2606.04527
+  note: 报告只在 §3.6 以『Echo 系列（2606.04527 / 2605.16003 / 2603.12513）』合并提及一句，三条的拆分依 §12
+    参考文献对应关系。
+  tags:
+  - r_sink复用
+  - 实体记忆
+  explain: 就像读一本无限长的书，如果书签用光了页码，前面的内容又塞爆了脑袋，模型就会彻底乱套。这篇要解决的正是大模型处理超长文本时前文装不下且位置编号失效的麻烦。它走的是咱们组典型的记忆加位置重写路线，也就是把前面的重要信息压缩成额外记忆，再把新输入内容的位置编号重写拉回合理区间。这招之所以管用，是因为记忆结构帮模型保住了远距离的关键信息，而位置重写抹掉了过大页码带来的混乱，让模型在不爆显存也不迷失相对顺序的情况下一直读下去。
+  media_local: []
+- id: memactive
+  title: MemActive
+  date: '2026-06-01'
+  precision: day
+  arxiv: ''
+  venue: MIPG 2026
+  lane: 位置时间寻址
+  branch: 实体挂载
+  parent: echo-infinity
+  link_strength: dotted
+  training: 免训
+  status: 速读
+  one_liner: 组内工作，最接近实体级视觉记忆
+  mechanism: 报告只有一句：最接近实体级，但只在冻结生成器上验证，细节未公开。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 组内未公开（§12：MemActive，MIPG 2026，未公开）；lane 与 training 均为推断，无依据。
+  tags:
+  - 冻结生成器
+  - 实体级读写
+  explain: 想象你让画师画同一只橘猫在不同房间打滚，画着画着猫的花纹就全变了。传统生成模型经常遇到这种记不住物体的问题，而咱们组的 MemActive 想要解决的就是画面里特定物体总在变形的麻烦。它提出了最接近实体级的视觉记忆，也就是让模型像人类一样把特定物体当成独立对象牢牢记住。这招之所以管用，是因为团队把它接入到了冻结的生成器上，不用大费周章重训绘图底座，就能帮模型锁定特定实体的样貌。虽然具体细节还没有公开，但这套验证直接证明了独立实体记忆的可行性。
+  media_local: []
+- id: longlive-rag
+  title: LongLive-RAG
+  date: '2026-07-01'
+  precision: month
+  arxiv: '2606.02553'
+  venue: ''
+  lane: 内容学习寻址
+  branch: 外部检索库
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 精读
+  one_liner: 历史画面进外部库，按内容而非时空检索
+  mechanism: 历史画面写进外部库，用内容检索；WTD 损失让检索器认变化不认长相，同物异貌算同一件、异貌相似物要区分。
+  key_numbers:
+  - 120s
+  - 约 490 毫秒（额外开销）
+  - 约 10 毫秒（检索）
+  - 约 480 毫秒（编码）
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2606.02553
+  note: 只给到月份 2026-07；training=需训指检索器需训练；官方未提供演示片段。
+  tags:
+  - 外部向量库
+  - 内容检索
+  - WTD判别损失
+  explain: 就像让人回想两分钟前视频里的一把钥匙，时间太久脑子装不下容易忘。这篇论文要解决长视频里久远信息记不住的麻烦，做法是把历史画面实时存入外部库，需要时根据画面内容直接翻找，而不是按时间死板翻看。为了找得准，他们用了一种叫WTD损失的训练规则，用来教模型认本质变化而非表面长相，让换了角度的同一物体被认出、长相接近的不同物体被区分。整个流程在120s长度下额外开销约490毫秒，其中编码约480毫秒、检索仅约10毫秒，高效调出了关键记忆。
+  media_local: []
+- id: dreamx-world
+  title: DreamX-World
+  date: '2026-06-01'
+  precision: month
+  arxiv: '2606.16993'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 高德 5B 键鼠+PRoPE 可跑世界模型
+  mechanism: 报告未描述记忆机制；控制侧为键鼠动作加 PRoPE 相机条件，约 1 分钟 704×1280@16FPS，MIT 许可。
+  key_numbers:
+  - 5B
+  - ~1min
+  - 704×1280 16FPS
+  - 5s@720p 26s/40G
+  - ~40GB
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2606.16993
+  note: 报告未给提交日期；lane 依『PRoPE 相机条件』推断，非报告明述。
+  tags:
+  - PRoPE条件
+  - 键鼠动作
+  explain: 就像你在玩第一人称游戏时按键推摇杆甩鼠标，生成的画面很容易穿帮漂移，以前的世界模型很难把玩家键鼠操作和精准镜头轨迹绑在一起。高德开源的 DreamX-World
+    做了个 5B 参数的可运行模型，核心是在键鼠指令外引入了 PRoPE 相机条件，也就是一种把镜头旋转与位移直接喂给模型注意力的位置编码。这招管用是因为它给画面生成加上了物理视角准心，让场景严格顺着视点演化不走样，能以每秒
+    16 帧稳定跑出约一分钟的高清交互漫游。
+  media_local: []
+- id: mirage
+  title: Mirage
+  date: '2026-06-01'
+  precision: month
+  arxiv: '2606.09828'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 显式几何库
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 存 latent 缓存而非几何，介于 L2/L3
+  mechanism: 报告只有一句：存的是 latent 缓存，不是显式几何，归档在 L2 与 L3 之间。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2606.09828
+  note: 摘要级；lane 依『latent 缓存』暂定，报告未述寻址方式；无日期。
+  tags:
+  - latent缓存
+  - 非几何中介
+  explain: 就像出门做家具不想随身背着沉重完整的木质骨架，带一份折叠好的轻便尺寸图最省力。以往系统直接缓存展开的显式几何结构，体积过大容易造成存储和传输堵塞。Mirage
+    的解法是不存庞大的几何实体，改存 latent 缓存，也就是模型抽取出的紧凑特征这种中间状态，并把位置放在芯片高速缓存 L2 和 L3 之间。这种设计避开了显式几何的膨胀开销，同时卡在两级缓存之间，既不像塞在顶层那样撑爆空间，又比去下层读取更快，兼顾了体积与访问效率。
+  media_local: []
+- id: captain-safari
+  title: Captain Safari
+  date: '2026-06-15'
+  precision: day
+  arxiv: ''
+  venue: CVPR 2026
+  lane: 几何位姿寻址
+  branch: 显式几何库
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 带 retriever 的几何记忆，走外部库
+  mechanism: 报告只在矩阵里标它用 retriever 从外部库取历史，与几何寻址配套，未述细节。
+  key_numbers:
+  - 0.0013（MEt3R 改善）
+  self_measured: []
+  media: []
+  links: []
+  note: 仅摘要级；报告明确『MEt3R 仅 0.0013 改善，不宜作证据』；无 arXiv 号与日期。
+  tags:
+  - retriever检索
+  - 几何配套
+  explain: 就像出远门不把所有行李全背身上，而是把大件存进储物柜，用时按小票去取。Captain Safari 解决的就是智能体历史记忆负担过重、难以兼顾全局的麻烦。它给几何记忆配了一个检索器，也就是一个根据线索从外部资料库调取历史的提取工具。这个工具与几何寻址——即按照空间几何位置定位记忆的方式——相互配套。它管用在把历史经验外包给外部库，既轻量又能精准召回，使
+    MEt3R 指标改善了 0.0013。原报告只在矩阵中标注了该设计，具体实现细节并未展开。
+  media_local: []
+- id: hy-world-2
+  title: HY-World 2.0
+  date: '2026-07-15'
+  precision: day
+  arxiv: ''
+  venue: ''
+  lane: 框架层
+  branch: 闭源产品
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 腾讯开源世界模型系列，WorldPlay 的后继
+  mechanism: 报告一行：开源世界模型系列，是 WorldPlay 的后继版本，可跟踪。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 报告称『开源系列』却在闭源表里，开源状态口径不一致；无论文号与日期。
+  tags:
+  - 开源系列
+  - 后继迭代
+  explain: 玩赛车游戏时如果想让AI凭空造出一条能开进去的赛道，以往模型只能吐出看着逼真、一碰就碎的平面布景。世界模型也就是让计算机模拟物理环境的技术，痛点在于很难生成能交互的真三维资产。腾讯开源的HY-World
+    2.0作为WorldPlay的后继版本，把造世界拆成流水线：先由文本或图片生成全景图与规划路径，再由多视角画面还原出完整三维几何。这招之所以管用，是因为把视觉生成与空间建模拆开来做，既保住了画面逼真度，又能直接导入游戏引擎供角色实时走动与物理碰撞。
+  media_local: []
+- id: worldtrace
+  title: WorldTrace
+  date: '2026-08-01'
+  precision: month
+  arxiv: '2608.07408'
+  venue: NeurIPS 2026
+  lane: 位置时间寻址
+  branch: 重排位置
+  parent: worldplay
+  link_strength: dotted
+  training: 需训
+  status: 精读
+  one_liner: 记忆失效首因是地址失效，只重写位置不改内容
+  mechanism: 按槽序号分配分布内虚拟位置 t_s=q−(L_attn−1−s)；Field 存淘汰帧 key 的分组均值，Landmark 按余弦阈值存原帧。
+  key_numbers:
+  - 3000 帧
+  - 640×352@10fps
+  - 25s（Centroid 黑段）
+  - N_s 个槽
+  self_measured:
+  - 35s
+  media:
+  - https://research.nvidia.com/labs/sil/projects/WorldTrace/videos/appendix/worldtrace-landmark/aba/1/ours.mp4
+  - https://research.nvidia.com/labs/sil/projects/WorldTrace/videos/appendix/worldtrace-field/ours.mp4
+  links:
+  - https://arxiv.org/abs/2608.07408
+  note: 只给到月份 2026-08；同论文自带基准 LoopBench/LoopMem（TempSSIM、PAC）未单列条目；§3.0 称 demos/WorldTrace
+    共 9 段，报告只点名 3 个文件。
+  tags:
+  - 槽位重编号
+  - Field分组均值
+  - Landmark原帧
+  explain: 就像在图书馆查旧档案，资料本身没坏，但页码太大超出了目录索引，导致管理员根本查不到。这篇论文发现模型处理三千帧长视频时，记忆失效的首因不是特征内容坏了，而是位置编码也就是标记时间先后的门牌号失效越界。它的招数是只重写位置不改内容：在槽位也就是缓存格里，为历史分配模型见过的虚拟门牌号；同时用Field保存淘汰帧均值作为背景概要，用Landmark按余弦阈值留住关键原帧。这招管用在于把越界地址拉回了安全区间，既不破坏原始特征，又能让模型稳稳认出长期记忆。
+  key: true
+  media_local:
+  - demos/WorldTrace/aba_side_by_side.mp4
+  - demos/WorldTrace/field_ours.mp4
+- id: code-world-model
+  title: Code World Model
+  date: '2026-08-01'
+  precision: month
+  arxiv: '2608.25927'
+  venue: ''
+  lane: 框架层
+  branch: 符号状态
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 用代码维护实体状态，再驱动渲染
+  mechanism: coding agent 用代码维护实体位置、位姿、轨迹、相机，编译成 proxy 表示驱动 MiniMax-H3 渲染；状态可存档、可任意回溯。
+  key_numbers:
+  - 32B（报告用于辨析的 Meta CWM 规模，非本文）
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2608.25927
+  note: lane 取自 §1.4 矩阵的『程序/符号』行（不在 8 条 lane 内），归入世界状态框架；报告明确 Meta CWM（32B）是同名不同物的另一回事。
+  tags:
+  - 代码维护状态
+  - 编译proxy渲染
+  explain: 生成视频就像做梦，镜头转过去再转回来，刚才桌上的水杯经常就凭空消失了，这就是传统模型容易丢失实体状态（也就是物体在哪、长什么样）的麻烦。这篇文章的做法是，让写代码的智能体（也就是懂编程的AI程序）用代码记录物体的坐标、轨迹与镜头角度，编译成代理表示（也就是过渡用的几何骨架），再去驱动模型渲染画面。这招管用是因为代码就像游戏的底层存档，计算精确且能随时回溯，彻底避免了纯靠视觉直觉硬猜后续帧导致的逻辑崩塌。
+  media_local: []
+- id: r2m-bench
+  title: R2M-Bench
+  date: '2026-08-01'
+  precision: month
+  arxiv: '2608.27328'
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 速读
+  one_liner: 300 实例跨 7 模型的回访基准，指标 NMR
+  mechanism: 不涉及记忆机制；用同 rollout 校准的 NMR 衡量回溯，覆盖 300 实例、7 个模型。
+  key_numbers:
+  - 300 实例
+  - 7 模型
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2608.27328
+  note: 报告只在 §5.1 表格给了一行，无日期。
+  tags:
+  - 同rollout校准
+  - NMR指标
+  explain: 就像我们出门发现忘带钥匙得折返回家拿一样，智能体做任务时也常常需要走回头路，但大家一直没有一把尺子来测它们回头折返的能力。这篇文章做了一个叫
+    R2M-Bench 的评测基准，覆盖了 300 个任务实例和 7 个模型。它用模型同一次完整执行（也就是 rollout）进行校准，提出了衡量回溯水平的归一化指标
+    NMR。这招管用在于它完全不涉及额外的记忆机制，而是拿同轨迹自身当对照排除了干扰，公平看清了不同模型在面对复杂环境时自主折返的真实水平。
+  media_local: []
+- id: octworld
+  title: OctWorld
+  date: '2026-09-01'
+  precision: month
+  arxiv: '2609.03919'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 显式几何库
+  parent: vmem
+  link_strength: dashed
+  training: 需训
+  status: 速读
+  one_liner: L4 显式几何缓存类长视频世界模型
+  mechanism: 报告只把它列入 L4 显式几何缓存（与 GEN3C、spmem 同类），未述读写细节；该类依赖深度估计。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2609.03919
+  note: 仅摘要级【摘】，引用前须核对；只给到月份 2026-09；training=需训为按 L4 类推断。
+  tags:
+  - 显式几何缓存
+  - 深度依赖
+  explain: 就像你在虚拟房间里漫步，一回头却发现身后的门变形甚至消失了，长视频世界模型在漫游生成时常有前后空间错乱的麻烦。OctWorld 用的招数是显式几何缓存，也就是通过深度估计——估算物体离镜头有多远——把看过的三维结构像建档一样实实在在地存起来。这招管用，是因为它不再单靠模型去硬背模糊的二维画面，而是用真实的三维几何做底子；后续镜头不管怎么兜圈子回头，画面都能对照存好的空间骨架来画，场景自然不会变形穿帮。
+  media_local: []
+- id: solarwm
+  title: SolarWM
+  date: '2026-09-01'
+  precision: month
+  arxiv: '2609.02886'
+  venue: ''
+  lane: 训练侧
+  branch: 三段训练
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 三段式训练把 5s 训练推到 60min 长程
+  mechanism: 只讲训练流程：双向适应→teacher-forced 自回归→DMD 蒸馏；相机条件用 fused-PRoPE，记忆结构未描述。
+  key_numbers:
+  - 5B–33B
+  - 5s
+  - 60min
+  - 1.43M clips
+  - 约 25TB
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2609.02886
+  note: §2 表列为可跑模型、§3.6 又归训练侧，lane 按 §3.6 填；报告只给到月份 2026-09。
+  tags:
+  - 三段式训练
+  - fused-PRoPE
+  explain: 就像教新手开车，如果平时只练五秒起步，直接让他上一小时高速，车子很快就会失控撞墙。以前模型在 1.43M clips、约 25TB 数据上只练
+    5 秒，推到长程就会彻底崩溃。SolarWM 在 5B 到 33B 规模上提出三段式训练：先做双向适应，即让前后帧互相参考打底；再做教师强制自回归，也就是拿真实画面纠偏学预测；最后用
+    DMD 蒸馏，即把慢速去噪压缩为一步出图的加速法，结合融合位置编码输入相机位姿。这种阶梯式进阶彻底控制了误差累积，稳稳把 5 秒短片推到了 60 分钟长程。
+  media_local: []
+- id: honeycomb
+  title: Honeycomb
+  date: '2026-09-01'
+  precision: month
+  arxiv: '2609.37690'
+  venue: ''
+  lane: 训练侧
+  branch: 恒定上下文
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 速读
+  one_liner: 恒定容量槽位＋显式锚点的代表
+  mechanism: 报告只在 L3『恒定槽位』与趋势 4『恒定容量+显式锚点』两处点名，未述寻址键与读写细节。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2609.37690
+  note: 摘要级；lane 无报告依据（L3 表头写『按位置或几何寻址』），存疑；只给到月份 2026-09。
+  tags:
+  - 恒定槽位
+  - 显式锚点
+  explain: 这就像把随手乱堆的杂物箱，换成了一排贴着固定门牌的储物柜。模型处理长内容时，记忆往往会随文本变长而无休止膨胀，导致资源吃紧且难以定位。Honeycomb
+    的做法是采用恒定容量槽位和显式锚点。这里的恒定容量槽位，指不论输入多长都大小固定的记忆格子；显式锚点则像是在序列里立起清晰可见的参照标桩。这招之所以管用，在于锁死槽位容量能把内存开销控制在确定边界内，而明确的锚点给模型提供了可靠的对照坐标，防止信息在压缩中丢失相对位置。
+  media_local: []
+- id: mosaichunk
+  title: MosaiChunk
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.02153'
+  venue: ''
+  lane: 内容学习寻址
+  branch: 学习路由
+  parent: longlive-rag
+  link_strength: dotted
+  training: 免训
+  status: 精读
+  one_liner: 学习路由器挑时空块 KV 拼成马赛克上下文
+  mechanism: 历史切成时空小块各留 KV，生成时由轻量路由器判断需要哪几块并拼接；推理主干完全冻结。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2610.02153
+  note: training=免训指主干冻结、仅训路由器；矩阵将其放在『几何/位姿』行并标『学习路由』，寻址实际由学习路由器决定，lane 存疑；自带 RememBench
+    未单列；只给到月份 2026-10。
+  tags:
+  - 时空块KV
+  - 学习路由器
+  explain: 就像看监控抓小偷，我们不用把几十个小时的录像全倒进脑子，只要挑出关键的几个画面拼在一起看。这篇论文解决的具体麻烦，正是大模型处理长视频时，保留所有历史会让显存直接撑爆。它用的招数是把历史切成许多时空小块，各自保留KV，也就是模型算好的记忆缓存；生成回答时，由一个轻量路由器，即专门负责筛选的小网络，判断需要哪几块并拼成马赛克上下文。这招管用在于推理主干完全冻结，既不用重新训练也不破坏原有能力，只把最核心的信息精准拼接起来，大幅减轻了显存负担。
+  media_local: []
+- id: smi
+  title: SMI
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.02521'
+  venue: ''
+  lane: 内容学习寻址
+  branch: 理解模型管理
+  parent: longlive-rag
+  link_strength: dotted
+  training: 免训
+  status: 精读
+  one_liner: 多模态大模型管记忆的增删与检索
+  mechanism: 四个原子操作串成管理流程：空间聚类、簇内稀疏化、动作感知检索、可靠性过滤；生成器一行代码不改。
+  key_numbers:
+  - 四个原子操作
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2610.02521
+  note: 只给到月份 2026-10；报告提醒每次管理都要调用大模型，开销与延迟高。
+  tags:
+  - 四原子操作
+  - 大模型管记忆
+  explain: 想象机器人把沿途拍的照片全塞进抽屉，翻找时不仅头疼还经常拿错。SMI解决的就是多模态大模型面对海量连续画面时，记忆臃肿且难以调用的麻烦。它的做法是完全不改生成器代码，用一套管理流程串联四个原子操作，也就是不可分割的基础动作：按位置归拢画面的空间聚类、同堆剔除重复的簇内稀疏化、结合当前行为翻找的动作感知检索，以及排除杂质的可靠性过滤。它管用是因为从源头挤干了画面水分，找记忆时又有动作意图带路，不用动原模型就能轻松提取干净高效的经验。
+  media_local: []
+- id: smart
+  title: SMART
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.19257'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: vmem
+  link_strength: dotted
+  training: 需训
+  status: 精读
+  one_liner: 按空间槽召回：写用观测相机，读用渲染相机
+  mechanism: 槽位数固定；写入按观测相机定归属、读取按当前渲染相机定取哪些槽；每份记忆附置信度，由 DiT 决定信多少。
+  key_numbers:
+  - 256 帧
+  self_measured:
+  - 帧 418
+  - 52.25s
+  - 79.6s
+  - 100.7s
+  - 95s
+  - 39.05dB
+  - 34.53dB
+  - 28.67dB
+  - 帧 240
+  - 19.37dB
+  - 16.60dB
+  - 14.73dB
+  - 188s
+  - 54.6s 1024×256
+  - 226s 1024×256
+  media:
+  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/gt.mp4
+  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/ours.mp4
+  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/dfot.mp4
+  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/causal.mp4
+  - https://eren-cetin.github.io/SMART/static/videos/minecraft/cc_0000088/ours.mp4
+  links:
+  - https://arxiv.org/abs/2610.19257
+  note: 所有 PSNR 都是报告作者在官方 demo 视频上自算，非论文指标（报告明确禁止当论文表格引用）；只给到月份 2026-10。
+  tags:
+  - 观测相机写
+  - 渲染相机读
+  - 置信度门控
+  explain: 想象你在大房子里边走边拍，如果把沿途画面按时间硬塞在一起，生成长达256帧视频时模型就会把位置记混。SMART要解决的就是漫游时空间记忆混乱的麻烦。它的招数是按固定槽位存记忆，也就是把场景划成几个固定的虚拟储物格；写入时按当时的观测相机机位存进对应格子里，生成时按当前渲染相机位置定向翻找，且每条记忆都带置信度，由负责生成画面的DiT扩散网络决定采信多少。这招管用是因为它打破了死板的时间顺序，让调取记忆直接锁定空间位置，转回原处就能精准对齐。
+  key: true
+  media_local:
+  - demos/SMART/maze_gt.mp4
+  - demos/SMART/maze_ours.mp4
+  - demos/SMART/maze_dfot.mp4
+  - demos/SMART/maze_causal_FAIL.mp4
+  - demos/SMART/mc_4up.mp4
+- id: velox
+  title: Velox
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.22311'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: null
+  link_strength: null
+  training: 免训
+  status: 精读
+  one_liner: 视锥 slab 裁注意力，只算几何重叠的历史
+  mechanism: 把当前相机视锥切成若干几何 slab，用它们判断哪些历史片段有空间交集；命中的才进注意力，其余跳过。
+  key_numbers:
+  - 0.15 分（WBench 精度损失）
+  - 约 4.36 倍（chunk 48 注意力加速）
+  - 约 2.43 倍（整体去噪加速）
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2610.22311
+  note: 只给到月份 2026-10；报告称官方交互 demo 无 mp4 可下载。
+  tags:
+  - 视锥slab
+  - 几何重叠筛选
+  explain: 想象你拿着相机在房间转圈拍摄，如果每生成新的一帧，都要把身后看不见的旧画面翻出来算一遍关联，计算量会直接卡死。Velox解决的就是这种冗余开销。它把相机的视锥——也就是镜头能看到的锥形视野空间——横切成若干被称为slab的几何薄层，用它们判断哪些历史片段在三维里存在空间交集。只有交集命中的内容才进入注意力计算，其余全部跳过。因为视线外的死角本就无需交互，这种几何裁切在chunk
+    48下让注意力加速约4.36倍，整体去噪加速约2.43倍，而WBench精度仅损失0.15分。
+  media_local: []
+- id: hla-wm
+  title: HLA-WM
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.05739'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 精读
+  one_liner: 混合线性注意力 + 几何引导的分块检索历史
+  mechanism: GDN 类线性注意力承担长序列大部分计算，softmax 只留精确交互；历史按空间关系分块，只取相关块进上下文。
+  key_numbers:
+  - 旋转误差 −28.5%
+  - 记忆开销 1/12
+  - 60s 1280×704@16fps
+  self_measured:
+  - PSNR +0.74dB
+  media:
+  - https://caesarhhh.github.io/hla-wm/videos/ar_refiner_hard80_game_style_005_f472_f708_ours.mp4
+  - https://caesarhhh.github.io/hla-wm/videos/ar_refiner_hard80_game_style_005_f472_f708_baseline.mp4
+  links:
+  - https://arxiv.org/abs/2610.05739
+  note: 数字是相对其自身基线，报告强调不可跨论文横比；只给到月份 2026-10。
+  tags:
+  - 线性注意力
+  - 几何分块检索
+  explain: 想象自动驾驶车在街区兜风，想根据几十秒前的旧画面预测未来，把所有看过的帧全塞给模型会直接撑爆显卡。HLA-WM 专门解决这种长序列下世界模型算力吃紧的麻烦。它用了混合注意力，也就是让省显存的线性计算挑大梁，只把精密计算留给关键局部；再配合几何分块检索，按真实空间位置把历史画面打包，只挑眼前相关的块放进内存。这招甩掉了无用画面的死记硬背，把记忆开销砍到十二分之一，旋转误差降低28.5%，稳稳撑住一分钟高清长序列。
+  media_local:
+  - demos/HLAWM/refiner_ours.mp4
+  - demos/HLAWM/refiner_baseline_FAIL.mp4
+- id: l2r
+  title: L2R
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.11444'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 位姿视锥
+  parent: longlive-rag
+  link_strength: dotted
+  training: 需训
+  status: 精读
+  one_liner: 把检索学进模型，靠 3D 重可见性触发
+  mechanism: 历史存在模型持久状态里；相机条件门决定取什么，3D 重可见性信号决定何时取，平时不做检索。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2610.11444
+  note: 矩阵标注『3D 重可见性触发 → 偏几何』，lane 在内容/学习与几何/位姿之间存疑；只给到月份 2026-10。
+  tags:
+  - 重可见性触发
+  - 模型内检索
+  explain: 就像在陌生大楼里巡逻，如果每走一步都把之前的巡检录像翻看一遍，脑子早晚卡死，但不翻又容易认不出走回了原地。L2R 解决的就是空间感知建模时，频繁翻看历史太耗算力、扔掉历史又容易遗忘的麻烦。它把走过的历史存在模型内部的持久状态里，平时完全不检索；只有收到
+    3D 重可见性——也就是镜头重新拍到曾去过的位置这一信号时才触发查阅，再由相机条件门——一个按当前视角挑记忆的开关——决定提取哪些内容。这样省去了每一步多余的计算开销，又能在故地重游时把关键记忆精准补齐。
+  media_local: []
+- id: world-t3
+  title: World-T3
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.17434'
+  venue: ''
+  lane: 参数化记忆
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 需训
+  status: 精读
+  one_liner: 把世界状态写进快权重，按位姿直接取特征
+  mechanism: 测试时训练：用递归最小二乘持续更新一小部分快权重，单步常数开销；读取按当前相机位姿从快权重取场景特征，不看历史帧。
+  key_numbers:
+  - 1280×704
+  - 20.6FPS（B200）
+  - PSNR 13.52→18.31dB
+  - 旋转误差 3.344°→1.075°
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2610.17434
+  note: 报告指出摘要未说明 PSNR 基线是哪个配置，引用须注明；只给到月份 2026-10；站点资产 404，无演示。
+  tags:
+  - 快权重TTT
+  - 位姿取特征
+  explain: 就像机器人逛房间，如果走一步就得翻一遍所有旧照片，时间一长就会卡死。World-T3解决的就是频繁回看历史帧导致计算爆炸的麻烦。它在测试时训练中引入像速记便签一样能临时改动的快权重，用递归最小二乘持续更新这一小撮参数把场景存进去；读取时按当前相机位姿直接从快权重取特征，不再依赖历史帧。由于单步开销恒定，在B200上跑1280×704能达20.6帧，PSNR从13.52提至18.31分贝，旋转误差也由3.344度压到1.075度。
+  media_local: []
+- id: pwm
+  title: PWM
+  date: '2026-10-01'
+  precision: unknown
+  arxiv: ''
+  venue: ''
+  lane: 框架层
+  branch: 符号状态
+  parent: code-world-model
+  link_strength: dotted
+  training: 不适用
+  status: 速读
+  one_liner: 状态执行器+确定性编译器的程序化世界模型
+  mechanism: 状态执行器 + 确定性编译器（3D OBB）+ 渲染器 + VLM 写规范；状态显式可存档，渲染仍黑箱。
+  key_numbers: []
+  self_measured: []
+  media: []
+  links: []
+  note: 报告未给 arXiv 号、作者与日期，只有 §6 一行。
+  tags:
+  - 状态执行器
+  - 确定性编译
+  explain: 想象你在脑海里模拟玩沙盒游戏，如果全凭直觉凭空脑补画面，多想几步箱子就会变形甚至凭空消失。以前的世界模型也是如此，直接靠神经网络预测图像很容易逻辑崩塌，且中途状态根本没法保存。PWM把预测拆开，先让视觉语言模型写规则并由执行器更新物理数据，再用确定性编译器——也就是一套把逻辑状态严格转成三维带方向立体框的程序——排好空间关系，最后交给渲染器画图。它管用是因为把物理状态彻底变透明了，随时能精准存档，把死板的逻辑交给代码锁死，不再由黑箱瞎猜。
+  media_local: []
+- id: worldmembench
+  title: WorldMemBench
+  date: '2026-10-01'
+  precision: month
+  arxiv: '2610.19063'
+  venue: ''
+  lane: 评测基准
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 精读
+  one_liner: 静态保持与动态演化必须分开报的回访基准
+  mechanism: 不涉及记忆机制；260 例分静态 200/动态 60，四类轨迹（含多次回访）分别测外观几何与离屏事件演化。
+  key_numbers:
+  - 260 例
+  - 静态 200
+  - 动态 60
+  - 四类轨迹
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/html/2610.19063
+  note: 报告只给到月份 2026-10，且仅给 html 链接。
+  tags:
+  - 静动分测
+  - 多次回访
+  explain: 比如你走出厨房转一圈再回来，桌上的杯子必须原封不动，但灶台上的水可能已经烧开了。以往的评测常把这两类情况混在一块算总分，分不清模型到底哪项不行。这篇工作做了专门测模型回头看能力的评测基准，它不提出记忆算法，而是设计了包含四类轨迹的260个测试例，明确拆分成保持原貌的200个静态场景与发生变化的60个动态场景。这一招之所以灵，是因为它把物体的外观几何与视线之外的离屏事件演化拆开评分，一眼就能看清模型究竟是记不住东西，还是推测不出不在场时的变化。
+  media_local: []
+- id: keepsake
+  title: Keepsake
+  date: '2026-10-05'
+  precision: day
+  arxiv: '2610.06588'
+  venue: ''
+  lane: 几何位姿寻址
+  branch: 容量管理
+  parent: null
+  link_strength: null
+  training: 免训
+  status: 精读
+  one_liner: 按『有没有替代视图』决定留哪帧、扔哪帧
+  mechanism: 给保留帧和新帧建 pose–appearance 图，用替代视图数量与最像替代品的相似度评估留存价值；只改写入与淘汰策略。
+  key_numbers:
+  - 180 秒轨迹
+  - 5397 帧
+  - 保留 32 帧
+  - FVD 降低 35.1%
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/html/2610.06588
+  note: FVD 降幅是固定容量比较下的画质指标，不是回访事件成绩（报告明确口径）；日期来自报告正文括号，是全篇唯一带日的条目之一。
+  tags:
+  - 替代视图打分
+  - 固定容量淘汰
+  explain: 就像你在景区拍了上千张照片但手机空间告急，同一个景点连拍十张就是纯粹浪费。在长视频处理中显存有限，最怕存下一堆重复视角却漏掉关键死角。Keepsake
+    只改造了帧的写入与淘汰策略。它给新旧帧建立位姿外观图，也就是把相机机位和画面长相连成网络，计算某帧有没有替代视角、替补有多像。这招管用是因为它精准扔掉随时有替补的帧，死守不可替代的视角。面对
+    180 秒轨迹的 5397 帧，它仅保留 32 帧，衡量视频质量的 FVD 指标就降低了 35.1%。
+  key: true
+  media_local: []
+- id: atas
+  title: ATAS
+  date: '2026-10-14'
+  precision: day
+  arxiv: '2610.20571'
+  venue: ''
+  lane: 框架层
+  branch: ''
+  parent: null
+  link_strength: null
+  training: 不适用
+  status: 精读
+  one_liner: 把多镜头拍片重构成带持久世界状态的流程
+  mechanism: 剧本编译成镜头请求（含场景、空间锚点、相机、时段）；场景记忆存静态点云，事件记忆按 scene/event/time 存 RGB-D 与动态点云。
+  key_numbers:
+  - 3 关写回（成片审查/重建注册/状态准入）
+  - 2 份记忆（场景/事件）
+  self_measured: []
+  media: []
+  links:
+  - https://arxiv.org/abs/2610.20571
+  note: training=不适用：它是流水线框架，生成依赖短视频生成器与 Pi3X、SAM3 等几何服务；报告明确不能当 5B 可跑 baseline。
+  tags:
+  - 剧本编译
+  - 事件时间索引
+  - 准入校验
+  explain: 就像拍电影换个机位桌上的杯子就瞬移了一样，多镜头视频生成最大的麻烦就是前后镜头容易穿帮。ATAS的招数是把拍片重构成维护真实沙盘的过程：先将剧本编译成包含场景、相机、时段与空间锚点（即空间参考标记）的镜头请求，再建两份记忆管住全场，场景记忆存静态点云（即三维坐标构成的立体骨架），事件记忆按场次时间存动态影像与点云。这招管用是因为画面必须通过成片审查、重建注册和状态准入这三关写回，只有对齐的数据才能沉淀为持久状态，让后续所有机位都对着同一份沙盘拍，前后自然不会打架。
+  key: true
+  media_local: []
+- id: matrix-game-4
+  title: Matrix-Game 4.0
+  date: '2026-10-20'
+  precision: day
+  arxiv: '2610.27999'
+  venue: Technical Report (Skywork AI)
+  lane: 框架层
+  branch: 符号状态
+  parent: code-world-model
+  link_strength: 推
+  training: 需训
+  status: 速读
+  one_liner: 引擎管状态和规则，视频模型只管画
+  mechanism: 轻量游戏引擎维护世界状态并执行规则，多模态编程 agent 把玩家想法编译成游戏代码和动态场景描述，自回归视频模型把引擎渲出的低模代理帧翻译成写实画面，四帧一块、一到两步去噪。
+  key_numbers:
+  - 480p 60FPS 单卡 5090
+  - 按键到显示 112ms
+  - 单步 83FPS
+  - 显存 18.2GiB
+  - 5080 67FPS
+  - 5070Ti 58FPS
+  self_measured: []
+  tags:
+  - 引擎托管状态
+  - 低模代理渲染
+  - 单卡实时
+  media:
+  - https://matrix-game-v4-0.github.io/page/assets/video/teaser_en.mp4
+  - https://matrix-game-v4-0.github.io/page/assets/long/long_castle.mp4
+  - https://matrix-game-v4-0.github.io/page/assets/long/long_racing.mp4
+  - https://matrix-game-v4-0.github.io/page/assets/gallery/castle_04.mp4
+  links:
+  - https://arxiv.org/abs/2610.27999
+  - https://matrix-game-v4-0.github.io/page/
+  note: 2026-10-20 首次提交；引擎+编程 agent+渲染器三段式，属于 code world model 那条符号状态路线的最新工业实现。
+  explain: 就像拍电影时由替身演员走位、后期画师套上逼真皮囊一样，过去让生成模型同时硬算物理规则和画图，画面容易穿模且极卡。这篇论文的做法是引擎管状态和规则，视频模型只管画。它用编程助手把玩家想法转成代码，轻量引擎负责硬碰硬的物理规则并生成低模代理帧——即粗糙的简易骨架图；视频模型再以四帧一块去噪，把骨架翻译成写实画面。这招管用在于卸下了算物理的负担，让模型专注于画面，在单卡5090上做到了480p、60帧的实时交互。
+  key: true
+  media_local:
+  - demos/MatrixGame4/teaser.mp4
+  - demos/MatrixGame4/long_castle.mp4
+  - demos/MatrixGame4/long_racing.mp4
+  - demos/MatrixGame4/castle_04.mp4
