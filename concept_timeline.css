@@ -1,0 +1,25 @@
+#ct-btn{border:1px solid var(--line);background:#fff;color:var(--ink);
+  border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;font-weight:600}
+#ct-btn:hover{border-color:#c7d2e0;background:#f7f9fc}
+#ct-ov{position:fixed;inset:0;z-index:60;display:none;
+  background:rgba(250,251,252,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#ct-ov.on{display:block}
+.ct-head{display:flex;align-items:baseline;gap:14px;padding:22px 30px 8px}
+.ct-head h2{font-size:21px;margin:0;font-weight:700;color:var(--ink)}
+.ct-head .sub{font-size:13px;color:var(--ink2)}
+.ct-close{margin-left:auto;border:0;background:transparent;font-size:26px;line-height:1;
+  color:#8b97a6;cursor:pointer}
+.ct-wrap{position:absolute;inset:70px 30px 24px;overflow:auto}
+.ct-svg{display:block;width:100%;height:auto}
+.ct-lab{font-size:13px;fill:#2b3440;font-weight:600}
+.ct-cnt{font-size:11px;fill:#8b97a6}
+.ct-tick{font-size:11px;fill:#94a3b8}
+.ct-dot{cursor:pointer}
+.ct-dot:hover{stroke:#111;stroke-width:2}
+.ct-tip{position:fixed;z-index:70;pointer-events:none;display:none;max-width:340px;
+  background:#16191d;color:#fff;font-size:12.5px;line-height:1.5;padding:8px 11px;
+  border-radius:8px;box-shadow:0 8px 26px rgba(0,0,0,.28)}
+.ct-tip b{font-weight:700}
+.ct-legend{display:flex;flex-wrap:wrap;gap:14px;padding:10px 4px 0}
+.ct-lg{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#4a5563}
+.ct-lg i{width:8px;height:8px;border-radius:50%;display:inline-block}

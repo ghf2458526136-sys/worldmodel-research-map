@@ -882,11 +882,11 @@ def main():
     html = HTML.replace("__TITLE__", title)
     html = html.replace("__BADGE__", json.dumps(BADGE, ensure_ascii=False))
     _css, _js = [], []
-    for _f in ("katex_inline.css", "panel_detail.css"):
+    for _f in ("katex_inline.css", "panel_detail.css", "concept_timeline.css"):
         _p = src.parent / _f
         if _p.exists():
             _css.append(_p.read_text(encoding="utf-8"))
-    for _f in ("katex.min.js", "panel_detail.js"):
+    for _f in ("katex.min.js", "panel_detail.js", "concept_timeline.js"):
         _p = src.parent / _f
         if _p.exists():
             _js.append(_p.read_text(encoding="utf-8"))
