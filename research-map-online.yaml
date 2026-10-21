@@ -3036,3 +3036,25 @@ nodes:
   - https://arxiv.org/abs/2608.27345
   note: 测的是"同一条件下多次生成的分布形状"，与所有单视频合理性基准正交；结论是现有系统连方向都没对上，别急着谈记忆。
   arxiv: '2608.27345'
+- id: memory-forcing-train
+  title: 'Memory Forcing: Attendable Mid-Horizon History for Streaming Video Generation'
+  arxiv: '2610.11756'
+  date: '2026-10-08'
+  lane: 训练侧
+  branch: 恒定上下文
+  one_liner: 固定缓存里塞进中程历史银行
+  mechanism: 把定长KV切成sink/archive/working三段，归档区专门留多样中程事件；绝对时间索引越界后用Bank-aware RoPE在注意力时重编索引，使各bank可区分，缓存不加。
+  tags:
+  - 分段KV银行
+  - Bank-aware RoPE
+  - 中程遗忘
+  training: 需训
+  status: 速读
+  key_numbers:
+  - 1.3B 与 Wan2.2-5B
+  - 5s→60s 掉点最小
+  - leave-and-return 可复现
+  links:
+  - https://arxiv.org/abs/2610.11756
+  note: 明确命名并量化"mid-horizon forgetting"，把"只留开头+最近"这一默认假设的失效点钉死；跨1.3B/5B两规模验证。
+  media: []
