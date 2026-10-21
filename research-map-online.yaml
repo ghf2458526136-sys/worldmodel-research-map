@@ -169,6 +169,7 @@ nodes:
       student，并结合 ODE 轨迹初始化来支持稳定训练和缓解误差累积。
     limits: 摘要未明确说明训练和推理的资源代价、适用分辨率或具体画质局限；自回归生成中的误差累积是其需要处理的问题。
     has_abstract: true
+  citations: 47
 - id: cosmos
   title: Cosmos
   date: '2025-01-07'
@@ -244,6 +245,7 @@ nodes:
     diff: 相较于只评估一般视频质量的既有基准，WorldModelBench 增加指令遵循和物理规律遵循维度，可检测物体尺寸异常变化等细微违规。它属于具身、物理和指令遵循类评测，不是回溯一致性评测。
     limits: 摘要未见明确说明评测成本、标注覆盖范围及其局限；也未给出评测流程和评分细节。
     has_abstract: true
+  citations: 2
 - id: gen3c
   title: GEN3C
   date: '2025-03-18'
@@ -363,6 +365,7 @@ nodes:
     diff: 与不区分帧重要性地处理历史上下文的做法不同，FramePack 在固定上下文长度内按重要性分配压缩程度。它还加入多种反漂移方法，以缓解长序列生成中的误差累积。
     limits: 未见明确说明
     has_abstract: true
+  citations: 7
 - id: worldscore
   title: WorldScore
   date: '2025-04-01'
@@ -407,6 +410,7 @@ nodes:
       generation，不测回访一致性。
     limits: 不评测回访一致性；摘要未见明确说明其他代价与局限。
     has_abstract: true
+  citations: 17
 - id: loopnav
   title: LoopNav
   date: '2025-05-01'
@@ -447,6 +451,7 @@ nodes:
     diff: 相较于主要强调视觉连贯性或生成质量的既有基准，LoopNav 专门通过环线回访评测长程空间一致性。其 SGCS 面向场景图一致性，并对像素级变化保持不变。
     limits: 摘要未见明确说明。
     has_abstract: true
+  citations: 0
 - id: vmem
   title: VMem
   date: '2025-10-01'
@@ -499,6 +504,7 @@ nodes:
     diff: 与逐步外绘二维视图并累积重建三维几何的做法不同，VMem 直接以 surfel 建立历史视图的几何索引。与使用短上下文窗口的视频生成器不同，它按当前视角检索相关历史视图，并避免将全部历史视图都作为上下文。
     limits: 摘要指出使用全部历史视图作为上下文计算成本较高，VMem 通过相关视图检索降低成本；未见明确说明其他局限。
     has_abstract: true
+  citations: 0
 - id: spmem
   title: spmem
   date: '2025-06-01'
@@ -541,6 +547,7 @@ nodes:
     diff: 与仅依赖有限时间上下文的生成方式不同，SPMEM 显式维护几何支撑的长期空间记忆，并在生成时检索记忆以支持场景重访。已知机制概括指出其为显式几何缓存，并强依赖深度估计。
     limits: 几何记忆强依赖深度估计；动态场景下可能失效。摘要未见更具体的计算代价或失败条件说明。
     has_abstract: true
+  citations: 6
 - id: self-forcing
   title: Self-Forcing
   date: '2025-06-01'
@@ -589,6 +596,7 @@ nodes:
     diff: 不同于基于真实上下文帧预测未来帧的做法，Self Forcing 在训练中使用模型自己的生成历史作为条件，并以视频级整体监督评估生成序列，而非只依赖逐帧目标。
     limits: 方法引入自回归 rollout 和视频级监督，训练需兼顾计算开销；摘要称 stochastic gradient truncation 用于平衡成本与性能，但未见明确说明其他代价或局限。
     has_abstract: true
+  citations: 42
 - id: genie3
   title: Genie 3
   date: '2025-08-05'
@@ -686,6 +694,7 @@ nodes:
       sink 用于长时段生成，并通过固定相对位置保留初始帧的全局上下文。
     limits: 摘要未明确说明该方法的计算与显存代价、窗口大小选择、对不同场景或条件信号的适用范围及潜在失败情况。
     has_abstract: true
+  citations: 0
 - id: longlive
   title: LongLive
   date: '2025-09-01'
@@ -732,6 +741,7 @@ nodes:
       KV-recache、streaming long tuning，以及短窗口注意力配合帧级 attention sink，应对提示词切换和长程一致性问题。
     limits: 摘要未见明确说明方法局限；INT8 推理会带来轻微质量损失。
     has_abstract: true
+  citations: 0
 - id: sora2-veo31
   title: Sora 2 / Veo 3.1
   date: '2025-10-01'
@@ -862,6 +872,7 @@ nodes:
       Forcing 还专门对齐教师与学生的记忆上下文，以适配记忆感知模型的蒸馏。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: lingbot-world
   title: LingBot-World
   date: '2026-01-01'
@@ -906,6 +917,7 @@ nodes:
     diff: 相较于仅生成短视频的做法，LingBot-World 强调分钟级生成、长时上下文一致性和实时交互。该项目开放代码与模型，旨在缩小开源方案与闭源技术之间的差距。
     limits: 摘要未说明训练数据来源、记忆机制、硬件需求及不同场景下的性能边界，未见明确说明。
     has_abstract: true
+  citations: 0
 - id: mind
   title: MIND
   date: '2026-02-01'
@@ -945,6 +957,7 @@ nodes:
     diff: MIND 被介绍为首个开放域、闭环且可重访的 world model 评测基准，并同时评测记忆一致性与动作控制。相比只在单一视角或动作设置下评测，它还覆盖跨视角表现及不同动作空间下的泛化。
     limits: 摘要指出当前 world models 难以维持长期记忆一致性并泛化到不同动作空间；评测成本及其他局限未见明确说明。
     has_abstract: true
+  citations: 0
 - id: memrope
   title: MemRoPE
   date: '2026-03-01'
@@ -990,6 +1003,7 @@ nodes:
       RoPE 索引，使历史聚合和固定大小缓存相互配合。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: matrix-game-3
   title: Matrix-Game 3.0
   date: '2026-04-01'
@@ -1041,6 +1055,7 @@ nodes:
       VAE decoder 剪枝结合，用于高分辨率实时推理。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: echo-forcing
   title: Echo-Forcing
   date: '2026-05-01'
@@ -1083,6 +1098,7 @@ nodes:
     diff: 既有 training-free 长视频优化主要针对单一提示词下的稳定延展，并用同一缓存策略处理稳定锚点和近期动态。Echo-Forcing 将历史记忆分层、支持空间结构化的场景召回，并依据新旧场景差异调整遗忘。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: sana-wm
   title: SANA-WM
   date: '2026-05-01'
@@ -1131,6 +1147,7 @@ nodes:
       metric-scale 位姿标注。摘要报告其动作遵循更强，并以 36 倍吞吐率达到可比的视觉质量。
     limits: 训练仍需 64 张 H100 和 15 天；摘要未见明确说明长视频生成的其他资源代价、适用场景限制或失败模式。
     has_abstract: true
+  citations: 0
 - id: echo-infinity
   title: Echo-Infinity
   date: '2026-06-01'
@@ -1178,6 +1195,7 @@ nodes:
       RoPE 位置，避免依赖有限缓存窗口，并减小训练与推理的位置外推差异。
     limits: 摘要未见明确说明方法的额外代价与局限；其记忆压缩仍可能涉及历史信息取舍，但摘要未提供相关误差或成本分析。
     has_abstract: true
+  citations: 0
 - id: memactive
   title: MemActive
   date: '2026-06-01'
@@ -1262,6 +1280,7 @@ nodes:
       latent 历史建模为内容寻址检索记忆的方法。
     limits: 检索会带来额外开销，摘要称其相对生成较小，但未给出具体量化。其他局限未见明确说明。
     has_abstract: true
+  citations: 0
 - id: dreamx-world
   title: DreamX-World
   date: '2026-06-01'
@@ -1316,6 +1335,7 @@ nodes:
     diff: 相较于直接自回归生成或单纯视频生成，DreamX-World 将投影相机几何纳入降采样 token 的注意力，并专门训练模型在自身生成的长历史上持续生成。它还结合相机几何检索的场景记忆与事件指令控制，以支持重访和可组合事件。
     limits: 最高 16 FPS 的报告结果依赖八张 RTX 5090 GPU 及多项推理优化，计算资源代价较高。摘要未明确说明记忆检索的容量、长时程效果边界或其他局限。
     has_abstract: true
+  citations: 0
 - id: mirage
   title: Mirage
   date: '2026-06-01'
@@ -1368,6 +1388,7 @@ nodes:
       representation 的特征。Mirage 直接缓存 latent tokens，并在 latent 空间中完成空间记忆查询与视角合成。
     limits: 摘要未见明确说明方法局限；其记忆构建依赖 depth-guided back-projection，但摘要未讨论深度信息误差的影响。
     has_abstract: true
+  citations: 0
 - id: captain-safari
   title: Captain Safari
   date: '2026-06-15'
@@ -1415,6 +1436,7 @@ nodes:
       tokens，再用于条件化生成。摘要报告其在视频质量、3D 一致性和轨迹跟随方面优于相机控制基线。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: hy-world-2
   title: HY-World 2.0
   date: '2026-07-15'
@@ -1458,6 +1480,7 @@ nodes:
       WorldMirror，覆盖从世界生成到多视图或视频重建的流程。摘要称其在若干基准上达到开源方法中的领先水平，结果可比闭源模型 Marble。
     limits: 摘要未见明确说明计算开销、生成速度、适用场景边界或重建失败情形。
     has_abstract: true
+  citations: 0
 - id: worldtrace
   title: WorldTrace
   date: '2026-08-01'
@@ -1511,6 +1534,7 @@ nodes:
       Field 和面向场景重访的 Landmark。
     limits: 摘要未见明确说明计算与存储代价、阈值选择方式及适用模型范围。
     has_abstract: true
+  citations: 0
 - id: r2m-bench
   title: R2M-Bench
   date: '2026-08-01'
@@ -1561,6 +1585,7 @@ nodes:
       和 short-range pair 作相对校准。摘要报告这种校准降低了分数与生成运动之间的相关性，减轻慢动作带来的捷径影响。
     limits: 摘要未明确说明检测回访、构造配对和各评测维度打分的具体实现细节；相对校准依赖同一 rollout 中可用的有效对照样本。
     has_abstract: true
+  citations: 0
 - id: octworld
   title: OctWorld
   date: '2026-09-01'
@@ -1605,6 +1630,7 @@ nodes:
     diff: 关键差别是使用 TSDF fusion 与空间分辨率自适应的动态稀疏八叉树构建持久化 3D 记忆，而非点式缓存或固定分辨率 TSDF 体。摘要报告该设计在长程空间一致性和记忆开销方面有优势。
     limits: 该类显式几何缓存依赖深度估计，深度误差可能影响几何记忆；摘要未明确说明深度获取方式、计算代价及其他局限。
     has_abstract: true
+  citations: 0
 - id: solarwm
   title: SolarWM
   date: '2026-09-01'
@@ -1656,6 +1682,7 @@ nodes:
     diff: 相较于直接混合异构数据或为每个模型单独实现训练流程，SolarWM 使用统一的数据契约和共享接口，同时保留不同骨干的原生表示与目标。它还以三阶段训练流程将短序列训练扩展到长程因果生成。
     limits: 摘要未报告训练与推理的计算成本、各模型效果差异或长程 rollout 的具体质量指标；记忆结构也未描述。
     has_abstract: true
+  citations: 0
 - id: honeycomb
   title: Honeycomb
   date: '2026-09-01'
@@ -1704,6 +1731,7 @@ nodes:
       correction 融合新旧记忆；摘要未说明寻址键或显式锚点的具体实现。
     limits: 摘要未见明确说明具体代价与局限；记忆更新依赖对已有 planes 的 warp 和融合，但其误差影响与适用边界未给出。
     has_abstract: true
+  citations: 0
 - id: mosaichunk
   title: MosaiChunk
   date: '2026-10-01'
@@ -1746,6 +1774,7 @@ nodes:
     diff: 不同于滑动窗口只保留近期上下文，也不同于整块检索，MosaiChunk 可从不连续的历史时空区块中选择 KV 并组合成马赛克。它不微调生成器，而是学习轻量路由器，并在匹配记忆预算下评估重访一致性。
     limits: 需要保存历史区块的 KV，并进行路由选择与拼接；其具体存储和计算代价、路由器局限及其他限制未见明确说明。
     has_abstract: true
+  citations: 0
 - id: smi
   title: SMI
   date: '2026-10-01'
@@ -1789,6 +1818,7 @@ nodes:
     diff: 不同于未系统化处理长程空间记忆的做法，SMI 将空间聚类、簇内稀疏化、动作感知检索和可靠性过滤整合为记忆管理流程。它把多模态理解模型用于记忆管理，而不改动生成器。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: smart
   title: SMART
   date: '2026-10-01'
@@ -1859,6 +1889,7 @@ nodes:
     diff: 相比基于重建的记忆，SMART 不构建显式 3D 表示，也不维护持续增长的缓存。相比固定大小的递归记忆，其召回由相机所指向的空间区域寻址，而不是随时间推移衰减。
     limits: 摘要未见明确说明具体局限；其方案依赖观测相机与渲染相机信息来寻址记忆。
     has_abstract: true
+  citations: 0
 - id: velox
   title: Velox
   date: '2026-10-01'
@@ -1909,6 +1940,7 @@ nodes:
       selection，并以软方式调节模型派生的重要性。几何未覆盖区域仍使用原有模型路由，不施加几何偏置。
     limits: 摘要未见明确说明方法的局限或额外代价。
     has_abstract: true
+  citations: 0
 - id: hla-wm
   title: HLA-WM
   date: '2026-10-01'
@@ -1961,6 +1993,7 @@ nodes:
       减少 12 倍，推理吞吐最多下降 1.6%。
     limits: 推理吞吐最多下降 1.6%。摘要未见对几何检索适用条件、失败情形或其他局限的明确说明。
     has_abstract: true
+  citations: 0
 - id: l2r
   title: L2R
   date: '2026-10-01'
@@ -2010,6 +2043,7 @@ nodes:
       state，并将检索的时机与内容选择纳入模型生成过程。这样无需单独的外部检索通路或 memory bank。
     limits: 摘要未见明确说明计算代价、内部状态容量限制或适用范围等局限。
     has_abstract: true
+  citations: 0
 - id: world-t3
   title: World-T3
   date: '2026-10-01'
@@ -2058,6 +2092,7 @@ nodes:
     diff: 已有自回归方法往往隐式依靠生成模型自身保留历史信息，可能出现超出活动上下文后的空间记忆衰减。World-T3 将观察写入快权重，并按相机位姿读取特征，使存储与每步计算不随生成时长增长。
     limits: 生成依赖相机位姿条件；摘要未见明确说明其余代价与局限，也未给出记忆更新和蒸馏的具体设置。
     has_abstract: true
+  citations: 0
 - id: pwm
   title: PWM
   date: '2026-10-01'
@@ -2101,6 +2136,7 @@ nodes:
     diff: 不同于依赖生成模型隐式维持状态的交互式视频世界模型，PWM 显式执行并持久保存全局状态，再通过确定性编译器将状态转为视觉条件。它支持对单个实体的直接控制及预设游戏机制，但视觉渲染仍由生成模型完成。
     limits: 摘要未见明确的计算代价或局限说明；视觉渲染仍由预训练 video model 生成，不能据摘要认定渲染过程本身可解释或确定。
     has_abstract: true
+  citations: 0
 - id: worldmembench
   title: WorldMemBench
   date: '2026-10-01'
@@ -2143,6 +2179,7 @@ nodes:
     diff: 该基准不把世界记忆压缩成单一指标，而是区分静态内容保持与动态状态演化，并对两者采用不同参照进行评估。多次回访还可揭示首次回访之后出现的记忆退化。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: keepsake
   title: Keepsake
   date: '2026-10-05'
@@ -2194,6 +2231,7 @@ nodes:
       按当前记忆库中的替代关系在线重估观测价值，并在固定容量下淘汰可替代性高的帧。
     limits: 摘要未见明确说明代价与局限。
     has_abstract: true
+  citations: 0
 - id: atas
   title: ATAS
   date: '2026-10-14'
@@ -2237,6 +2275,7 @@ nodes:
     diff: 与仅在镜头间传递 prompts 或近期帧的做法不同，ATAS 使用共享的静态场景几何记忆和按事件与时间索引的动态记忆。它还在生成后验证观测再更新记忆，并将影片交付与记忆准入解耦。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: matrix-game-4
   title: Matrix-Game 4.0
   date: '2026-10-20'
@@ -2344,6 +2383,7 @@ nodes:
       proxy video 进行视觉实现。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: videococo
   title: 'VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation'
   arxiv: '2607.27380'
@@ -2387,6 +2427,7 @@ nodes:
     diff: 不同于使用非可执行计划或稀疏视觉状态作为中间思维链的做法，VideoCoCo 使用可执行代码表达过程级推理，并通过仿真得到时空 draft。它将物理过程建模与高保真视觉生成分开处理。
     limits: 摘要未见明确说明具体计算代价、适用边界或失败情形。
     has_abstract: true
+  citations: 0
 - id: alaya-renderer-flash
   title: 'AlayaRenderer-Flash: Generative World Renderer at the Speed of Play'
   arxiv: '2607.18703'
@@ -2442,6 +2483,7 @@ nodes:
       AlayaRenderer，它改为少步自回归流式生成，并通过蒸馏 codec 与历史压缩降低推理成本。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: streamrender-h3
   title: 'StreamRender-H3: Code runs the world, a video model renders it'
   arxiv: ''
@@ -2534,6 +2576,7 @@ nodes:
     diff: 不同于依赖固定加速配方的做法，该框架针对每个部署目标并行优化多种技术，再由 integrator 组合成全局加速栈。其重点是 agent 驱动的实例级优化，而非假设某种加速策略可直接迁移到其他模型和硬件。
     limits: 优化效果具有实例依赖性，需要针对部署目标进行调优并由人检查生成质量；摘要未见明确说明优化耗时、人工反馈成本及各项技术的兼容性限制。
     has_abstract: true
+  citations: 0
 - id: streaming-code-wm
   title: streaming-code-world-model (community impl)
   arxiv: ''
@@ -2634,6 +2677,7 @@ nodes:
     limits: 摘要未明确说明训练和推理的计算代价、渲染质量边界或环境规则编写成本；只报告 agent 相比传统 reinforcement learning
       对照可在 4 轮而非数百万轮中学习。
     has_abstract: true
+  citations: 0
 - id: exeworldbench
   title: 'ExeWorldBench: Benchmarking Code-Based Executable 3D World Modeling'
   arxiv: '2610.15166'
@@ -2673,6 +2717,7 @@ nodes:
     diff: 相较于只评估物理推理、视觉保真度或行为正确性的既有基准，ExeWorldBench 将世界理解与代码式可执行实现纳入统一评估。任务从单机制逐步扩展到多机制组合和意图驱动的世界合成。
     limits: 摘要未明确说明评测代价与局限。
     has_abstract: true
+  citations: 0
 - id: prowbench
   title: 'PROWBench: Do Video Models Render What the Program Specifies?'
   arxiv: '2610.02205'
@@ -2714,6 +2759,7 @@ nodes:
       proxy representations，从而评估可观察视觉后果与程序规范的一致性。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: physcodegym
   title: 'PhysCodeGym: Verifiable 4D Physics Reconstruction for Coding Agents'
   arxiv: '2610.17288'
@@ -2756,6 +2802,7 @@ nodes:
     diff: 不同于只比较视频外观或最终渲染结果的做法，PhysCodeGym 将重建结果表示为可执行程序，并通过原始条件和 counterfactual 条件验证物理一致性。它特别揭示了可见物体与事件匹配、但接触和支撑关系错误的情况。
     limits: 摘要显示存在 artifact quality 与 completion 之间的权衡，且不同 reasoning-effort 设置会影响完成情况。完整任务覆盖多类物理现象并需要工具交互，代价与更具体的局限未见明确说明。
     has_abstract: true
+  citations: 0
 - id: physcodebench
   title: PhysCodeBench
   arxiv: ''
@@ -2837,6 +2884,7 @@ nodes:
       KV Flush 提升提示响应，并通过 RoPE Cut 支持单次生成流中的不连续场景切换。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: deep-forcing
   title: 'Deep Forcing: Training-Free Long Video Generation with Deep Sink and Participative
     Compression'
@@ -2884,6 +2932,7 @@ nodes:
       temporal RoPE 相位重对齐到当前时间线。Participative Compression 则按近期注意力参与情况剪除 KV，而非仅依赖固定窗口截断；全程无需微调。
     limits: 摘要未见明确说明计算与显存代价、适用模型范围及失败情形。
     has_abstract: true
+  citations: 0
 - id: rolling-sink
   title: 'Rolling Sink: Bridging Limited-Horizon Training and Open-Ended Testing in
     Autoregressive Video Diffusion'
@@ -2936,6 +2985,7 @@ nodes:
       mismatch 解释长时生成退化，并将相关机制与 Rolling Semantics schedule 组合成固定预算内的联合缓存策略。
     limits: 摘要报告吞吐量变化约为 0.56%，GPU 内存保持恒定。验证覆盖 1 分钟和 5 分钟评测，并展示 30 分钟定性结果；作者明确不声称任意时长都能保证质量。
     has_abstract: true
+  citations: 0
 - id: lol
   title: 'LoL: Longer than Longer, Scaling Video Generation to Hour'
   date: '2026-01-23'
@@ -2977,6 +3027,7 @@ nodes:
       进行处理。相较于改变模型训练的方案，它通过推理期的 multi-head RoPE jitter 打散头间同质化，并支持实时、流式和长时长生成。
     limits: 摘要未报告额外计算开销、jitter 超参数敏感性、适用模型范围或失败案例。方法主要缓解 sink-collapse，长期生成中的全部质量衰减是否都能消除仍未明确说明。
     has_abstract: true
+  citations: 0
 - id: flex
   title: 'Train Short, Inference Long: Training-free Horizon Extension for Autoregressive
     Video Generation'
@@ -3024,6 +3075,7 @@ nodes:
     diff: 不同于通过长视频微调扩展生成视野，FLEX 在推理阶段直接调整位置频率处理、噪声采样和注意力锚定。其核心是按频率区别处理 RoPE 分量，并与动态先验和全局结构约束配合。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: anchor-forcing
   title: 'Anchor Forcing: Anchor Memory and Tri-Region RoPE for Interactive Streaming
     Video Diffusion'
@@ -3076,6 +3128,7 @@ nodes:
       应对无界时间索引造成的位置分布偏移。
     limits: 摘要未见明确说明具体计算与存储开销、适用范围或失败情形。
     has_abstract: true
+  citations: 0
 - id: packforcing
   title: 'PackForcing: Short Video Training Suffices for Long Video Sampling and Long
     Context Inference'
@@ -3124,6 +3177,7 @@ nodes:
       Temporal RoPE Adjustment 处理丢块带来的位置缺口。该设计使短视频监督也能支持长视频采样与长上下文推理。
     limits: 摘要未见明确说明方法在不同视频内容、分辨率或硬件条件下的局限，也未提供压缩质量与计算开销的详细分析。
     has_abstract: true
+  citations: 1
 - id: dysink
   title: 'DySink: Dynamic Frame Sinks for Autoregressive Long Video Generation'
   date: '2026-05-20'
@@ -3167,6 +3221,7 @@ nodes:
     diff: 传统做法固定保留早期帧作为长程 sink，DySink 则依据当前视觉状态动态检索历史帧。它还加入 sink anomaly gate，过滤头间共识过高的检索上下文。
     limits: 摘要未见明确说明计算与存储代价，也未说明方法在不同任务、模型或视频长度上的适用边界。
     has_abstract: true
+  citations: 0
 - id: fadem
   title: 'FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion'
   date: '2026-06-09'
@@ -3209,6 +3264,7 @@ nodes:
     diff: 不同于 local window、sink tokens 或压缩记忆状态等通常为历史不同部分分配固定角色的方法，FadeMem 在单一缓存内依据时间距离渐进合并历史条目。其时间分配遵循幂律，使缓存呈现近密远疏的层级结构。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: moc
   title: Mixture of Contexts for Long Video Generation
   date: '2025-08-28'
@@ -3254,6 +3310,7 @@ nodes:
       chunks，同时保留 caption、局部窗口锚点并施加因果约束。
     limits: 摘要指出密集 self-attention 的二次计算成本会使长序列的内存与计算难以承受，但未见明确说明 MoC 的具体适用边界、失败模式或其他局限。
     has_abstract: true
+  citations: 1
 - id: omnimem
   title: 'OmniMem: Scalable and Adaptive Memory Retrieval for Long Video Generation'
   date: '2026-05-28'
@@ -3297,6 +3354,7 @@ nodes:
       Union Explosion。
     limits: 稀疏检索仍需访问历史 KV，具体计算开销及其随视频长度的变化摘要未给；实验称内存使用与基线相当，但未见明确说明其他局限。
     has_abstract: true
+  citations: 0
 - id: memlearner
   title: 'MemLearner: Learning to Query Context memory for Video World Models'
   date: '2026-06-30'
@@ -3339,6 +3397,7 @@ nodes:
     diff: 已有方法主要使用规则式上下文帧检索，难以适应场景遮挡和动态物体。MemLearner 通过学习 query token 来查询上下文，并利用视频生成模型自身的预训练视觉先验，而非从头训练额外模块。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: slotmemory
   title: 'SlotMemory: Object-Centric KV Memory for Streaming Long-Video Generation'
   date: '2026-05-29'
@@ -3388,6 +3447,7 @@ nodes:
     diff: 既有方法通常按时间组织历史内容，例如存储原始帧、片段或未聚类 token；SlotMemory 改为按语义对象组织 KV，并以离散槽位作为检索地址。其核心区别是强调语义结构与实体级记忆，而非单纯增加原始时间上下文容量。
     limits: 摘要未明确说明计算与存储开销、槽位构造细节、适用场景边界或局限。
     has_abstract: true
+  citations: 0
 - id: tethercache
   title: 'TetherCache: Stabilizing Autoregressive Long-Form Video Generation with
     Gated Recall and Trusted Alignment'
@@ -3431,6 +3491,7 @@ nodes:
       的可信分布对齐。它不通过训练新模型来处理漂移。
     limits: 仍受固定缓存预算约束，无法保留完整历史；摘要未见明确说明额外计算代价、适用边界或其他局限。
     has_abstract: true
+  citations: 0
 - id: layerrecall
   title: 'LayerRecall: A State-Conditioned Memory Router for Long-Horizon Consistency
     in Video Generation'
@@ -3476,6 +3537,7 @@ nodes:
     diff: 相比仅提供非局部历史访问的记忆机制，LayerRecall 同时决定检索什么历史信息以及在哪些层使用它。它还通过跨时域预测匹配训练路由器，而非依赖显式记忆分配标签。
     limits: 摘要称推理开销可忽略，但未见明确说明其他代价与局限。
     has_abstract: true
+  citations: 0
 - id: weave-forcing
   title: 'Weave Forcing: Compositional Memory Routing for Interactive Long Video Generation'
   date: '2026-10-02'
@@ -3520,6 +3582,7 @@ nodes:
       RoPE 与记忆保留，而不是直接合并全部历史记忆。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: reel
   title: 'REEL: Learning to Retrieve, Evaluate, and Evolve Visual Memory for Any Long-Horizon
     Multi-Shot Video Generation'
@@ -3565,6 +3628,7 @@ nodes:
     diff: 已有代表性多镜头系统通常将记忆绑定到特定生成器接口，或依赖预定义的 agent 工作流。REEL 则独立训练面向跨镜头目标的通用记忆策略，并通过适配器支持不同黑盒生成器。
     limits: 摘要未见明确说明计算代价、数据构建成本或适用范围限制。
     has_abstract: true
+  citations: 0
 - id: gear
   title: Geometry as Address (GEAR)
   date: '2026-09-28'
@@ -3608,6 +3672,7 @@ nodes:
       latent，仅用逐帧几何路由注意力，从而避免全局融合造成的持续误差累积。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: lyra2
   title: Lyra 2.0 - Explorable Generative 3D Worlds
   date: '2026-04-14'
@@ -3653,6 +3718,7 @@ nodes:
       3D 重建。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: ucm
   title: UCM - Unified Modeling of Camera Control and Memory
   date: '2026-02-26'
@@ -3694,6 +3760,7 @@ nodes:
     diff: 不同于依赖显式 3D 重建、在无界场景中灵活性受限的方法，UCM 以时间感知位置编码 warp 建立历史帧与目标位姿的对应。不同于仅直接复用先前生成帧而缺少显式空间对应的方法，它将长期记忆与精确相机控制统一到同一条件通道。
     limits: 摘要指出相关既有路线存在灵活性、细粒度结构保持或可控性方面的困难，但未见对 UCM 自身代价与局限的明确说明。
     has_abstract: true
+  citations: 0
 - id: anchorweave
   title: AnchorWeave
   date: '2026-02-16'
@@ -3738,6 +3805,7 @@ nodes:
     diff: 已有 memory-based 方法通常从融合后的全局 3D 场景渲染 anchor videos，再以其条件化生成；AnchorWeave 改为检索多个局部几何记忆，并通过多锚控制器在生成时协调它们。
     limits: 未见明确说明
     has_abstract: true
+  citations: 1
 - id: worldstereo
   title: WorldStereo
   date: '2026-03-02'
@@ -3781,6 +3849,7 @@ nodes:
       VDM backbone，无需联合训练。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: evoworld
   title: EvoWorld
   date: '2025-10-01'
@@ -3822,6 +3891,7 @@ nodes:
       室内场景和真实场景的长程探索基准，强调闭环检测与空间连贯性。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: geo-context
   title: Geometry-as-context
   date: '2026-02-25'
@@ -3863,6 +3933,7 @@ nodes:
       camera gated attention 提升场景一致性与相机控制能力。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: gim-world
   title: 'GIM-World: Geometry-Aware Implicit Memory for Video World Models'
   date: '2026-06-01'
@@ -3907,6 +3978,7 @@ nodes:
     diff: 相比显式保存帧或在线 3D 重建的记忆方式，它采用紧凑的隐式记忆，避免直接依赖启发式检索或重建结果。相比既有隐式记忆，它显式约束令牌编码跨视角场景几何，并使几何信息可由相机位姿查询。
     limits: 摘要未见明确说明方法局限；训练阶段需要冻结 foundation model 和几何头，具体计算代价未给出。
     has_abstract: true
+  citations: 0
 - id: infinite-world
   title: Infinite-World
   date: '2026-02-02'
@@ -3950,6 +4022,7 @@ nodes:
     diff: 不同于依赖干净合成数据、准确位姿或显式几何先验的做法，Infinite-World 面向含噪真实视频，通过无位姿层级记忆压缩和三态动作标注处理长程记忆与动作监督问题。它还用重访密集微调激活闭环能力。
     limits: 摘要未见明确说明具体计算代价、适用范围限制或失败情形；固定预算记忆压缩旨在限制计算成本，但摘要未给出预算大小或开销数据。
     has_abstract: true
+  citations: 0
 - id: decmem
   title: DecMem
   date: '2026-05-29'
@@ -3991,6 +4064,7 @@ nodes:
       3D 记忆和粗帧级隐式建模，也针对朴素可学习记忆的计算低效与注意力弥散进行设计。
     limits: 摘要未见明确说明 DecMem 的代价与局限。
     has_abstract: true
+  citations: 0
 - id: memory-forcing
   title: Memory Forcing
   date: '2025-10-03'
@@ -4037,6 +4111,7 @@ nodes:
       Training 区分探索与重访，并用 Chained Forward Training 鼓励模型在位姿变化时有效利用空间记忆。
     limits: 摘要指出空间记忆可能使模型过度依赖不足的空间上下文，从而损害新场景生成质量；Hybrid Training 用于应对这一权衡。具体计算开销、适用边界及其他局限未见明确说明。
     has_abstract: true
+  citations: 0
 - id: spatial-ttt
   title: Spatial-TTT
   date: '2026-03-12'
@@ -4080,6 +4155,7 @@ nodes:
       时空空间预测机制及稠密 3D 描述数据来组织空间信息。
     limits: 摘要未见明确说明计算与显存代价、长时间运行时 fast weights 的管理方式，以及稠密 3D 描述数据的构建成本。
     has_abstract: true
+  citations: 1
 - id: loger
   title: LoGeR
   date: '2026-03-03'
@@ -4127,6 +4203,7 @@ nodes:
       KITTI 上的 ATE 相较先前 feedforward 方法降低超过 74%。
     limits: 摘要未见明确说明计算、显存或运行时间代价，也未说明在不同场景或数据分布下的局限。
     has_abstract: true
+  citations: 0
 - id: mem3r
   title: Mem3R
   date: '2026-04-08'
@@ -4171,6 +4248,7 @@ nodes:
       793M 降至 644M，并可结合 TTT3R 等状态更新策略。
     limits: 摘要未见明确说明具体局限；模型采用固定大小状态，并报告保持恒定 GPU 内存使用量和相近推理吞吐。
     has_abstract: true
+  citations: 0
 - id: mit3
   title: MIT^3 - Memory Internalization via Test-Time Training
   date: '2026-10-17'
@@ -4259,6 +4337,7 @@ nodes:
       等 RNN 块相当。
     limits: 摘要未见明确说明方法的局限或计算代价。
     has_abstract: true
+  citations: 0
 - id: onstm
   title: Online Neural Space Time Memory (NSTM)
   date: '2026-07-16'
@@ -4302,6 +4381,7 @@ nodes:
       Loss 和 Memory Caching 增强历史内化并抑制权重漂移。
     limits: 摘要指出记忆更新开销高且长上下文中可能不稳定，但提出的方法未消除周期更新本身的计算成本。具体适用边界与局限未见明确说明。
     has_abstract: true
+  citations: 0
 - id: zo3t
   title: Zo3T
   date: '2025-09-08'
@@ -4344,6 +4424,7 @@ nodes:
       guidance 场校正，以缓解运动不真实及 latent 与噪声预测失配。
     limits: 摘要未见明确说明。
     has_abstract: true
+  citations: 0
 - id: comoe
   title: Composition of Memory Experts
   date: '2026-05-12'
@@ -4383,6 +4464,7 @@ nodes:
     diff: 不同于依赖单一架构承担全部记忆功能的方法，本文以对比式 product-of-experts 组合异构记忆模型。其设计同时覆盖局部动态、情节历史回忆和空间一致性，目标是在扩展上下文时避免二次注意力开销。
     limits: 摘要未见明确说明具体计算代价、测试时微调开销及方法局限。
     has_abstract: true
+  citations: 0
 - id: alayaworld
   title: 'AlayaWorld: Interactive Long-Horizon World Modeling — Full Technical Report
     (v1.1)'
@@ -4428,6 +4510,7 @@ nodes:
       camera AdaLN 分支，而完全由重渲染的空间条件提供。
     limits: 摘要未见明确说明计算代价、点缓存维护开销或方法局限。
     has_abstract: true
+  citations: 0
 - id: waypoint-15
   title: 'Waypoint-1.5: A Real-Time Video World Model for Consumer Hardware'
   date: '2026-09-29'
@@ -4465,6 +4548,7 @@ nodes:
       world model。它明确区分渲染 FPS、潜空间 FPS 和控制率，并针对消费级硬件提供两档分辨率。
     limits: 摘要强调实时交互受延迟、吞吐量和硬件条件约束，但未提供具体性能数值或适用硬件范围；其他代价与局限未见明确说明。
     has_abstract: true
+  citations: 0
 - id: state-world-models
   title: 'State World Models: Execute the Rules, Generate the Pixels'
   date: '2026-10-19'
@@ -4504,6 +4588,7 @@ nodes:
     diff: 已有方法通常让视频模型从单张图像生成动作条件视频，侧重场景导航，但未必能处理依赖隐藏状态的规则。本文将规则执行与像素渲染拆开，由状态机决定事件结果，再由冻结视频模型生成画面。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: mass
   title: 'MASS: Multiplayer World Models with Authoritative Shared State'
   date: '2026-08-06'
@@ -4544,6 +4629,7 @@ nodes:
     diff: 已有多视角方法容易将状态与视角相关视觉表示绑定；MASS 将共享的世界状态推进与相机条件化的视图渲染分开。其 Logic Engine 学习状态转移，不依赖手写转移函数，并以权威状态作为唯一循环记忆。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: gamedirector
   title: 'GameDirector: Decoupling Gameplay Logic from Rendering for Player-Configured
     Worlds'
@@ -4584,6 +4670,7 @@ nodes:
       agent 负责状态与决策，将视频世界模型限定为视觉渲染模块。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: causal-forcing
   title: 'Causal Forcing: Autoregressive Diffusion Distillation Done Right for High-Quality
     Real-Time Interactive Video Generation'
@@ -4629,6 +4716,7 @@ nodes:
       的 DMD 流程。
     limits: 摘要未见明确说明方法的计算代价、局限或适用范围。
     has_abstract: true
+  citations: 0
 - id: context-forcing
   title: 'Context Forcing: Consistent Autoregressive Video Generation with Long-Context
     Forcing'
@@ -4671,6 +4759,7 @@ nodes:
       Slow-Fast Memory 支持更长上下文。
     limits: 摘要指出超长时长需要上下文管理以降低计算开销；其他明确局限未见说明。
     has_abstract: true
+  citations: 0
 - id: longforcing
   title: 'LongForcing: Scaling Temporal Manifold Matching for Long-Horizon World Models'
   date: '2026-10-13'
@@ -4713,6 +4802,7 @@ nodes:
       阶段使用双向长程教师。
     limits: 摘要未见明确说明训练代价与方法局限；推理阶段不增加开销。
     has_abstract: true
+  citations: 0
 - id: forgewm
   title: 'ForgeWM: Progressive Causal Training for Few-Step Action-Conditioned Video
     World Models'
@@ -4761,6 +4851,7 @@ nodes:
       matching 使用双向教师训练学生。它还提供草稿复用的回放时精修路径，而不只是在交互时重新生成。
     limits: 摘要未见明确说明方法局限、训练成本或部署资源需求。
     has_abstract: true
+  citations: 0
 - id: causal-rcm
   title: 'Causal-rCM: A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive
     Video Diffusion'
@@ -4811,6 +4902,7 @@ nodes:
       mask 的 FlashAttention-2 JVP kernel 实现连续时间 CM 训练，摘要称其较离散时间 CM 收敛更快。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: longtake
   title: 'LongTake: Learning to Sustain Dynamics in Long-Horizon Video Generation'
   date: '2026-09-29'
@@ -4854,6 +4946,7 @@ nodes:
       DMD 还把监督延伸到 self-rollout 后段，同时保留初始窗口的双向联合监督。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: glance-forcing
   title: 'Glance Forcing: Making Bidirectional Diffusion Autoregressive at a Glance'
   date: '2026-10-14'
@@ -4901,6 +4994,7 @@ nodes:
       expert、分别配置目标。该方法还区分轨迹几何优化与分布质量优化的作用，并保持 teacher 完全冻结。
     limits: 摘要未见明确说明适用范围、推理开销或失败情形；方法仍需 PF-ODE 轨迹采集及训练两个 expert，具体训练和推理成本未给。
     has_abstract: true
+  citations: 0
 - id: astronex-world
   title: 'Astronex-World 1.0: Real-Time Interactive World Model Foundation'
   date: '2026-09-17'
@@ -4949,6 +5043,7 @@ nodes:
       KV 缓存的持续生成模型。
     limits: 训练需要两张 NVIDIA L20 48 GB GPU；摘要未见明确说明数据来源、控制精度、长时生成稳定性及不同硬件上的推理代价。
     has_abstract: true
+  citations: 0
 - id: minwm
   title: 'minWM: A Full-Stack Open-Source Framework for Real-Time Interactive Video
     World Models'
@@ -4997,6 +5092,7 @@ nodes:
     diff: 不同于只关注视频生成质量的双向视频扩散模型，minWM 提供从相机控制微调到因果自回归训练、蒸馏和流式推理的端到端方案。它还强调模块化扩展，可适配不同骨干及已有世界模型。
     limits: 摘要未提供具体算力、训练成本、延迟或生成质量数据；其效果与适用范围可能受训练数据、骨干架构和蒸馏配置影响，但摘要未明确说明。
     has_abstract: true
+  citations: 0
 - id: helixworld
   title: 'HelixWorld: A Real-Time Interactive Audio-Visual World Model'
   date: '2026-09-29'
@@ -5036,6 +5132,7 @@ nodes:
       HelixBench 评估动态视点下的空间声学一致性。
     limits: 摘要未见明确说明计算与数据构建代价、适用场景边界或失败模式。
     has_abstract: true
+  citations: 0
 - id: worldroambench
   title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive
     World Models'
@@ -5076,6 +5173,7 @@ nodes:
       VLM 推理评估记忆。
     limits: 摘要未见明确说明评测成本、指标实现细节或基准覆盖范围方面的局限。
     has_abstract: true
+  citations: 0
 - id: wbench
   title: 'WBench: A Comprehensive Multi-turn Benchmark for Interactive Video World
     Models'
@@ -5115,6 +5213,7 @@ nodes:
     diff: 相较于只覆盖部分能力或单轮生成的评测，WBench统一考察五个维度，并以多轮交互案例覆盖四类交互。它还统一导航的三种输入接口，并用经人类判断验证的自动指标评测不同模型。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: worldmark
   title: 'WorldMark: A Unified Benchmark Suite for Interactive Video World Models'
   date: '2026-04-23'
@@ -5153,6 +5252,7 @@ nodes:
     diff: 相较于各模型使用不同控制接口的既有做法，WorldMark 以 WASD 共享词表和模型适配器统一动作语义。相较于将动作跟随压缩为轨迹或方向误差的评估方式，它逐轴评估方向准确率、方向纯度、响应延迟和运动稳定性，并结合世界记忆与视觉质量套件。
     limits: 每个新模型需要新增一个适配器。摘要未见明确说明其他代价与局限。
     has_abstract: true
+  citations: 0
 - id: memobench
   title: 'MemoBench: Benchmarking World Modeling in Dynamically Changing Environments'
   date: '2026-06-25'
@@ -5192,6 +5292,7 @@ nodes:
       disappear-and-reappear 记忆。
     limits: 未见明确说明。
     has_abstract: true
+  citations: 0
 - id: playworld
   title: 'PlayWorld: Benchmarking World Models with Agent Players over Long-Horizon
     Objectives'
@@ -5231,6 +5332,7 @@ nodes:
     diff: 区别于依赖固定动作序列的评测，PlayWorld 以长程目标驱动 Agent Player 与模型交互，允许不同模型通过不同动作路径完成同一目标。它还系统评估几何一致性、交互保真度、视野外演化和认知演化。
     limits: 摘要未见明确的评测代价或方法局限说明；实验指出当前模型在长程交互目标上仍不可靠，尤其难以维持空间一致性和持久状态演化。
     has_abstract: true
+  citations: 0
 - id: mist
   title: 'Execution Before Memory: Diagnosing Memory Failures in Video World Models
     (MIST)'
@@ -5272,6 +5374,7 @@ nodes:
       检验改进指令表述后模型能否完成变化。
     limits: 摘要未见明确说明评估成本、适用范围或 M3-Agent 递归改写的具体限制。
     has_abstract: true
+  citations: 0
 - id: worldoracle
   title: 'WorldOracle: Benchmarking Action-Conditioned World Models against Real-World
     Executions'
@@ -5311,6 +5414,7 @@ nodes:
     diff: 与缺少配对真机结果或只考察单一指标的评估方式不同，WorldOracle 对相同初始观测和动作序列下的预测 rollout 与真实执行进行对照，并从四个互补维度评估。评估数据还覆盖长时段、多片段以及成功和失败结果。
     limits: 摘要未明确说明基准的计算与数据采集成本、评估指标的具体计算方式，也未说明其适用范围限制。
     has_abstract: true
+  citations: 0
 - id: pvbench
   title: 'PVBench: Quantifying Physical Plausibility in Video Generation with Object-Level
     Measurements'
@@ -5350,6 +5454,7 @@ nodes:
     diff: 已有基准多依赖粗粒度的视觉语言模型判断，或面向具身世界模型，而非直接评测视频生成。PVBench 对可测物理维度使用专用视觉模型和物体级测量，降低对主观评分的单独依赖。
     limits: 摘要未明确说明计算代价、专用视觉模型的适用范围限制或评测误差来源。
     has_abstract: true
+  citations: 0
 - id: orbia
   title: 'Orbia: Do Generated Videos Form a Consistent 3D World?'
   date: '2026-10-14'
@@ -5390,6 +5495,7 @@ nodes:
       3D 自一致性，并纳入长时间尺度测试。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: pawbench
   title: 'PAWBench: How Far Are We from Probabilistically Aligned World Modeling?'
   date: '2026-08-27'
@@ -5434,6 +5540,7 @@ nodes:
     diff: 已有评估主要关注单条视频是否合理，本文则检验重复生成能否恢复正确的行为范围及其概率分布。论文将视频生成模型视为随机采样器，并以分布层面的概率对齐作为评估目标。
     limits: 摘要指出，在 50 个情景和 11 个系统中，没有模型能持续匹配参考概率并恢复有效行为范围；摘要未见对评测代价或其他局限的明确说明。
     has_abstract: true
+  citations: 0
 - id: memory-forcing-train
   title: 'Memory Forcing: Attendable Mid-Horizon History for Streaming Video Generation'
   arxiv: '2610.11756'
@@ -5483,6 +5590,7 @@ nodes:
       区。它还通过 Bank-aware RoPE 处理绝对时间索引越出训练范围的问题。
     limits: 未见明确说明
     has_abstract: true
+  citations: 0
 - id: solarrenderer
   title: 'SolarRenderer: Few-Step Generative Reference Rendering'
   arxiv: '2610.28630'
@@ -5594,3 +5702,4 @@ nodes:
     diff: v0.1/v0.2 只学说话与倾听，v0.3 增加通用视频预训练与自由行为；相比数字人方案，动作不是后处理编排，而是与语音同流生成。
     limits: 分辨率 640x368 偏低；自由动作受限于可被语言描述的行为；把通用动作控制扩展到更广交互场景留作未来工作。
     has_abstract: true
+  citations: 0

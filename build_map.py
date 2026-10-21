@@ -30,6 +30,16 @@ def parse_day(v):
     return date.fromisoformat(str(v))
 
 
+def _cites(v):
+    """引用量：整数（yaml 里写成字符串也认），拿不到就是 None。"""
+    if isinstance(v, bool) or v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return int(v)
+    s = str(v).strip().replace(",", "").replace("_", "")
+    return int(s) if s.lstrip("-").isdigit() else None
+
+
 def month_start(d):
     return date(d.year, d.month, 1)
 
@@ -160,6 +170,7 @@ def layout(nodes, order, color):
                 "note": n.get("note") or "", "parent": n.get("parent"),
                 "link_strength": n.get("link_strength") or "",
                 "key": bool(n.get("key")),
+                "citations": _cites(n.get("citations")),
                 "x": round(x, 1), "y": y,
             })
 
@@ -244,9 +255,27 @@ HTML = r"""<!DOCTYPE html>
   .branch{font-size:14px;fill:#475569;font-weight:500}
   .tick{stroke:rgba(15,23,42,.06);stroke-width:1}
   .tick.major{stroke:rgba(15,23,42,.12)}
-  .keyring{animation:kge 2.6s ease-in-out infinite}
-  @keyframes kge{0%,100%{opacity:.95}50%{opacity:.15}}
-  .key-star{font-size:15px;font-weight:700}
+  /* ---- 引用量炫光：0-4 不发光，5+ 分 4 档，越高越宽/越亮/呼吸越快 ---- */
+  .glow{pointer-events:none}
+  .glow .halo,.glow .ring{fill:none;stroke-linejoin:round}
+  .glow .halo{animation:gbreathe var(--gd) ease-in-out infinite}
+  .glow .ring{animation:gring var(--gd) ease-in-out infinite}
+  .glow.g1{--gd:5.6s}
+  .glow.g1 .ring{stroke:#A9C1FF}
+  .glow.g1 .halo{stroke:#A9C1FF;filter:drop-shadow(0 0 6px rgba(169,193,255,.90))}
+  .glow.g2{--gd:4.4s}
+  .glow.g2 .ring{stroke:#6C8CFF}
+  .glow.g2 .halo{stroke:#6C8CFF;filter:drop-shadow(0 0 10px rgba(108,140,255,.95)) drop-shadow(0 0 19px rgba(108,140,255,.50))}
+  .glow.g3{--gd:3.4s}
+  .glow.g3 .ring{stroke:#8B5CF6}
+  .glow.g3 .halo{stroke:#8B5CF6;filter:drop-shadow(0 0 13px rgba(139,92,246,.95)) drop-shadow(0 0 27px rgba(139,92,246,.58))}
+  .glow.g4{--gd:2.4s}
+  .glow.g4 .ring{stroke:#F0A500}
+  .glow.g4 .halo{stroke:#F0A500;filter:drop-shadow(0 0 17px rgba(240,165,0,.98)) drop-shadow(0 0 36px rgba(240,165,0,.68))}
+  @keyframes gbreathe{0%,100%{stroke-opacity:.30}50%{stroke-opacity:.92}}
+  @keyframes gring{0%,100%{stroke-opacity:.55}50%{stroke-opacity:1}}
+  .cite-badge{font-size:10.5px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;opacity:.92}
+  @media (prefers-reduced-motion:reduce){.glow .halo,.glow .ring{animation:none}}
   .year-sep{stroke:rgba(15,23,42,.22);stroke-width:1.2;stroke-dasharray:3 6;stroke-linecap:round}
   .year-label{font-size:15px;font-weight:800;letter-spacing:.06em}
   .tick-label-old{font-size:13px;fill:#94A3B8}
@@ -378,6 +407,37 @@ function el(tag, attrs, parent){
   (parent || vp).appendChild(n); return n;
 }
 
+/* ---------- 引用量炫光：0-4 不发光，5+ 分 4 档 ---------- */
+const GLOW_TIERS = [
+  {ring:2.0, pad:3.5, halo:7,  badge:"#5F79C4"},   // 1-4
+  {ring:3.0, pad:4.0, halo:10, badge:"#4A5FE0"},   // 5-15
+  {ring:4.5, pad:4.5, halo:14, badge:"#7C3AED"},   // 16-40
+  {ring:6.0, pad:5.0, halo:18, badge:"#B06500"},   // 41+
+];
+function citeTier(c){
+  // 档位贴合本数据集：124 篇里 99 篇是 0（2026 年新论文），最高 47
+  if(c == null || !isFinite(c) || c < 1) return 0;
+  if(c < 5) return 1;
+  if(c < 16) return 2;
+  if(c < 41) return 3;
+  return 4;
+}
+/* 光晕沉到卡面之下：只在卡片外沿溢出，卡内毛玻璃/文字不被着色 */
+function drawGlow(g, n){
+  const t = citeTier(n.citations);
+  if(!t) return;
+  const T = GLOW_TIERS[t - 1], w = DATA.card.w, h = DATA.card.h, pad = T.pad + T.ring / 2;
+  const gl = el("g", {class:"glow g" + t}, g);
+  el("rect", {class:"halo", x:-pad, y:-pad, width:w + pad*2, height:h + pad*2,
+    rx:16 + pad, "stroke-width":T.halo}, gl);
+  el("rect", {class:"ring", x:-pad, y:-pad, width:w + pad*2, height:h + pad*2,
+    rx:16 + pad, "stroke-width":T.ring}, gl);
+  g.insertBefore(gl, g.firstChild);
+  const c = n.citations, num = c >= 1000 ? (c/1000).toFixed(c >= 10000 ? 0 : 1) + "k" : String(c);
+  const b = el("text", {class:"cite-badge", x:w - 11, y:h - 13, "text-anchor":"end", fill:T.badge}, g);
+  b.textContent = "\u00d7" + num;
+}
+
 /* ---------- 相机 ---------- */
 function apply(){
   const w = svg.clientWidth, h = svg.clientHeight, m = 120;
@@ -463,8 +523,7 @@ function build(){
     const g = el("g", {class:"card", "data-id":n.id, transform:`translate(${n.x},${n.y})`}); cards[n.id] = g;
     el("title", {}, g).textContent = n.one_liner || n.title;
     el("rect", {class:"bg", width:DATA.card.w, height:DATA.card.h, rx:16}, g);
-    if(n.key) el("rect", {class:"keyring", x:-4, y:-4, width:DATA.card.w+8, height:DATA.card.h+8, rx:19,
-      fill:"none", stroke:laneColor[n.lane] || "#333", "stroke-width":2.4}, g);
+    drawGlow(g, n);   // 引用量分档炫光（原手选 n.key 名单已废）
     el("rect", {class:"stripe", width:5, height:DATA.card.h-16, x:1.5, y:8, fill:laneColor[n.lane] || "#888", rx:2.5, opacity:.9}, g);
     const FREE = {"免训":"免训", "推理期技巧":"推理期"};
     const tagList = (FREE[n.training] ? [{t:FREE[n.training], free:true}] : []).concat((n.tags || []).map(t => ({t, free:false})));

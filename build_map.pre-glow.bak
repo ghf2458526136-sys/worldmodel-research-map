@@ -1,0 +1,744 @@
+"""Research map: each lane (route) gets its own time axis."""
+
+from __future__ import annotations
+
+import json
+import sys
+from collections import defaultdict
+from datetime import date, timedelta
+from pathlib import Path
+
+import yaml
+
+LABEL_W = 214
+PLOT_W = 2100
+CARD_W = 248
+CARD_H = 100
+ROW_H = 116
+LANE_PAD = 34
+AXIS_H = 30
+LANE_GAP = 22
+TOP_PAD = 26
+
+LANE_COLORS = ["#4a6cf7", "#0f9d76", "#c2740e", "#8b5cf6", "#d0326b", "#0e7c86", "#5b6472"]
+BADGE = {"需训": "#d0326b", "免训": "#0f9d76", "推理期技巧": "#c2740e", "不适用": "#6b7280"}
+
+
+def parse_day(v):
+    if isinstance(v, date):
+        return v
+    return date.fromisoformat(str(v))
+
+
+def month_start(d):
+    return date(d.year, d.month, 1)
+
+
+def month_end(d):
+    if d.month == 12:
+        return date(d.year, 12, 31)
+    return date(d.year, d.month + 1, 1) - timedelta(days=1)
+
+
+def next_month(d):
+    return date(d.year + (d.month // 12), d.month % 12 + 1, 1)
+
+
+def months(a, b):
+    out, cur = [], month_start(a)
+    while cur <= b:
+        out.append(cur)
+        cur = next_month(cur)
+    return out
+
+
+def load(path):
+    doc = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    nodes = doc["nodes"]
+    lanes = doc.get("lanes") or []
+    order = [l["name"] for l in lanes]
+    color = {l["name"]: l.get("color") for l in lanes}
+    for n in nodes:
+        if n["lane"] not in order:
+            order.append(n["lane"])
+    return nodes, order, color
+
+
+def layout(nodes, order, color):
+    """同一泳道共用一条紧凑时间轴：按日期排位次，不留空月；分支各占一行。"""
+    by_lane = defaultdict(list)
+    for n in nodes:
+        by_lane[n["lane"]].append(n)
+
+    lane_meta, node_out = [], []
+    top = TOP_PAD
+    STEP = CARD_W + 26
+    width = LABEL_W + 900
+
+    for li, lane in enumerate(order):
+        items = by_lane.get(lane, [])
+        if not items:
+            continue
+
+        by_date = sorted(items, key=lambda n: (parse_day(n["date"]), n["title"]))
+        branches = []
+        for n in by_date:
+            b = n.get("branch") or ""
+            if b not in branches:
+                branches.append(b)
+
+        # 按月分列：只保留有论文的月份，同月同列，重月横向微错开
+        mkeys = []
+        for n in by_date:
+            d = parse_day(n["date"])
+            k = (d.year, d.month)
+            if k not in mkeys:
+                mkeys.append(k)
+        col = {k: i for i, k in enumerate(mkeys)}
+
+        # 同月同分支的多篇纵向摞起来：列位不变，行内下移
+        branch_slot = {}          # 每个分支最多摞几层
+        placed = {}
+        rough = {}
+        max_right = LABEL_W
+        for n in by_date:
+            d = parse_day(n["date"])
+            k = (d.year, d.month)
+            bi = branches.index(n.get("branch") or "")
+            rough.setdefault((bi, k), []).append(n)
+        for (bi, k), group in rough.items():
+            branch_slot[bi] = max(branch_slot.get(bi, 1), len(group))
+            for g, n in enumerate(group):
+                x = LABEL_W + col[k] * STEP
+                placed[n["id"]] = (x, g)
+
+        # 分支纵向偏移：按每支实际摞的层数累加
+        btop, acc = {}, 0
+        for bi, b in enumerate(branches):
+            btop[bi] = top + LANE_PAD + acc * (CARD_H + 14) + bi * 26
+            acc += branch_slot.get(bi, 1)
+
+        for n in by_date:
+            x, g = placed[n["id"]]
+            bi = branches.index(n.get("branch") or "")
+            placed[n["id"]] = (x, btop[bi] + g * (CARD_H + 14))
+            max_right = max(max_right, x + CARD_W)
+
+        years, prev = [], None
+        for k in mkeys:
+            if prev is None or k[0] != prev:
+                years.append({"x": LABEL_W + col[k] * STEP - 14, "label": str(k[0])})
+            prev = k[0]
+
+        plot_w = max(420, max_right - LABEL_W + 30)
+        height = (max(placed[n["id"]][1] for n in items) + CARD_H + 30) - top
+        width = max(width, LABEL_W + plot_w + 70)
+
+        lane_meta.append({
+            "name": lane,
+            "color": color.get(lane) or LANE_COLORS[li % len(LANE_COLORS)],
+            "top": top, "height": height, "plotW": plot_w,
+            "count": len(items), "years": years,
+            "branches": [{"name": b, "y": btop[i], "count": sum(1 for n in by_date if (n.get("branch") or "") == b)}
+                         for i, b in enumerate(branches)],
+        })
+
+        for n in items:
+            x, y = placed[n["id"]]
+            node_out.append({
+                "id": n["id"], "title": n["title"], "date": n["date"],
+                "precision": n.get("precision") or "day",
+                "lane": lane, "branch": n.get("branch") or "",
+                "arxiv": n.get("arxiv") or "", "venue": n.get("venue") or "",
+                "training": n.get("training") or "", "status": n.get("status") or "",
+                "one_liner": n.get("one_liner") or "", "mechanism": n.get("mechanism") or "",
+                "detail": n.get("detail") or None,
+                "tags": n.get("tags") or [], "explain": n.get("explain") or "",
+                "key_numbers": n.get("key_numbers") or [],
+                "self_measured": n.get("self_measured") or [],
+                "media": n.get("media") or [], "links": n.get("links") or [],
+                "note": n.get("note") or "", "parent": n.get("parent"),
+                "link_strength": n.get("link_strength") or "",
+                "key": bool(n.get("key")),
+                "x": round(x, 1), "y": y,
+            })
+
+        top += height + LANE_GAP
+
+    pos = {n["id"]: n for n in node_out}
+    for n in node_out:
+        p = n.get("parent")
+        if p and p in pos:
+            src = pos[p]
+            n["sx"] = src["x"] + CARD_W
+            n["sy"] = src["y"] + CARD_H / 2
+            n["cross"] = src["lane"] != n["lane"]
+        else:
+            n["sx"] = None
+
+    return {
+        "nodes": node_out, "lanes": lane_meta,
+        "width": width, "height": top + 30,
+        "labelW": LABEL_W, "plotW": PLOT_W,
+        "card": {"w": CARD_W, "h": CARD_H},
+        "badge": BADGE,
+        "init": {"scale": 1.0, "tx": 8, "ty": 8},
+    }
+
+
+def validate(data, out_dir, prefix):
+    missing = []
+    for n in data["nodes"]:
+        for m in n["media"]:
+            p = (out_dir / (prefix + m)).resolve()
+            if not p.exists():
+                missing.append(f"{n['id']}: {prefix}{m}")
+    return missing
+
+
+HTML = r"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>__TITLE__</title>
+<style>
+  :root{
+    --ink:#0F172A; --ink2:#334155; --muted:#64748B; --line:rgba(15,23,42,.08); --line2:rgba(15,23,42,.14);
+    --bg:#F4F6FB; --card:#ffffff; --band-a:rgba(255,255,255,.72); --band-b:rgba(238,242,250,.72);
+    --accent:#4F46E5; --accent-weak:rgba(79,70,229,.08);
+    --ring:0 0 0 4px rgba(79,70,229,.14);
+    --sh-sm:0 1px 2px rgba(15,23,42,.06),0 4px 12px rgba(15,23,42,.05);
+    --sh-lg:0 24px 60px -12px rgba(15,23,42,.28);
+    --ease:cubic-bezier(.22,.8,.3,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;color:var(--ink);-webkit-font-smoothing:antialiased;
+    font-family:"Inter","PingFang SC","HarmonyOS Sans SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 8% -10%,rgba(99,102,241,.14),transparent 60%),
+      radial-gradient(900px 500px at 100% 0%,rgba(14,165,233,.12),transparent 55%),
+      var(--bg);}
+  header{position:fixed;inset:0 0 auto 0;height:64px;display:flex;align-items:center;gap:14px;padding:0 22px;
+    background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
+    border-bottom:1px solid var(--line);z-index:20}
+  header::before{content:"";width:10px;height:10px;border-radius:50%;flex:none;
+    background:conic-gradient(from 200deg,#4F46E5,#0EA5E9,#10B981,#4F46E5);box-shadow:0 0 0 4px rgba(79,70,229,.12)}
+  header h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.02em;white-space:nowrap;
+    background:linear-gradient(90deg,#0F172A 0%,#4338CA 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  #q{height:38px;width:300px;border:1px solid var(--line);border-radius:999px;padding:0 16px 0 38px;font-size:14px;
+    background:rgba(255,255,255,.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 3.5 3.5'/%3E%3C/svg%3E") no-repeat 14px 50%;
+    color:var(--ink);outline:none;transition:.2s var(--ease)}
+  #q:focus{border-color:var(--accent);box-shadow:var(--ring);width:340px}
+  #play{height:38px;padding:0 18px;border:0;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;color:#fff;white-space:nowrap;
+    background:linear-gradient(135deg,#4F46E5,#6366F1 55%,#0EA5E9);box-shadow:0 6px 16px -4px rgba(79,70,229,.55);transition:.2s var(--ease)}
+  #play:hover{transform:translateY(-1px);box-shadow:0 10px 22px -4px rgba(79,70,229,.6)}
+  #play:active{transform:none}
+  .hint{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw}
+  #stage{position:fixed;inset:64px 0 0 0;overflow:hidden;cursor:grab;
+    background-image:radial-gradient(rgba(15,23,42,.10) 1px,transparent 1.2px);background-size:22px 22px}
+  #stage.drag{cursor:grabbing}
+  svg{width:100%;height:100%;display:block}
+  .lane-box{stroke:rgba(15,23,42,.07);stroke-width:1;rx:18;ry:18}
+  .lane-name{font-size:24px;font-weight:800;letter-spacing:.01em}
+  .lane-count{font-size:13px;fill:var(--muted)}
+  .branch{font-size:14px;fill:#475569;font-weight:500}
+  .tick{stroke:rgba(15,23,42,.06);stroke-width:1}
+  .tick.major{stroke:rgba(15,23,42,.12)}
+  .keyring{animation:kge 2.6s ease-in-out infinite}
+  @keyframes kge{0%,100%{opacity:.95}50%{opacity:.15}}
+  .key-star{font-size:15px;font-weight:700}
+  .year-sep{stroke:rgba(15,23,42,.22);stroke-width:1.2;stroke-dasharray:3 6;stroke-linecap:round}
+  .year-label{font-size:15px;font-weight:800;letter-spacing:.06em}
+  .tick-label-old{font-size:13px;fill:#94A3B8}
+  .tick-label.major{fill:#475569;font-weight:600}
+  .axis-line{stroke:rgba(15,23,42,.10);stroke-width:1}
+  .link{fill:none;stroke:#B6C0D4;stroke-width:1.6;stroke-linecap:round}
+  .link.cross{stroke-dasharray:4 6;stroke:#CBD3E3;stroke-width:1.2}
+  .card{cursor:pointer;transition:opacity .25s var(--ease)}
+  .card>*{transition:transform .25s var(--ease)}
+  .bg{fill:var(--card);stroke:rgba(15,23,42,.08);stroke-width:1;filter:url(#sh);transition:stroke .2s,stroke-width .2s}
+  .card:hover .bg{stroke:var(--accent);stroke-width:1.6}
+  .card.dim{opacity:.14}
+  .card.active .bg{stroke:var(--ink);stroke-width:2}
+  .t-title{font-size:19px;font-weight:650;fill:var(--ink);letter-spacing:.005em}
+  .t-date{font-size:13px;fill:#94A3B8;font-variant-numeric:tabular-nums}
+  .badge-t{font-size:11.5px;font-weight:700}
+  .tag-t{font-size:10.5px;font-weight:600}
+  #panel{position:fixed;top:64px;right:0;bottom:0;width:440px;max-width:100vw;
+    background:rgba(255,255,255,.88);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);
+    border-left:1px solid var(--line);transform:translateX(104%);transition:transform .38s var(--ease);z-index:30;display:flex;flex-direction:column}
+  #panel.open{transform:none;box-shadow:var(--sh-lg)}
+  #phead{padding:22px 56px 16px 24px;border-bottom:1px solid var(--line);position:relative;
+    background:linear-gradient(180deg,rgba(79,70,229,.06),transparent)}
+  #phead .t{font-size:19px;font-weight:750;line-height:1.35;letter-spacing:.005em}
+  #phead .m{font-size:12.5px;color:var(--muted);margin-top:8px}
+  #pclose{position:absolute;top:16px;right:16px;border:0;background:rgba(15,23,42,.06);border-radius:50%;
+    width:30px;height:30px;font-size:16px;cursor:pointer;color:#475569;transition:.2s}
+  #pclose:hover{background:rgba(15,23,42,.12);transform:rotate(90deg)}
+  .body{overflow:auto;padding:20px 24px 48px;scrollbar-width:thin}
+  .lab{font-size:11.5px;font-weight:800;color:var(--accent);letter-spacing:.14em;margin:22px 0 9px;display:flex;align-items:center;gap:8px}
+  .lab::after{content:"";flex:1;height:1px;background:var(--line)}
+  .lab:first-child{margin-top:0}
+  .xbtn{margin:2px 0 12px;padding:9px 16px;border:1px solid rgba(79,70,229,.35);background:var(--accent-weak);
+    color:var(--accent);border-radius:999px;font-size:13.5px;font-weight:650;cursor:pointer;transition:.2s var(--ease)}
+  .xbtn:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
+  .explain{font-size:15px;line-height:1.95;color:var(--ink2);margin-bottom:14px;padding:16px 18px;border-radius:14px;
+    background:linear-gradient(135deg,rgba(79,70,229,.07),rgba(14,165,233,.06));border:1px solid rgba(79,70,229,.14)}
+  .body p{margin:0;font-size:13.5px;line-height:1.8;color:var(--ink2)}
+  .body ul{margin:0;padding-left:18px}
+  .body li{font-size:13px;line-height:1.9;color:var(--ink2)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{font-size:12.5px;font-weight:500;background:rgba(79,70,229,.07);border:1px solid rgba(79,70,229,.16);color:#3730A3;border-radius:999px;padding:4px 11px}
+  .chip.self{background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.28);color:#92400E}
+  video,img{width:100%;border-radius:12px;border:1px solid var(--line);margin:6px 0;background:#000;box-shadow:var(--sh-sm)}
+  a{color:var(--accent);font-size:13px;word-break:break-all;text-decoration:none;border-bottom:1px solid rgba(79,70,229,.3)}
+  a:hover{border-bottom-color:var(--accent)}
+  #dock{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:2px;z-index:25;padding:5px;
+    background:rgba(255,255,255,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-sm)}
+  #dock button{width:38px;height:38px;border:0;background:transparent;border-radius:11px;font-size:17px;cursor:pointer;color:var(--ink2);transition:.18s}
+  #dock button:hover{background:var(--accent-weak);color:var(--accent)}
+  #legend{position:fixed;left:16px;bottom:16px;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--line);border-radius:16px;padding:11px 14px;font-size:12.5px;z-index:25;box-shadow:var(--sh-sm);max-width:240px}
+  #legend .hd{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;color:var(--ink)}
+  #legend .hd span{margin-left:auto;color:var(--muted);font-weight:400}
+  #legend .row{display:flex;align-items:center;gap:9px;padding:4px 6px;margin:0 -6px;border-radius:8px;cursor:pointer;user-select:none;transition:.15s}
+  #legend .row:hover{background:rgba(15,23,42,.04)}
+  #legend .row.off{opacity:.32}
+  #legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  #legend .n{margin-left:auto;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+  ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:rgba(15,23,42,.15);border-radius:8px}
+  @media(max-width:900px){.hint{display:none}#q{width:180px}#q:focus{width:200px}#panel{width:100vw}}
+  #stage{touch-action:none}
+  .card.faint{opacity:.34}
+  .card.future{opacity:.05;pointer-events:none}
+  .link{transition:opacity .2s,stroke .2s}
+  .link.on{stroke:var(--accent);stroke-width:2.6}
+  .link.faint{opacity:.1}
+  .link-dot{fill:#B6C0D4}
+  .lbg{fill:var(--card);stroke:rgba(15,23,42,.12);opacity:0;transition:opacity .18s;filter:url(#sh)}
+  .stuck .lbg{opacity:.93}
+  #qc{font-size:12.5px;color:var(--accent);font-weight:600;white-space:nowrap;min-width:0}
+  #mini{position:fixed;right:74px;bottom:18px;z-index:25;padding:5px;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-sm);cursor:pointer;line-height:0;
+    transition:right .38s var(--ease)}
+  #mini .vr{fill:rgba(79,70,229,.10);stroke:var(--accent);stroke-width:14}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;z-index:40;pointer-events:none;
+    padding:10px 20px;border-radius:999px;background:rgba(15,23,42,.88);color:#fff;font-size:14px;font-weight:600;transition:.3s var(--ease)}
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+  #dock{transition:right .38s var(--ease)}
+  body.panel-open #dock{right:458px} body.panel-open #mini{right:514px}
+  @media(max-width:900px){#mini{display:none}body.panel-open #dock{right:18px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>__TITLE__</h1>
+  <input id="q" placeholder="搜索标题 / 机制 / 一句话">
+  <span id="qc"></span>
+  <button id="play">按时间播放</button>
+  <span class="hint">Ctrl+滚轮缩放 · 滚轮/拖拽平移 · 双击空白全览 · ←→ 切换论文 · / 搜索 · 连线为机制同构非引用</span>
+</header>
+<div id="stage">
+  <svg id="svg"><defs>
+    <filter id="sh" x="-30%" y="-30%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="4" flood-color="#1e1b4b" flood-opacity="0.11"/>
+    </filter>
+  </defs><g id="vp"></g></svg>
+</div>
+<aside id="panel"><div id="phead"><div class="t"></div><div class="m"></div>
+  <button id="pclose">×</button></div><div class="body" id="pbody"></div></aside>
+<div id="dock">
+  <button id="zin" title="放大">+</button>
+  <button id="zout" title="缩小">−</button>
+  <button id="zreset" title="回到起点">⌂</button>
+  <button id="zfit" title="全览">⛶</button>
+</div>
+<div id="legend"></div>
+<div id="mini" title="点击或拖动以导航"></div>
+<div id="toast"></div>
+<script>
+window.BADGE = __BADGE__;
+const DATA = __DATA__;
+const svg = document.getElementById("svg"), vp = document.getElementById("vp"),
+  stage = document.getElementById("stage"), panel = document.getElementById("panel");
+let scale = 1, tx = 0, ty = 0, anim = 0;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v)), cs = s => clamp(s, .12, 3);
+const PANEL_W = () => panel.classList.contains("open") ? panel.offsetWidth : 0;
+const byId = {}, cards = {}, links = {}, kids = {}, stickies = [];
+DATA.nodes.forEach(n => {
+  byId[n.id] = n;
+  n.hay = [n.title, n.mechanism, n.one_liner, n.lane, n.branch, (n.tags||[]).join(" "), n.explain].join(" ").toLowerCase();
+});
+DATA.nodes.forEach(n => { if(n.parent && byId[n.parent]) (kids[n.parent] = kids[n.parent] || []).push(n.id); });
+
+function el(tag, attrs, parent){
+  const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for(const [k,v] of Object.entries(attrs || {})) if(v != null) n.setAttribute(k, v);
+  (parent || vp).appendChild(n); return n;
+}
+
+/* ---------- 相机 ---------- */
+function apply(){
+  const w = svg.clientWidth, h = svg.clientHeight, m = 120;
+  tx = clamp(tx, m - DATA.width*scale, Math.max(24, (w - DATA.width*scale)/2)); ty = clamp(ty, m - DATA.height*scale, Math.max(14, (h - DATA.height*scale)/2));
+  vp.setAttribute("transform", `translate(${tx},${ty}) scale(${scale})`);
+  stick(); drawMini();
+}
+function flyTo(ns, ntx, nty, dur){
+  cancelAnimationFrame(anim);
+  const s0 = scale, x0 = tx, y0 = ty, t0 = performance.now(); dur = dur || 560;
+  (function step(now){
+    const k = Math.min(1, (now - t0)/dur), e = 1 - Math.pow(1 - k, 3);
+    scale = s0 + (ns - s0)*e; tx = x0 + (ntx - x0)*e; ty = y0 + (nty - y0)*e; apply();
+    if(k < 1) anim = requestAnimationFrame(step);
+  })(t0);
+}
+function zoomAt(mx, my, ns){ ns = cs(ns); tx = mx - (mx - tx)*(ns/scale); ty = my - (my - ty)*(ns/scale); scale = ns; apply(); }
+function zoomBtn(k){ cancelAnimationFrame(anim); const w = svg.clientWidth - PANEL_W(); zoomAt(w/2, svg.clientHeight/2, scale*k); }
+function fitAll(){
+  const w = svg.clientWidth, h = svg.clientHeight, s = Math.min((w-60)/DATA.width, (h-40)/DATA.height, 1.2);
+  flyTo(s, Math.max(16, (w - DATA.width*s)/2), 14);
+}
+function resetView(now){ const i = DATA.init; now ? (scale = i.scale, tx = i.tx, ty = i.ty, apply()) : flyTo(i.scale, i.tx, i.ty); }
+function focusNode(n){
+  const w = svg.clientWidth - PANEL_W(), h = svg.clientHeight, ns = cs(Math.max(scale, .85));
+  const cx = (DATA.labelW*ns + w)/2;   // 让出左侧固定标签列
+  flyTo(ns, cx - (n.x + DATA.card.w/2)*ns, h/2 - (n.y + DATA.card.h/2)*ns);
+}
+function focusLane(l){
+  const w = svg.clientWidth - PANEL_W(), h = svg.clientHeight;
+  const s = cs(Math.min((w-50)/(DATA.labelW + l.plotW + 32), (h-40)/(l.height+20), 1));
+  flyTo(s, 20 - 8*s, 20 - (l.top - 10)*s);
+}
+
+/* ---------- 吸附标签：随镜头滑进可视区 ---------- */
+function mkSticky(parent, kind, lane, extra){
+  const g = el("g", {class:"stk"}, parent);
+  return {g, kind, lane, ...extra};
+}
+function finishSticky(s){
+  const bb = s.g.getBBox(); s.bb = bb;
+  el("rect", {class:"lbg", x:bb.x-9, y:bb.y-5, width:bb.width+18, height:bb.height+10, rx:10}, s.g);
+  s.g.insertBefore(s.g.lastChild, s.g.firstChild);
+  stickies.push(s);
+}
+function stick(){
+  const L = -tx/scale, T = -ty/scale, px = 16/scale, py = 14/scale, laneX = {};
+  for(const s of stickies){
+    const l = s.lane, R = DATA.labelW + l.plotW + 32 - 10, B = l.top + l.height - 10, bb = s.bb;
+    let dx = 0, dy = 0, anchor = L + px;
+    if(s.kind === "year") anchor = Math.max(anchor, laneX[l.name] + DATA.labelW - 36);
+    dx = clamp(anchor - bb.x, 0, Math.max(0, (s.right || R) - (bb.x + bb.width) ));
+    if(s.kind !== "branch") dy = clamp(T + py - bb.y, 0, Math.max(0, B - (bb.y + bb.height)));
+    if(s.kind === "lane") { laneX[l.name] = bb.x + dx; l.dy = dy; }
+    if(s.kind === "year") dy = l.dy || 0;
+    s.g.setAttribute("transform", `translate(${dx},${dy})`);
+    s.g.classList.toggle("stuck", dx > 1 || dy > 1);
+  }
+}
+
+/* ---------- 构建 ---------- */
+function build(){
+  const laneColor = {}; DATA.lanes.forEach(l => laneColor[l.name] = l.color);
+  DATA.lanes.forEach((l, li) => {
+    el("rect", {class:"lane-box", x:8, y:l.top-10, width:DATA.labelW + l.plotW + 24, height:l.height+8, rx:20,
+      fill: li % 2 ? "var(--band-b)" : "var(--band-a)"});
+    el("rect", {x:9, y:l.top-6, width:5, height:l.height-4, rx:2.5, fill:l.color, opacity:.9});
+    l.years.forEach(y => el("line", {class:"year-sep", x1:y.x, y1:l.top-2, x2:y.x, y2:l.top+l.height-6}));
+    l.branches.forEach(b => {
+      const baseY = b.y + DATA.card.h + 16;
+      el("line", {class:"axis-line", x1:DATA.labelW-14, y1:baseY, x2:DATA.labelW + l.plotW - 10, y2:baseY});
+    });
+  });
+  DATA.nodes.forEach(n => {
+    if(n.sx == null) return;
+    const x1 = n.sx, y1 = n.sy, x2 = n.x, y2 = n.y + DATA.card.h/2, mid = (x1 + x2)/2;
+    const path = el("path", {d:`M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`, class: n.cross ? "link cross" : "link"});
+    const dot = el("circle", {cx:x1, cy:y1, r:2.6, class:"link-dot"});
+    links[n.id] = {path, dot};
+    links[n.id].show = v => { path.style.display = dot.style.display = v ? "" : "none"; };
+  });
+  DATA.nodes.forEach(n => {
+    const g = el("g", {class:"card", "data-id":n.id, transform:`translate(${n.x},${n.y})`}); cards[n.id] = g;
+    el("title", {}, g).textContent = n.one_liner || n.title;
+    el("rect", {class:"bg", width:DATA.card.w, height:DATA.card.h, rx:16}, g);
+    if(n.key) el("rect", {class:"keyring", x:-4, y:-4, width:DATA.card.w+8, height:DATA.card.h+8, rx:19,
+      fill:"none", stroke:laneColor[n.lane] || "#333", "stroke-width":2.4}, g);
+    el("rect", {class:"stripe", width:5, height:DATA.card.h-16, x:1.5, y:8, fill:laneColor[n.lane] || "#888", rx:2.5, opacity:.9}, g);
+    const FREE = {"免训":"免训", "推理期技巧":"推理期"};
+    const tagList = (FREE[n.training] ? [{t:FREE[n.training], free:true}] : []).concat((n.tags || []).map(t => ({t, free:false})));
+    let xRight = DATA.card.w - 10;
+    tagList.slice(0, 3).forEach(o => {
+      const w = o.t.length*10.5 + 12; if(xRight - w < 12) return;
+      el("rect", {x:xRight-w, y:9, width:w, height:17, rx:8, fill:o.free ? "#0E9F6E" : (laneColor[n.lane] || "#6b7280"), opacity:o.free ? 1 : .12}, g);
+      el("text", {x:xRight-w+6, y:21.5, class:"tag-t", fill:o.free ? "#fff" : (laneColor[n.lane] || "#6b7280")}, g).textContent = o.t;
+      xRight -= w + 5;
+    });
+    const t1 = el("text", {class:"t-title", x:15, y:50}, g); t1.textContent = n.title;
+    while(t1.textContent.length > 4 && t1.getComputedTextLength() > DATA.card.w - 24) t1.textContent = t1.textContent.slice(0, -2) + "…";
+    el("text", {class:"t-date", x:15, y:DATA.card.h-14}, g).textContent =
+      n.date.slice(0, 7) + (n.precision === "month" || n.precision === "unknown" ? "" : "-" + n.date.slice(8, 10));
+    g.addEventListener("click", ev => { ev.stopPropagation(); if(moved < 6) openPanel(n); });
+    g.addEventListener("mouseenter", () => { hoverId = n.id; refresh(); });
+    g.addEventListener("mouseleave", () => { hoverId = null; refresh(); });
+  });
+  // 标签层放最上面，吸附时才不会被卡片盖住
+  const lab = el("g", {id:"labels"});
+  DATA.lanes.forEach(l => {
+    const s = mkSticky(lab, "lane", l);
+    el("text", {class:"lane-name", x:26, y:l.top+16, fill:l.color}, s.g).textContent = l.name;
+    el("text", {class:"lane-count", x:26, y:l.top+34}, s.g).textContent = l.count + " 篇";
+    finishSticky(s);
+    l.branches.forEach(b => { if(!b.name) return;
+      const t = mkSticky(lab, "branch", l);
+      el("circle", {cx:30, cy:b.y+30, r:3.4, fill:l.color, opacity:.75}, t.g);
+      el("text", {class:"branch", x:40, y:b.y+34}, t.g).textContent = b.name;
+      finishSticky(t);
+    });
+    l.years.forEach((y, i) => {
+      const t = mkSticky(lab, "year", l, {right: (l.years[i+1] ? l.years[i+1].x : DATA.labelW + l.plotW + 22) - 8});
+      el("text", {class:"year-label", x:y.x+6, y:l.top+16, fill:l.color}, t.g).textContent = y.label;
+      finishSticky(t);
+    });
+  });
+}
+
+/* ---------- 状态：高亮脉络 / 搜索 / 图例 / 播放 ---------- */
+let activeId = null, hoverId = null, q = "", reveal = null; const hidden = new Set();
+function related(id){
+  const s = new Set([id]); let c = id;
+  while(byId[c] && byId[c].parent && byId[byId[c].parent]){ c = byId[c].parent; s.add(c); }
+  const st = [id]; while(st.length){ (kids[st.pop()] || []).forEach(k => { s.add(k); st.push(k); }); }
+  return s;
+}
+function refresh(){
+  const f = reveal ? null : (hoverId || activeId), rel = f ? related(f) : null; let hit = 0;
+  DATA.nodes.forEach(n => {
+    const c = cards[n.id], hide = hidden.has(n.lane), match = !q || n.hay.includes(q);
+    c.style.display = hide ? "none" : ""; if(match && !hide) hit++;
+    c.classList.toggle("dim", !match);
+    c.classList.toggle("faint", !!rel && !rel.has(n.id));
+    c.classList.toggle("future", !!reveal && !reveal.has(n.id));
+    c.classList.toggle("active", n.id === activeId);
+    const lk = links[n.id]; if(!lk) return;
+    const p = byId[n.parent], gone = hide || hidden.has(p.lane) || (reveal && !(reveal.has(n.id) && reveal.has(p.id)));
+    lk.show(!gone);
+    const on = !!rel && rel.has(n.id) && rel.has(p.id);
+    lk.path.classList.toggle("on", on);
+    lk.path.classList.toggle("faint", (!!rel && !on) || (!!q && !(match && p.hay.includes(q))));
+  });
+  document.getElementById("qc").textContent = q ? hit + " 篇匹配" : "";
+}
+function setActive(n){
+  activeId = n ? n.id : null; refresh();
+  try{ history.replaceState(null, "", n ? "#" + n.id : location.pathname + location.search); }catch(e){}
+}
+function closePanel(){ panel.classList.remove("open"); document.body.classList.remove("panel-open"); setActive(null); }
+function openPanel(n){
+  setActive(n);
+  panel.querySelector("#phead .t").textContent = n.title;
+  const meta = [n.date, n.precision === "month" ? "日期只到月" : "", n.training, n.status, n.lane + " / " + (n.branch || "主支")]
+    .filter(Boolean).join(" · ");
+  panel.querySelector("#phead .m").textContent = meta;
+
+  const b = document.getElementById("pbody");
+  b.innerHTML = "";
+  const add = (cls, text) => { const d = document.createElement("div"); d.className = cls; d.textContent = text; b.appendChild(d); };
+  if(n.explain){
+    const btn = document.createElement("button");
+    btn.className = "xbtn";
+    btn.textContent = "▶ 直白讲解";
+    const box = document.createElement("div");
+    box.className = "explain";
+    box.textContent = n.explain;
+    box.style.display = "none";
+    btn.onclick = () => {
+      const open = box.style.display !== "none";
+      box.style.display = open ? "none" : "block";
+      btn.textContent = open ? "▶ 直白讲解" : "▼ 收起讲解";
+    };
+    b.appendChild(btn);
+    b.appendChild(box);
+  }
+  if(n.one_liner){ add("lab", "一句话"); add("p", n.one_liner); }
+  if(n.detail){ window.renderDetail(b, n.detail); }
+  else if(n.mechanism){ add("lab", "机制"); add("p", n.mechanism); }
+  if(n.key_numbers && n.key_numbers.length){
+    add("lab", "关键数字");
+    const c = document.createElement("div"); c.className = "chips";
+    n.key_numbers.forEach(k => { const s = document.createElement("span"); s.className = "chip"; s.textContent = k; c.appendChild(s); });
+    b.appendChild(c);
+  }
+  if(n.self_measured && n.self_measured.length){
+    add("lab", "我们自测（非论文指标）");
+    const c = document.createElement("div"); c.className = "chips";
+    n.self_measured.forEach(k => { const s = document.createElement("span"); s.className = "chip self"; s.textContent = k; c.appendChild(s); });
+    b.appendChild(c);
+  }
+  if(n.media && n.media.length){
+    add("lab", "素材");
+    n.media.forEach(m => {
+      const src = DATA.prefix + m;
+      if(/\.(mp4|webm|mov)$/i.test(m)){
+        const v = document.createElement("video");
+        v.src = src; v.controls = true; v.muted = true; v.playsInline = true; v.preload = "metadata";
+        b.appendChild(v);
+      } else {
+        const img = document.createElement("img"); img.src = src; img.loading = "lazy";
+        b.appendChild(img);
+      }
+    });
+  }
+  if(n.links && n.links.length){
+    add("lab", "链接");
+    n.links.forEach(u => { const a = document.createElement("a"); a.href = u; a.target = "_blank"; a.textContent = u; b.appendChild(a); b.appendChild(document.createElement("br")); });
+  }
+  if(n.note){ add("lab", "备注"); add("p", n.note); }
+  panel.classList.add("open"); document.body.classList.add("panel-open"); focusNode(n); b.scrollTop = 0;
+}
+
+document.getElementById("pclose").onclick = closePanel;
+
+/* ---------- 输入：拖拽 / 双指缩放 / 滚轮 ---------- */
+const ptrs = new Map(); let moved = 0, pinch0 = null;
+svg.addEventListener("pointerdown", ev => {
+  if(ev.pointerType === "mouse" && ev.button !== 0) return;
+  cancelAnimationFrame(anim); ptrs.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+  if(ptrs.size === 1) moved = 0;
+  if(ptrs.size === 2){ const [a, b] = [...ptrs.values()]; pinch0 = {d:Math.hypot(a.x-b.x, a.y-b.y), s:scale}; }
+  stage.classList.add("drag");
+});
+window.addEventListener("pointermove", ev => {
+  const p = ptrs.get(ev.pointerId); if(!p) return;
+  const dx = ev.clientX - p.x, dy = ev.clientY - p.y; p.x = ev.clientX; p.y = ev.clientY;
+  if(ptrs.size === 1){ moved += Math.abs(dx) + Math.abs(dy); tx += dx; ty += dy; apply(); }
+  else if(pinch0){
+    const [a, b] = [...ptrs.values()], r = svg.getBoundingClientRect(); moved = 99;
+    zoomAt((a.x+b.x)/2 - r.left, (a.y+b.y)/2 - r.top, pinch0.s * Math.hypot(a.x-b.x, a.y-b.y) / pinch0.d);
+  }
+});
+const endPtr = ev => { ptrs.delete(ev.pointerId); if(ptrs.size < 2) pinch0 = null; if(!ptrs.size) stage.classList.remove("drag"); };
+window.addEventListener("pointerup", endPtr); window.addEventListener("pointercancel", endPtr);
+svg.addEventListener("click", ev => { if(!ev.target.closest(".card") && moved < 6 && panel.classList.contains("open")) closePanel(); });
+svg.addEventListener("wheel", ev => {
+  ev.preventDefault(); cancelAnimationFrame(anim);
+  if(ev.ctrlKey || ev.metaKey){            // 触控板捏合 / Ctrl+滚轮 = 缩放
+    const r = svg.getBoundingClientRect();
+    zoomAt(ev.clientX - r.left, ev.clientY - r.top, scale * Math.exp(-ev.deltaY * (Math.abs(ev.deltaY) > 40 ? .0016 : .01)));
+  } else {                                  // 普通滚轮 / 双指滑动 = 平移
+    const sw = ev.shiftKey && !ev.deltaX; tx -= sw ? ev.deltaY : ev.deltaX; ty -= sw ? 0 : ev.deltaY; apply();
+  }
+}, {passive:false});
+svg.addEventListener("dblclick", ev => { if(!ev.target.closest(".card")) fitAll(); });
+zin.onclick = () => zoomBtn(1.25); zout.onclick = () => zoomBtn(1/1.25);
+zreset.onclick = () => resetView(); zfit.onclick = fitAll;
+
+/* ---------- 搜索 / 图例 / 键盘 ---------- */
+const qi = document.getElementById("q");
+qi.addEventListener("input", () => { q = qi.value.trim().toLowerCase(); refresh(); });
+qi.addEventListener("keydown", ev => {
+  if(ev.key === "Enter"){ const n = DATA.nodes.find(x => !hidden.has(x.lane) && (!q || x.hay.includes(q))); if(n) { setActive(n); focusNode(n); } }
+  if(ev.key === "Escape"){ qi.value = ""; q = ""; refresh(); qi.blur(); }
+});
+const legend = document.getElementById("legend"), hd = document.createElement("div"), rows = document.createElement("div");
+hd.className = "hd"; hd.innerHTML = "路线导航 <span>−</span>"; legend.append(hd, rows);
+hd.onclick = () => { const c = rows.style.display === "none"; rows.style.display = c ? "" : "none"; hd.lastChild.textContent = c ? "−" : "+"; };
+DATA.lanes.forEach(l => {
+  const row = document.createElement("div"); row.className = "row"; row.title = "点名称飞到该路线；点圆点显示/隐藏";
+  row.innerHTML = `<i style="background:${l.color}"></i><span>${l.name}</span><span class="n">${l.count}</span>`;
+  row.querySelector("i").onclick = ev => { ev.stopPropagation();
+    hidden.has(l.name) ? hidden.delete(l.name) : hidden.add(l.name); row.classList.toggle("off", hidden.has(l.name)); refresh(); };
+  row.onclick = () => { hidden.delete(l.name); row.classList.remove("off"); refresh(); focusLane(l); };
+  rows.appendChild(row);
+});
+const laneOrder = n => DATA.nodes.filter(x => x.lane === n.lane).sort((a, b) => a.date.localeCompare(b.date));
+window.addEventListener("keydown", ev => {
+  if(ev.target.tagName === "INPUT") return;
+  if(ev.key === "/"){ ev.preventDefault(); qi.focus(); }
+  else if(ev.key === "Escape"){ timer ? stopPlay() : closePanel(); }
+  else if((ev.key === "ArrowRight" || ev.key === "ArrowLeft") && activeId){
+    const l = laneOrder(byId[activeId]), i = l.findIndex(x => x.id === activeId) + (ev.key === "ArrowRight" ? 1 : -1);
+    if(l[i]){ ev.preventDefault(); openPanel(l[i]); }
+  }
+});
+
+/* ---------- 缩略导航 ---------- */
+const mini = document.getElementById("mini"), MW = 150, MH = Math.round(MW * DATA.height / DATA.width);
+const msvg = el("svg", {viewBox:`0 0 ${DATA.width} ${DATA.height}`, width:MW, height:MH}, mini);
+DATA.lanes.forEach(l => el("rect", {x:8, y:l.top-10, width:DATA.labelW + l.plotW + 24, height:l.height+8, fill:l.color, opacity:.14, rx:30}, msvg));
+DATA.nodes.forEach(n => el("rect", {x:n.x, y:n.y, width:DATA.card.w, height:DATA.card.h, fill:(DATA.lanes.find(l => l.name === n.lane) || {}).color, opacity:.8, rx:14}, msvg));
+const vr = el("rect", {class:"vr", rx:10}, msvg);
+function drawMini(){
+  const w = svg.clientWidth, h = svg.clientHeight;
+  vr.setAttribute("x", -tx/scale); vr.setAttribute("y", -ty/scale); vr.setAttribute("width", w/scale); vr.setAttribute("height", h/scale);
+}
+let mdrag = false;
+const miniGo = ev => { const r = msvg.getBoundingClientRect(), w = svg.clientWidth - PANEL_W();
+  tx = w/2 - (ev.clientX - r.left)/r.width*DATA.width*scale; ty = svg.clientHeight/2 - (ev.clientY - r.top)/r.height*DATA.height*scale; apply(); };
+mini.addEventListener("pointerdown", ev => { cancelAnimationFrame(anim); mdrag = true; miniGo(ev); ev.stopPropagation(); });
+window.addEventListener("pointermove", ev => { if(mdrag) miniGo(ev); });
+window.addEventListener("pointerup", () => mdrag = false);
+
+/* ---------- 按时间播放：镜头跟随、逐个亮起 ---------- */
+let timer = null; const playBtn = document.getElementById("play"), toast = document.getElementById("toast");
+function stopPlay(){ clearInterval(timer); timer = null; reveal = null; playBtn.textContent = "按时间播放"; toast.classList.remove("on"); refresh(); }
+playBtn.onclick = () => {
+  if(timer){ stopPlay(); return; }
+  const order = DATA.nodes.filter(n => !hidden.has(n.lane)).sort((a, b) => a.date.localeCompare(b.date));
+  closePanel(); reveal = new Set(); playBtn.textContent = "■ 停止"; let i = 0;
+  const step = () => {
+    if(i >= order.length){ const last = order[order.length-1]; stopPlay(); setActive(last); return; }
+    const n = order[i++]; reveal.add(n.id); setActive(n); focusNode(n);
+    toast.textContent = `${n.date.slice(0, 7)} · ${n.title}　${i}/${order.length}`; toast.classList.add("on");
+  };
+  step(); timer = setInterval(step, 1300);
+};
+
+build(); resetView(true); refresh();
+const h0 = decodeURIComponent(location.hash.slice(1));
+if(byId[h0]) setTimeout(() => openPanel(byId[h0]), 60);
+</script>
+
+</body>
+</html>
+"""
+
+
+def main():
+    if len(sys.argv) < 4:
+        raise SystemExit("用法: build_map.py data.yaml out.html TITLE [media_prefix]")
+    src, out, title = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3]
+    prefix = sys.argv[4] if len(sys.argv) > 4 else ""
+    nodes, order, color = load(src)
+    data = layout(nodes, order, color)
+    data["prefix"] = prefix
+    missing = validate(data, out.parent, prefix)
+    html = HTML.replace("__TITLE__", title)
+    html = html.replace("__BADGE__", json.dumps(BADGE, ensure_ascii=False))
+    _css, _js = [], []
+    for _f in ("katex_inline.css", "panel_detail.css"):
+        _p = src.parent / _f
+        if _p.exists():
+            _css.append(_p.read_text(encoding="utf-8"))
+    for _f in ("katex.min.js", "panel_detail.js"):
+        _p = src.parent / _f
+        if _p.exists():
+            _js.append(_p.read_text(encoding="utf-8"))
+    if _css:
+        html = html.replace("</head>", "<style>" + "\n".join(_css) + "</style>\n</head>", 1)
+    if _js:
+        html = html.replace("</body>", "<script>" + "\n".join(_js) + "</script>\n</body>", 1)
+    html = html.replace("__DATA__", json.dumps(data, ensure_ascii=False))
+    out.write_text(html, encoding="utf-8")
+    print(f"wrote {out.name}  nodes={len(data['nodes'])} lanes={len(data['lanes'])} size={int(data['width'])}x{int(data['height'])}")
+    if missing:
+        print("缺素材：")
+        for m in missing:
+            print("  -", m)
+    else:
+        print("素材全部存在")
+
+
+if __name__ == "__main__":
+    main()
