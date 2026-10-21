@@ -87,8 +87,9 @@ nodes:
   repro: paper_only
   inherited: 2
   inherited_by:
-  - rolling-forcing
   - deep-forcing
+  - rolling-forcing
+  inherited_chain: 6
 - id: videophy
   title: VideoPhy
   date: '2024-10-07'
@@ -129,6 +130,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: causvid
   title: CausVid
   date: '2024-12-01'
@@ -185,6 +187,7 @@ nodes:
   inherited: 1
   inherited_by:
   - self-forcing
+  inherited_chain: 1
 - id: cosmos
   title: Cosmos
   date: '2025-01-07'
@@ -226,6 +229,7 @@ nodes:
   inherited: 1
   inherited_by:
   - causal-rcm
+  inherited_chain: 0
 - id: worldmodelbench
   title: WorldModelBench
   date: '2025-02-13'
@@ -270,6 +274,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: gen3c
   title: GEN3C
   date: '2025-03-18'
@@ -311,8 +316,11 @@ nodes:
     has_abstract: false
   cpm: null
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 2
+  inherited_by:
+  - worldstereo
+  - octworld
+  inherited_chain: 0
 - id: worldsimbench
   title: WorldSimBench
   date: '2025-03-24'
@@ -353,6 +361,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: framepack
   title: FramePack
   date: '2025-04-01'
@@ -403,6 +412,7 @@ nodes:
   inherited: 1
   inherited_by:
   - context-forcing
+  inherited_chain: 0
 - id: worldscore
   title: WorldScore
   date: '2025-04-01'
@@ -452,6 +462,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: loopnav
   title: LoopNav
   date: '2025-05-01'
@@ -497,6 +508,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: vmem
   title: VMem
   date: '2025-10-01'
@@ -552,10 +564,12 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 2
+  inherited: 3
   inherited_by:
   - octworld
   - smart
+  - ucm
+  inherited_chain: 0
 - id: spmem
   title: spmem
   date: '2025-06-01'
@@ -601,8 +615,10 @@ nodes:
   citations: 6
   cpm: 0.38
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 1
+  inherited_by:
+  - octworld
+  inherited_chain: 0
 - id: self-forcing
   title: Self-Forcing
   date: '2025-06-01'
@@ -654,14 +670,16 @@ nodes:
   citations: 42
   cpm: 2.62
   repro: paper_only
-  inherited: 6
+  inherited: 7
   inherited_by:
   - longlive
-  - streaming-code-wm
-  - tethercache
   - causal-forcing
-  - context-forcing
+  - rolling-sink
+  - tethercache
   - causal-rcm
+  - streaming-code-wm
+  - context-forcing
+  inherited_chain: 0
 - id: genie3
   title: Genie 3
   date: '2025-08-05'
@@ -707,6 +725,7 @@ nodes:
   repro: closed
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: rolling-forcing
   title: Rolling Forcing
   date: '2025-09-01'
@@ -766,12 +785,14 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 4
+  inherited: 5
   inherited_by:
-  - worldplay
+  - deep-forcing
   - matrix-game-3
   - echo-forcing
   - echo-infinity
+  - worldplay
+  inherited_chain: 2
 - id: longlive
   title: LongLive
   date: '2025-09-01'
@@ -821,13 +842,11 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 5
+  inherited: 2
   inherited_by:
-  - longlive-rag
-  - flex
-  - memlearner
-  - reel
   - context-forcing
+  - flex
+  inherited_chain: 0
 - id: sora2-veo31
   title: Sora 2 / Veo 3.1
   date: '2025-10-01'
@@ -869,6 +888,7 @@ nodes:
   repro: closed
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: marble
   title: Marble
   date: '2025-11-12'
@@ -912,6 +932,7 @@ nodes:
   inherited: 1
   inherited_by:
   - hy-world-2
+  inherited_chain: 0
 - id: worldplay
   title: WorldPlay (HY-World 1.5)
   date: '2025-12-01'
@@ -974,6 +995,7 @@ nodes:
   inherited_by:
   - hy-world-2
   - worldtrace
+  inherited_chain: 0
 - id: lingbot-world
   title: LingBot-World
   date: '2026-01-01'
@@ -1023,6 +1045,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mind
   title: MIND
   date: '2026-02-01'
@@ -1065,8 +1088,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 1
+  inherited_by:
+  - gim-world
+  inherited_chain: 0
 - id: memrope
   title: MemRoPE
   date: '2026-03-01'
@@ -1115,8 +1140,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 1
+  inherited_by:
+  - echo-infinity
+  inherited_chain: 0
 - id: matrix-game-3
   title: Matrix-Game 3.0
   date: '2026-04-01'
@@ -1173,6 +1200,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: echo-forcing
   title: Echo-Forcing
   date: '2026-05-01'
@@ -1218,8 +1246,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 1
+  inherited_by:
+  - echo-infinity
+  inherited_chain: 0
 - id: sana-wm
   title: SANA-WM
   date: '2026-05-01'
@@ -1273,6 +1303,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: echo-infinity
   title: Echo-Infinity
   date: '2026-06-01'
@@ -1323,9 +1354,9 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 1
-  inherited_by:
-  - memactive
+  inherited: 0
+  inherited_by: []
+  inherited_chain: 0
 - id: memactive
   title: MemActive
   date: '2026-06-01'
@@ -1366,6 +1397,7 @@ nodes:
   repro: closed
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: longlive-rag
   title: LongLive-RAG
   date: '2026-07-01'
@@ -1419,10 +1451,11 @@ nodes:
   repro: paper_only
   inherited: 4
   inherited_by:
+  - reel
   - mosaichunk
   - smi
   - l2r
-  - reel
+  inherited_chain: 0
 - id: dreamx-world
   title: DreamX-World
   date: '2026-06-01'
@@ -1482,6 +1515,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mirage
   title: Mirage
   date: '2026-06-01'
@@ -1539,6 +1573,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: captain-safari
   title: Captain Safari
   date: '2026-06-15'
@@ -1591,6 +1626,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: hy-world-2
   title: HY-World 2.0
   date: '2026-07-15'
@@ -1639,6 +1675,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: worldtrace
   title: WorldTrace
   date: '2026-08-01'
@@ -1697,6 +1734,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: r2m-bench
   title: R2M-Bench
   date: '2026-08-01'
@@ -1752,6 +1790,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: octworld
   title: OctWorld
   date: '2026-09-01'
@@ -1801,6 +1840,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: solarwm
   title: SolarWM
   date: '2026-09-01'
@@ -1857,6 +1897,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: honeycomb
   title: Honeycomb
   date: '2026-09-01'
@@ -1910,6 +1951,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mosaichunk
   title: MosaiChunk
   date: '2026-10-01'
@@ -1957,6 +1999,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: smi
   title: SMI
   date: '2026-10-01'
@@ -2005,6 +2048,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: smart
   title: SMART
   date: '2026-10-01'
@@ -2080,6 +2124,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: velox
   title: Velox
   date: '2026-10-01'
@@ -2135,6 +2180,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: hla-wm
   title: HLA-WM
   date: '2026-10-01'
@@ -2192,6 +2238,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: l2r
   title: L2R
   date: '2026-10-01'
@@ -2246,6 +2293,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: world-t3
   title: World-T3
   date: '2026-10-01'
@@ -2300,6 +2348,7 @@ nodes:
   inherited: 1
   inherited_by:
   - mit3
+  inherited_chain: 0
 - id: pwm
   title: PWM
   date: '2026-10-01'
@@ -2348,6 +2397,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: worldmembench
   title: WorldMemBench
   date: '2026-10-01'
@@ -2395,6 +2445,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: keepsake
   title: Keepsake
   date: '2026-10-05'
@@ -2451,6 +2502,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: atas
   title: ATAS
   date: '2026-10-14'
@@ -2499,6 +2551,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: matrix-game-4
   title: Matrix-Game 4.0
   date: '2026-10-20'
@@ -2555,6 +2608,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: codewm-brain
   title: 'Code World Model: Coding Agent as World Brain'
   arxiv: '2608.25927'
@@ -2615,7 +2669,8 @@ nodes:
   repro: code_only
   inherited: 1
   inherited_by:
-  - matrix-game-4
+  - gamedirector
+  inherited_chain: 0
 - id: videococo
   title: 'VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation'
   arxiv: '2607.27380'
@@ -2664,6 +2719,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: alaya-renderer-flash
   title: 'AlayaRenderer-Flash: Generative World Renderer at the Speed of Play'
   arxiv: '2607.18703'
@@ -2724,6 +2780,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: streamrender-h3
   title: 'StreamRender-H3: Code runs the world, a video model renders it'
   arxiv: ''
@@ -2774,9 +2831,9 @@ nodes:
     has_abstract: false
   cpm: null
   repro: closed
-  inherited: 1
-  inherited_by:
-  - solarrenderer
+  inherited: 0
+  inherited_by: []
+  inherited_chain: 0
 - id: sol-engine
   title: 'Sol Video Inference Engine: Agent-Native Full-Stack Acceleration'
   arxiv: '2606.23743'
@@ -2824,8 +2881,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 1
+  inherited_by:
+  - streamrender-h3
+  inherited_chain: 0
 - id: streaming-code-wm
   title: streaming-code-world-model (community impl)
   arxiv: ''
@@ -2881,6 +2940,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: agentgarten
   title: 'AgentGarten: Code Worlds for Evolving Agents'
   arxiv: '2610.12374'
@@ -2935,6 +2995,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: exeworldbench
   title: 'ExeWorldBench: Benchmarking Code-Based Executable 3D World Modeling'
   arxiv: '2610.15166'
@@ -2979,6 +3040,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: prowbench
   title: 'PROWBench: Do Video Models Render What the Program Specifies?'
   arxiv: '2610.02205'
@@ -3025,6 +3087,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: physcodegym
   title: 'PhysCodeGym: Verifiable 4D Physics Reconstruction for Coding Agents'
   arxiv: '2610.17288'
@@ -3072,6 +3135,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: physcodebench
   title: PhysCodeBench
   arxiv: ''
@@ -3112,6 +3176,7 @@ nodes:
   repro: closed
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: infinite-rope
   title: 'Infinity-RoPE: Action-Controllable Infinite Video Generation Emerges From
     Autoregressive Self-Rollout'
@@ -3160,8 +3225,11 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 2
+  inherited_by:
+  - context-forcing
+  - flex
+  inherited_chain: 0
 - id: deep-forcing
   title: 'Deep Forcing: Training-Free Long Video Generation with Deep Sink and Participative
     Compression'
@@ -3214,6 +3282,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: rolling-sink
   title: 'Rolling Sink: Bridging Limited-Horizon Training and Open-Ended Testing in
     Autoregressive Video Diffusion'
@@ -3269,8 +3338,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 0
-  inherited_by: []
+  inherited: 1
+  inherited_by:
+  - packforcing
+  inherited_chain: 0
 - id: lol
   title: 'LoL: Longer than Longer, Scaling Video Generation to Hour'
   date: '2026-01-23'
@@ -3317,6 +3388,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: flex
   title: 'Train Short, Inference Long: Training-free Horizon Extension for Autoregressive
     Video Generation'
@@ -3369,6 +3441,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: anchor-forcing
   title: 'Anchor Forcing: Anchor Memory and Tri-Region RoPE for Interactive Streaming
     Video Diffusion'
@@ -3426,6 +3499,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: packforcing
   title: 'PackForcing: Short Video Training Suffices for Long Video Sampling and Long
     Context Inference'
@@ -3479,6 +3553,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: dysink
   title: 'DySink: Dynamic Frame Sinks for Autoregressive Long Video Generation'
   date: '2026-05-20'
@@ -3527,6 +3602,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: fadem
   title: 'FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion'
   date: '2026-06-09'
@@ -3574,6 +3650,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: moc
   title: Mixture of Contexts for Long Video Generation
   date: '2025-08-28'
@@ -3624,6 +3701,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: omnimem
   title: 'OmniMem: Scalable and Adaptive Memory Retrieval for Long Video Generation'
   date: '2026-05-28'
@@ -3672,6 +3750,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: memlearner
   title: 'MemLearner: Learning to Query Context memory for Video World Models'
   date: '2026-06-30'
@@ -3717,10 +3796,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 2
+  inherited: 1
   inherited_by:
-  - memactive
   - layerrecall
+  inherited_chain: 0
 - id: slotmemory
   title: 'SlotMemory: Object-Centric KV Memory for Streaming Long-Video Generation'
   date: '2026-05-29'
@@ -3775,6 +3854,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: tethercache
   title: 'TetherCache: Stabilizing Autoregressive Long-Form Video Generation with
     Gated Recall and Trusted Alignment'
@@ -3823,6 +3903,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: layerrecall
   title: 'LayerRecall: A State-Conditioned Memory Router for Long-Horizon Consistency
     in Video Generation'
@@ -3873,6 +3954,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: weave-forcing
   title: 'Weave Forcing: Compositional Memory Routing for Interactive Long Video Generation'
   date: '2026-10-02'
@@ -3922,6 +4004,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: reel
   title: 'REEL: Learning to Retrieve, Evaluate, and Evolve Visual Memory for Any Long-Horizon
     Multi-Shot Video Generation'
@@ -3972,6 +4055,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: gear
   title: Geometry as Address (GEAR)
   date: '2026-09-28'
@@ -4020,6 +4104,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: lyra2
   title: Lyra 2.0 - Explorable Generative 3D Worlds
   date: '2026-04-14'
@@ -4070,6 +4155,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: ucm
   title: UCM - Unified Modeling of Camera Control and Memory
   date: '2026-02-26'
@@ -4116,6 +4202,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: anchorweave
   title: AnchorWeave
   date: '2026-02-16'
@@ -4165,6 +4252,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: worldstereo
   title: WorldStereo
   date: '2026-03-02'
@@ -4214,6 +4302,7 @@ nodes:
   inherited: 1
   inherited_by:
   - hy-world-2
+  inherited_chain: 0
 - id: evoworld
   title: EvoWorld
   date: '2025-10-01'
@@ -4260,6 +4349,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: geo-context
   title: Geometry-as-context
   date: '2026-02-25'
@@ -4306,6 +4396,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: gim-world
   title: 'GIM-World: Geometry-Aware Implicit Memory for Video World Models'
   date: '2026-06-01'
@@ -4355,6 +4446,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: infinite-world
   title: Infinite-World
   date: '2026-02-02'
@@ -4403,6 +4495,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: decmem
   title: DecMem
   date: '2026-05-29'
@@ -4449,6 +4542,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: memory-forcing
   title: Memory Forcing
   date: '2025-10-03'
@@ -4501,6 +4595,7 @@ nodes:
   inherited: 1
   inherited_by:
   - memory-forcing-train
+  inherited_chain: 0
 - id: spatial-ttt
   title: Spatial-TTT
   date: '2026-03-12'
@@ -4549,6 +4644,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: loger
   title: LoGeR
   date: '2026-03-03'
@@ -4601,6 +4697,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mem3r
   title: Mem3R
   date: '2026-04-08'
@@ -4650,6 +4747,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mit3
   title: MIT^3 - Memory Internalization via Test-Time Training
   date: '2026-10-17'
@@ -4697,6 +4795,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: rad
   title: Recurrent Autoregressive Diffusion (RAD)
   date: '2025-11-17'
@@ -4747,6 +4846,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: onstm
   title: Online Neural Space Time Memory (NSTM)
   date: '2026-07-16'
@@ -4795,6 +4895,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: zo3t
   title: Zo3T
   date: '2025-09-08'
@@ -4842,6 +4943,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: comoe
   title: Composition of Memory Experts
   date: '2026-05-12'
@@ -4886,6 +4988,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: alayaworld
   title: 'AlayaWorld: Interactive Long-Horizon World Modeling — Full Technical Report
     (v1.1)'
@@ -4936,6 +5039,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: waypoint-15
   title: 'Waypoint-1.5: A Real-Time Video World Model for Consumer Hardware'
   date: '2026-09-29'
@@ -4978,6 +5082,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: state-world-models
   title: 'State World Models: Execute the Rules, Generate the Pixels'
   date: '2026-10-19'
@@ -5022,6 +5127,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mass
   title: 'MASS: Multiplayer World Models with Authoritative Shared State'
   date: '2026-08-06'
@@ -5067,6 +5173,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: gamedirector
   title: 'GameDirector: Decoupling Gameplay Logic from Rendering for Player-Configured
     Worlds'
@@ -5112,6 +5219,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: causal-forcing
   title: 'Causal Forcing: Autoregressive Diffusion Distillation Done Right for High-Quality
     Real-Time Interactive Video Generation'
@@ -5162,9 +5270,10 @@ nodes:
   repro: code_only
   inherited: 3
   inherited_by:
-  - dreamx-world
   - rolling-sink
   - minwm
+  - dreamx-world
+  inherited_chain: 0
 - id: context-forcing
   title: 'Context Forcing: Consistent Autoregressive Video Generation with Long-Context
     Forcing'
@@ -5212,6 +5321,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: longforcing
   title: 'LongForcing: Scaling Temporal Manifold Matching for Long-Horizon World Models'
   date: '2026-10-13'
@@ -5259,6 +5369,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: forgewm
   title: 'ForgeWM: Progressive Causal Training for Few-Step Action-Conditioned Video
     World Models'
@@ -5312,6 +5423,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: causal-rcm
   title: 'Causal-rCM: A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive
     Video Diffusion'
@@ -5367,6 +5479,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: longtake
   title: 'LongTake: Learning to Sustain Dynamics in Long-Horizon Video Generation'
   date: '2026-09-29'
@@ -5416,6 +5529,7 @@ nodes:
   inherited: 1
   inherited_by:
   - longforcing
+  inherited_chain: 0
 - id: glance-forcing
   title: 'Glance Forcing: Making Bidirectional Diffusion Autoregressive at a Glance'
   date: '2026-10-14'
@@ -5468,6 +5582,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: astronex-world
   title: 'Astronex-World 1.0: Real-Time Interactive World Model Foundation'
   date: '2026-09-17'
@@ -5521,6 +5636,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: minwm
   title: 'minWM: A Full-Stack Open-Source Framework for Real-Time Interactive Video
     World Models'
@@ -5574,6 +5690,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: helixworld
   title: 'HelixWorld: A Real-Time Interactive Audio-Visual World Model'
   date: '2026-09-29'
@@ -5619,6 +5736,7 @@ nodes:
   inherited: 1
   inherited_by:
   - solarrenderer
+  inherited_chain: 0
 - id: worldroambench
   title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive
     World Models'
@@ -5665,6 +5783,7 @@ nodes:
   inherited: 1
   inherited_by:
   - longforcing
+  inherited_chain: 0
 - id: wbench
   title: 'WBench: A Comprehensive Multi-turn Benchmark for Interactive Video World
     Models'
@@ -5707,11 +5826,10 @@ nodes:
   citations: 0
   cpm: 0.0
   repro: paper_only
-  inherited: 3
+  inherited: 1
   inherited_by:
   - velox
-  - prowbench
-  - pawbench
+  inherited_chain: 0
 - id: worldmark
   title: 'WorldMark: A Unified Benchmark Suite for Interactive Video World Models'
   date: '2026-04-23'
@@ -5755,6 +5873,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: memobench
   title: 'MemoBench: Benchmarking World Modeling in Dynamically Changing Environments'
   date: '2026-06-25'
@@ -5800,6 +5919,7 @@ nodes:
   inherited: 1
   inherited_by:
   - layerrecall
+  inherited_chain: 0
 - id: playworld
   title: 'PlayWorld: Benchmarking World Models with Agent Players over Long-Horizon
     Objectives'
@@ -5844,6 +5964,7 @@ nodes:
   repro: code_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: mist
   title: 'Execution Before Memory: Diagnosing Memory Failures in Video World Models
     (MIST)'
@@ -5890,6 +6011,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: worldoracle
   title: 'WorldOracle: Benchmarking Action-Conditioned World Models against Real-World
     Executions'
@@ -5934,6 +6056,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: pvbench
   title: 'PVBench: Quantifying Physical Plausibility in Video Generation with Object-Level
     Measurements'
@@ -5978,6 +6101,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: orbia
   title: 'Orbia: Do Generated Videos Form a Consistent 3D World?'
   date: '2026-10-14'
@@ -6023,6 +6147,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: pawbench
   title: 'PAWBench: How Far Are We from Probabilistically Aligned World Modeling?'
   date: '2026-08-27'
@@ -6072,6 +6197,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: memory-forcing-train
   title: 'Memory Forcing: Attendable Mid-Horizon History for Streaming Video Generation'
   arxiv: '2610.11756'
@@ -6126,6 +6252,7 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: solarrenderer
   title: 'SolarRenderer: Few-Step Generative Reference Rendering'
   arxiv: '2610.28630'
@@ -6189,6 +6316,7 @@ nodes:
   repro: code_weights
   inherited: 0
   inherited_by: []
+  inherited_chain: 0
 - id: wan-streamer
   title: Video = World + Event Stream (Wan Streamer v0.3)
   arxiv: '2607.15038'
@@ -6246,3 +6374,4 @@ nodes:
   repro: paper_only
   inherited: 0
   inherited_by: []
+  inherited_chain: 0

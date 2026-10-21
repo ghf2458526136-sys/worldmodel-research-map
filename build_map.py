@@ -191,7 +191,7 @@ def layout(nodes, order, color):
                 "key": bool(n.get("key")),
                 "citations": _cites(n.get("citations")),
                 "cpm": _cpm(n.get("cpm")),
-                "inherited": _inherit(n.get("inherited")),
+                "inherited": _inherit(n.get("inherited")), "inherited_chain": _inherit(n.get("inherited_chain")),
                 "repro": (n.get("repro") or "").strip(),
                 "x": round(x, 1), "y": y,
             })
@@ -667,7 +667,7 @@ function addImpact(b, n){
     : (n.cpm === 0 ? `<b>0.0</b> 次/月 <span class="u">至今无人引用，光圈不亮</span>`
                    : `<span class="u">无数据（未统计速率）</span>`)]);
   rows.push(["图谱内被继承", n.inherited > 0
-    ? `<b>${n.inherited}</b> 篇后续工作接在它上面`
+    ? `<b>${n.inherited}</b> 篇后续工作直接接在它上面${n.inherited_chain > 0 ? ` <span class="u">另有 ${n.inherited_chain} 篇经传递链继承</span>` : ""}`
     : `<span class="u">暂无</span>`]);
   const rp = REPRO[n.repro];
   if(rp) rows.push(["可复现性", `<b>${rp[0]}</b> <span class="u">${rp[1]}</span>`]);
