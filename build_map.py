@@ -435,7 +435,7 @@ function drawGlow(g, n){
   g.insertBefore(gl, g.firstChild);
   const c = n.citations, num = c >= 1000 ? (c/1000).toFixed(c >= 10000 ? 0 : 1) + "k" : String(c);
   const b = el("text", {class:"cite-badge", x:w - 11, y:h - 13, "text-anchor":"end", fill:T.badge}, g);
-  b.textContent = "\u00d7" + num;
+  b.textContent = "被引 " + num;
 }
 
 /* ---------- 相机 ---------- */
