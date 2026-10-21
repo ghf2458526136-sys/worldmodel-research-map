@@ -40,6 +40,25 @@ def _cites(v):
     return int(s) if s.lstrip("-").isdigit() else None
 
 
+def _cpm(v):
+    """引用速率（次/月）：保留 1 位小数，拿不到就是 None。"""
+    if isinstance(v, bool) or v is None:
+        return None
+    try:
+        x = float(str(v).strip())
+    except (TypeError, ValueError):
+        return None
+    if x != x or x in (float("inf"), float("-inf")):
+        return None
+    return round(x, 3)
+
+
+def _inherit(v):
+    """图谱内被继承次数：非负整数，缺省 0。"""
+    n = _cites(v)
+    return max(0, n) if n is not None else 0
+
+
 def month_start(d):
     return date(d.year, d.month, 1)
 
@@ -171,6 +190,9 @@ def layout(nodes, order, color):
                 "link_strength": n.get("link_strength") or "",
                 "key": bool(n.get("key")),
                 "citations": _cites(n.get("citations")),
+                "cpm": _cpm(n.get("cpm")),
+                "inherited": _inherit(n.get("inherited")),
+                "repro": (n.get("repro") or "").strip(),
                 "x": round(x, 1), "y": y,
             })
 
@@ -255,7 +277,7 @@ HTML = r"""<!DOCTYPE html>
   .branch{font-size:14px;fill:#475569;font-weight:500}
   .tick{stroke:rgba(15,23,42,.06);stroke-width:1}
   .tick.major{stroke:rgba(15,23,42,.12)}
-  /* ---- 引用量炫光：0-4 不发光，5+ 分 4 档，越高越宽/越亮/呼吸越快 ---- */
+  /* ---- 引用速率炫光：cpm 四档，越高越宽/越亮/呼吸越快；无数据不发光 ---- */
   .glow{pointer-events:none}
   .glow .halo,.glow .ring{fill:none;stroke-linejoin:round}
   .glow .halo{animation:gbreathe var(--gd) ease-in-out infinite}
@@ -275,6 +297,15 @@ HTML = r"""<!DOCTYPE html>
   @keyframes gbreathe{0%,100%{stroke-opacity:.30}50%{stroke-opacity:.92}}
   @keyframes gring{0%,100%{stroke-opacity:.55}50%{stroke-opacity:1}}
   .cite-badge{font-size:10.5px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;opacity:.92}
+  .inherit-badge{font-size:10px;font-weight:700;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+  /* ---- 面板「影响力」小节 ---- */
+  .imp{display:flex;flex-direction:column;gap:1px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
+  .imp-row{display:flex;gap:12px;align-items:baseline;padding:9px 12px;background:rgba(255,255,255,.92)}
+  .imp-k{flex:none;width:96px;font-size:12px;font-weight:600;color:var(--muted)}
+  .imp-v{font-size:13px;line-height:1.6;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .imp-v b{color:var(--ink);font-weight:700}
+  .imp-v .u{color:var(--muted);font-weight:500;font-size:12px}
+  .imp-note{margin-top:7px;font-size:11.5px;color:var(--muted);line-height:1.6}
   @media (prefers-reduced-motion:reduce){.glow .halo,.glow .ring{animation:none}}
   .year-sep{stroke:rgba(15,23,42,.22);stroke-width:1.2;stroke-dasharray:3 6;stroke-linecap:round}
   .year-label{font-size:15px;font-weight:800;letter-spacing:.06em}
@@ -407,35 +438,58 @@ function el(tag, attrs, parent){
   (parent || vp).appendChild(n); return n;
 }
 
-/* ---------- 引用量炫光：0-4 不发光，5+ 分 4 档 ---------- */
+/* ---------- 影响力光圈：按引用速率 cpm（次/月）分 4 档 ----------
+ * 用速率而不是绝对引用数，是为了让 2026 年的新论文不至于全被压成 0：
+ * 刚发两个月被引 3 次（1.5/月）比两年前被引 20 次（0.8/月）更热。
+ * 四档阈值：0 < cpm < 0.15 / 0.15–0.40 / 0.40–1.00 / ≥ 1.00
+ * cpm 缺失或 0 不发光。*/
 const GLOW_TIERS = [
-  {ring:2.0, pad:3.5, halo:7,  badge:"#5F79C4"},   // 1-4
-  {ring:3.0, pad:4.0, halo:10, badge:"#4A5FE0"},   // 5-15
-  {ring:4.5, pad:4.5, halo:14, badge:"#7C3AED"},   // 16-40
-  {ring:6.0, pad:5.0, halo:18, badge:"#B06500"},   // 41+
+  {ring:2.0, pad:3.5, halo:7,  badge:"#5F79C4"},   // < 0.15 次/月
+  {ring:3.0, pad:4.0, halo:10, badge:"#4A5FE0"},   // 0.15–0.40
+  {ring:4.5, pad:4.5, halo:14, badge:"#7C3AED"},   // 0.40–1.00
+  {ring:6.0, pad:5.0, halo:18, badge:"#B06500"},   // ≥ 1.00
 ];
-function citeTier(c){
-  // 档位贴合本数据集：124 篇里 99 篇是 0（2026 年新论文），最高 47
-  if(c == null || !isFinite(c) || c < 1) return 0;
-  if(c < 5) return 1;
-  if(c < 16) return 2;
-  if(c < 41) return 3;
+const RATE_CUTS = [0.15, 0.40, 1.00];
+function rateTier(cpm){
+  if(cpm == null || !isFinite(cpm) || cpm <= 0) return 0;
+  if(cpm < RATE_CUTS[0]) return 1;
+  if(cpm < RATE_CUTS[1]) return 2;
+  if(cpm < RATE_CUTS[2]) return 3;
   return 4;
 }
+function numText(c){ return c >= 1000 ? (c/1000).toFixed(c >= 10000 ? 0 : 1) + "k" : String(c); }
+function rateText(v){ return (Math.round(v*10)/10).toFixed(1); }
 /* 光晕沉到卡面之下：只在卡片外沿溢出，卡内毛玻璃/文字不被着色 */
 function drawGlow(g, n){
-  const t = citeTier(n.citations);
-  if(!t) return;
-  const T = GLOW_TIERS[t - 1], w = DATA.card.w, h = DATA.card.h, pad = T.pad + T.ring / 2;
-  const gl = el("g", {class:"glow g" + t}, g);
-  el("rect", {class:"halo", x:-pad, y:-pad, width:w + pad*2, height:h + pad*2,
-    rx:16 + pad, "stroke-width":T.halo}, gl);
-  el("rect", {class:"ring", x:-pad, y:-pad, width:w + pad*2, height:h + pad*2,
-    rx:16 + pad, "stroke-width":T.ring}, gl);
-  g.insertBefore(gl, g.firstChild);
-  const c = n.citations, num = c >= 1000 ? (c/1000).toFixed(c >= 10000 ? 0 : 1) + "k" : String(c);
-  const b = el("text", {class:"cite-badge", x:w - 11, y:h - 13, "text-anchor":"end", fill:T.badge}, g);
-  b.textContent = "被引 " + num;
+  const w = DATA.card.w, h = DATA.card.h, t = rateTier(n.cpm);
+  if(t){
+    const T = GLOW_TIERS[t - 1], pad = T.pad + T.ring / 2;
+    const gl = el("g", {class:"glow g" + t}, g);
+    el("rect", {class:"halo", x:-pad, y:-pad, width:w + pad*2, height:h + pad*2,
+      rx:16 + pad, "stroke-width":T.halo}, gl);
+    el("rect", {class:"ring", x:-pad, y:-pad, width:w + pad*2, height:h + pad*2,
+      rx:16 + pad, "stroke-width":T.ring}, gl);
+    g.insertBefore(gl, g.firstChild);
+  }
+  // 右下角：被引量 + 速率（速率缺失就只写被引）
+  const parts = [];
+  if(n.citations != null) parts.push("被引 " + numText(n.citations));
+  if(n.cpm != null && n.cpm > 0) parts.push(rateText(n.cpm) + "/月");
+  if(parts.length){
+    const b = el("text", {class:"cite-badge", x:w - 11, y:h - 13, "text-anchor":"end",
+      fill:t ? GLOW_TIERS[t - 1].badge : "#7C8698"}, g);
+    b.textContent = parts.join(" · ");
+  }
+}
+/* 图谱内被后继工作继承的次数：小胶囊，压在引用标记上方 */
+function drawInherit(g, n){
+  if(!n.inherited) return;
+  const w = DATA.card.w, h = DATA.card.h, txt = "被继承 " + n.inherited;
+  const pw = txt.length * 6 + 16, x = w - 11 - pw, y = h - 44;
+  el("rect", {x, y, width:pw, height:16, rx:8, fill:"rgba(13,148,136,.12)",
+    stroke:"rgba(13,148,136,.28)", "stroke-width":1}, g);
+  el("text", {class:"inherit-badge", x:x + pw/2, y:y + 11.5, "text-anchor":"middle", fill:"#0F766E"}, g)
+    .textContent = txt;
 }
 
 /* ---------- 相机 ---------- */
@@ -523,7 +577,8 @@ function build(){
     const g = el("g", {class:"card", "data-id":n.id, transform:`translate(${n.x},${n.y})`}); cards[n.id] = g;
     el("title", {}, g).textContent = n.one_liner || n.title;
     el("rect", {class:"bg", width:DATA.card.w, height:DATA.card.h, rx:16}, g);
-    drawGlow(g, n);   // 引用量分档炫光（原手选 n.key 名单已废）
+    drawGlow(g, n);   // 引用速率 cpm 分档炫光 + 被引/速率标记（原手选 n.key 名单已废）
+    drawInherit(g, n); // 图谱内被继承次数
     el("rect", {class:"stripe", width:5, height:DATA.card.h-16, x:1.5, y:8, fill:laneColor[n.lane] || "#888", rx:2.5, opacity:.9}, g);
     const FREE = {"免训":"免训", "推理期技巧":"推理期"};
     const tagList = (FREE[n.training] ? [{t:FREE[n.training], free:true}] : []).concat((n.tags || []).map(t => ({t, free:false})));
@@ -594,6 +649,42 @@ function setActive(n){
   try{ history.replaceState(null, "", n ? "#" + n.id : location.pathname + location.search); }catch(e){}
 }
 function closePanel(){ panel.classList.remove("open"); document.body.classList.remove("panel-open"); setActive(null); }
+/* ---------- 面板「影响力」：被引 / 速率 / 被继承 / 可复现 ---------- */
+const REPRO = {
+  code_weights: ["代码 + 权重", "全开，可直接复现"],
+  code_only:    ["仅代码", "权重未放出"],
+  paper_only:   ["仅论文", "未开源"],
+  closed:       ["闭源", "无公开实现"],
+};
+const TIER_WORD = ["", "微微发光", "小热", "明显偏热", "最热一档"];
+function addImpact(b, n){
+  const t = rateTier(n.cpm), rows = [];
+  rows.push(["被引", n.citations != null
+    ? `<b>${n.citations}</b> 次 <span class="u">OpenAlex 口径</span>`
+    : `<span class="u">暂未收录</span>`]);
+  rows.push(["引用速率", (n.cpm != null && n.cpm > 0)
+    ? `<b>${rateText(n.cpm)}</b> 次/月 <span class="u">≈ 每月新增被引，${TIER_WORD[t]}（第 ${t}/4 档）</span>`
+    : (n.cpm === 0 ? `<b>0.0</b> 次/月 <span class="u">至今无人引用，光圈不亮</span>`
+                   : `<span class="u">无数据（未统计速率）</span>`)]);
+  rows.push(["图谱内被继承", n.inherited > 0
+    ? `<b>${n.inherited}</b> 篇后续工作接在它上面`
+    : `<span class="u">暂无</span>`]);
+  const rp = REPRO[n.repro];
+  if(rp) rows.push(["可复现性", `<b>${rp[0]}</b> <span class="u">${rp[1]}</span>`]);
+
+  const lab = document.createElement("div"); lab.className = "lab"; lab.textContent = "影响力";
+  const box = document.createElement("div"); box.className = "imp";
+  rows.forEach(([k, v]) => {
+    const r = document.createElement("div"); r.className = "imp-row";
+    const a = document.createElement("span"); a.className = "imp-k"; a.textContent = k;
+    const c = document.createElement("span"); c.className = "imp-v"; c.innerHTML = v;
+    r.appendChild(a); r.appendChild(c); box.appendChild(r);
+  });
+  b.appendChild(lab); b.appendChild(box);
+  const note = document.createElement("p"); note.className = "imp-note";
+  note.textContent = "速率 = 被引 ÷ 发表月数，用来抵消“老论文天然引用多”；光圈只适合本图内横向比较，不代表质量。";
+  b.appendChild(note);
+}
 function openPanel(n){
   setActive(n);
   panel.querySelector("#phead .t").textContent = n.title;
@@ -621,6 +712,7 @@ function openPanel(n){
     b.appendChild(box);
   }
   if(n.one_liner){ add("lab", "一句话"); add("p", n.one_liner); }
+  addImpact(b, n);
   if(n.detail){ window.renderDetail(b, n.detail); }
   else if(n.mechanism){ add("lab", "机制"); add("p", n.mechanism); }
   if(n.key_numbers && n.key_numbers.length){

@@ -83,6 +83,12 @@ nodes:
     diff: 关键差别是缓存由开头的 sink token 与最近窗口构成，而非持续保留全部历史 token。摘要未提供与具体已有方法的进一步比较。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: paper_only
+  inherited: 2
+  inherited_by:
+  - rolling-forcing
+  - deep-forcing
 - id: videophy
   title: VideoPhy
   date: '2024-10-07'
@@ -119,6 +125,10 @@ nodes:
     diff: 已知其属于非回溯一致性评测；现有信息不足以说明与具体已有方法的差别。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: causvid
   title: CausVid
   date: '2024-12-01'
@@ -170,6 +180,11 @@ nodes:
     limits: 摘要未明确说明训练和推理的资源代价、适用分辨率或具体画质局限；自回归生成中的误差累积是其需要处理的问题。
     has_abstract: true
   citations: 47
+  cpm: 2.14
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - self-forcing
 - id: cosmos
   title: Cosmos
   date: '2025-01-07'
@@ -206,6 +221,11 @@ nodes:
     diff: 已知定位侧重物理 AI 的训练数据与仿真。它不是流式交互生成方法。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - causal-rcm
 - id: worldmodelbench
   title: WorldModelBench
   date: '2025-02-13'
@@ -246,6 +266,10 @@ nodes:
     limits: 摘要未见明确说明评测成本、标注覆盖范围及其局限；也未给出评测流程和评分细节。
     has_abstract: true
   citations: 2
+  cpm: 0.1
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: gen3c
   title: GEN3C
   date: '2025-03-18'
@@ -285,6 +309,10 @@ nodes:
     diff: 现有材料只提供其作为显式几何缓存代表这一分类，未说明相较已有做法的具体差别。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: worldsimbench
   title: WorldSimBench
   date: '2025-03-24'
@@ -321,6 +349,10 @@ nodes:
     diff: 现有信息将其归类为具身、物理与指令遵循类评测，而非非回溯一致性评测。与其他已有做法的具体差别未说明。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: framepack
   title: FramePack
   date: '2025-04-01'
@@ -366,6 +398,11 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 7
+  cpm: 0.39
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - context-forcing
 - id: worldscore
   title: WorldScore
   date: '2025-04-01'
@@ -411,6 +448,10 @@ nodes:
     limits: 不评测回访一致性；摘要未见明确说明其他代价与局限。
     has_abstract: true
   citations: 17
+  cpm: 0.94
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: loopnav
   title: LoopNav
   date: '2025-05-01'
@@ -452,6 +493,10 @@ nodes:
     limits: 摘要未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: vmem
   title: VMem
   date: '2025-10-01'
@@ -505,6 +550,12 @@ nodes:
     limits: 摘要指出使用全部历史视图作为上下文计算成本较高，VMem 通过相关视图检索降低成本；未见明确说明其他局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 2
+  inherited_by:
+  - octworld
+  - smart
 - id: spmem
   title: spmem
   date: '2025-06-01'
@@ -548,6 +599,10 @@ nodes:
     limits: 几何记忆强依赖深度估计；动态场景下可能失效。摘要未见更具体的计算代价或失败条件说明。
     has_abstract: true
   citations: 6
+  cpm: 0.38
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: self-forcing
   title: Self-Forcing
   date: '2025-06-01'
@@ -597,6 +652,16 @@ nodes:
     limits: 方法引入自回归 rollout 和视频级监督，训练需兼顾计算开销；摘要称 stochastic gradient truncation 用于平衡成本与性能，但未见明确说明其他代价或局限。
     has_abstract: true
   citations: 42
+  cpm: 2.62
+  repro: paper_only
+  inherited: 6
+  inherited_by:
+  - longlive
+  - streaming-code-wm
+  - tethercache
+  - causal-forcing
+  - context-forcing
+  - causal-rcm
 - id: genie3
   title: Genie 3
   date: '2025-08-05'
@@ -638,6 +703,10 @@ nodes:
     diff: 已知信息突出其交互视频能力与约一分钟的视觉记忆；视觉一致性被报告为涌现现象。具体相对已有方法的机制差异未公开。
     limits: 记忆机制闭源且未公开；其他代价与局限未见明确说明。
     has_abstract: false
+  cpm: null
+  repro: closed
+  inherited: 0
+  inherited_by: []
 - id: rolling-forcing
   title: Rolling Forcing
   date: '2025-09-01'
@@ -695,6 +764,14 @@ nodes:
     limits: 摘要未明确说明该方法的计算与显存代价、窗口大小选择、对不同场景或条件信号的适用范围及潜在失败情况。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 4
+  inherited_by:
+  - worldplay
+  - matrix-game-3
+  - echo-forcing
+  - echo-infinity
 - id: longlive
   title: LongLive
   date: '2025-09-01'
@@ -742,6 +819,15 @@ nodes:
     limits: 摘要未见明确说明方法局限；INT8 推理会带来轻微质量损失。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 5
+  inherited_by:
+  - longlive-rag
+  - flex
+  - memlearner
+  - reel
+  - context-forcing
 - id: sora2-veo31
   title: Sora 2 / Veo 3.1
   date: '2025-10-01'
@@ -779,6 +865,10 @@ nodes:
     diff: 已知特点是高质量生成并支持相机控制，但没有交互式长程记忆接口。因而不能进行轨迹回访对比。
     limits: 不能进行轨迹回访对比；其他代价与局限未见明确说明。
     has_abstract: false
+  cpm: null
+  repro: closed
+  inherited: 0
+  inherited_by: []
 - id: marble
   title: Marble
   date: '2025-11-12'
@@ -817,6 +907,11 @@ nodes:
     diff: Marble 生成和编辑 3D 场景，不沿相机轨迹逐帧生成，因此不构成可比的回访基线。该方法为闭源。
     limits: 闭源，具体实现细节不可见；不适合作为逐帧 rollout 或回访任务的直接基线。计算代价与其他局限未见明确说明。
     has_abstract: false
+  cpm: null
+  repro: closed
+  inherited: 1
+  inherited_by:
+  - hy-world-2
 - id: worldplay
   title: WorldPlay (HY-World 1.5)
   date: '2025-12-01'
@@ -873,6 +968,12 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 2
+  inherited_by:
+  - hy-world-2
+  - worldtrace
 - id: lingbot-world
   title: LingBot-World
   date: '2026-01-01'
@@ -918,6 +1019,10 @@ nodes:
     limits: 摘要未说明训练数据来源、记忆机制、硬件需求及不同场景下的性能边界，未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: mind
   title: MIND
   date: '2026-02-01'
@@ -958,6 +1063,10 @@ nodes:
     limits: 摘要指出当前 world models 难以维持长期记忆一致性并泛化到不同动作空间；评测成本及其他局限未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: memrope
   title: MemRoPE
   date: '2026-03-01'
@@ -1004,6 +1113,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: matrix-game-3
   title: Matrix-Game 3.0
   date: '2026-04-01'
@@ -1056,6 +1169,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: echo-forcing
   title: Echo-Forcing
   date: '2026-05-01'
@@ -1099,6 +1216,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: sana-wm
   title: SANA-WM
   date: '2026-05-01'
@@ -1148,6 +1269,10 @@ nodes:
     limits: 训练仍需 64 张 H100 和 15 天；摘要未见明确说明长视频生成的其他资源代价、适用场景限制或失败模式。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: echo-infinity
   title: Echo-Infinity
   date: '2026-06-01'
@@ -1196,6 +1321,11 @@ nodes:
     limits: 摘要未见明确说明方法的额外代价与局限；其记忆压缩仍可能涉及历史信息取舍，但摘要未提供相关误差或成本分析。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - memactive
 - id: memactive
   title: MemActive
   date: '2026-06-01'
@@ -1232,6 +1362,10 @@ nodes:
     diff: 报告称 MemActive 最接近实体级视觉记忆，但未提供足够细节以比较其与已有做法的具体差异。
     limits: 报告只明确提及在冻结生成器上验证；计算代价及其他局限未见明确说明。
     has_abstract: false
+  cpm: null
+  repro: closed
+  inherited: 0
+  inherited_by: []
 - id: longlive-rag
   title: LongLive-RAG
   date: '2026-07-01'
@@ -1281,6 +1415,14 @@ nodes:
     limits: 检索会带来额外开销，摘要称其相对生成较小，但未给出具体量化。其他局限未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 4
+  inherited_by:
+  - mosaichunk
+  - smi
+  - l2r
+  - reel
 - id: dreamx-world
   title: DreamX-World
   date: '2026-06-01'
@@ -1336,6 +1478,10 @@ nodes:
     limits: 最高 16 FPS 的报告结果依赖八张 RTX 5090 GPU 及多项推理优化，计算资源代价较高。摘要未明确说明记忆检索的容量、长时程效果边界或其他局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: mirage
   title: Mirage
   date: '2026-06-01'
@@ -1389,6 +1535,10 @@ nodes:
     limits: 摘要未见明确说明方法局限；其记忆构建依赖 depth-guided back-projection，但摘要未讨论深度信息误差的影响。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: captain-safari
   title: Captain Safari
   date: '2026-06-15'
@@ -1437,6 +1587,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: hy-world-2
   title: HY-World 2.0
   date: '2026-07-15'
@@ -1481,6 +1635,10 @@ nodes:
     limits: 摘要未见明确说明计算开销、生成速度、适用场景边界或重建失败情形。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: worldtrace
   title: WorldTrace
   date: '2026-08-01'
@@ -1535,6 +1693,10 @@ nodes:
     limits: 摘要未见明确说明计算与存储代价、阈值选择方式及适用模型范围。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: r2m-bench
   title: R2M-Bench
   date: '2026-08-01'
@@ -1586,6 +1748,10 @@ nodes:
     limits: 摘要未明确说明检测回访、构造配对和各评测维度打分的具体实现细节；相对校准依赖同一 rollout 中可用的有效对照样本。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: octworld
   title: OctWorld
   date: '2026-09-01'
@@ -1631,6 +1797,10 @@ nodes:
     limits: 该类显式几何缓存依赖深度估计，深度误差可能影响几何记忆；摘要未明确说明深度获取方式、计算代价及其他局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: solarwm
   title: SolarWM
   date: '2026-09-01'
@@ -1683,6 +1853,10 @@ nodes:
     limits: 摘要未报告训练与推理的计算成本、各模型效果差异或长程 rollout 的具体质量指标；记忆结构也未描述。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: honeycomb
   title: Honeycomb
   date: '2026-09-01'
@@ -1732,6 +1906,10 @@ nodes:
     limits: 摘要未见明确说明具体代价与局限；记忆更新依赖对已有 planes 的 warp 和融合，但其误差影响与适用边界未给出。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: mosaichunk
   title: MosaiChunk
   date: '2026-10-01'
@@ -1775,6 +1953,10 @@ nodes:
     limits: 需要保存历史区块的 KV，并进行路由选择与拼接；其具体存储和计算代价、路由器局限及其他限制未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: smi
   title: SMI
   date: '2026-10-01'
@@ -1819,6 +2001,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: smart
   title: SMART
   date: '2026-10-01'
@@ -1890,6 +2076,10 @@ nodes:
     limits: 摘要未见明确说明具体局限；其方案依赖观测相机与渲染相机信息来寻址记忆。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: velox
   title: Velox
   date: '2026-10-01'
@@ -1941,6 +2131,10 @@ nodes:
     limits: 摘要未见明确说明方法的局限或额外代价。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: hla-wm
   title: HLA-WM
   date: '2026-10-01'
@@ -1994,6 +2188,10 @@ nodes:
     limits: 推理吞吐最多下降 1.6%。摘要未见对几何检索适用条件、失败情形或其他局限的明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: l2r
   title: L2R
   date: '2026-10-01'
@@ -2044,6 +2242,10 @@ nodes:
     limits: 摘要未见明确说明计算代价、内部状态容量限制或适用范围等局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: world-t3
   title: World-T3
   date: '2026-10-01'
@@ -2093,6 +2295,11 @@ nodes:
     limits: 生成依赖相机位姿条件；摘要未见明确说明其余代价与局限，也未给出记忆更新和蒸馏的具体设置。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - mit3
 - id: pwm
   title: PWM
   date: '2026-10-01'
@@ -2137,6 +2344,10 @@ nodes:
     limits: 摘要未见明确的计算代价或局限说明；视觉渲染仍由预训练 video model 生成，不能据摘要认定渲染过程本身可解释或确定。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: worldmembench
   title: WorldMemBench
   date: '2026-10-01'
@@ -2180,6 +2391,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: keepsake
   title: Keepsake
   date: '2026-10-05'
@@ -2232,6 +2447,10 @@ nodes:
     limits: 摘要未见明确说明代价与局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: atas
   title: ATAS
   date: '2026-10-14'
@@ -2276,6 +2495,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: matrix-game-4
   title: Matrix-Game 4.0
   date: '2026-10-20'
@@ -2328,6 +2551,10 @@ nodes:
     diff: 与直接生成可控视频的做法不同，Matrix-Game 4.0 将持久状态和规则执行交给轻量游戏引擎，将视觉细化交给视频模型。低模代理画面、动态场景描述和记忆参考共同为视觉生成提供持续条件。
     limits: 已报告的推理成本包括单张 RTX5090 上 18.2GiB 峰值显存和 112ms 按键到显示延迟；摘要未明确说明其他局限。
     has_abstract: true
+  cpm: null
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: codewm-brain
   title: 'Code World Model: Coding Agent as World Brain'
   arxiv: '2608.25927'
@@ -2384,6 +2611,11 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 1
+  inherited_by:
+  - matrix-game-4
 - id: videococo
   title: 'VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation'
   arxiv: '2607.27380'
@@ -2428,6 +2660,10 @@ nodes:
     limits: 摘要未见明确说明具体计算代价、适用边界或失败情形。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: alaya-renderer-flash
   title: 'AlayaRenderer-Flash: Generative World Renderer at the Speed of Play'
   arxiv: '2607.18703'
@@ -2484,6 +2720,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: streamrender-h3
   title: 'StreamRender-H3: Code runs the world, a video model renders it'
   arxiv: ''
@@ -2532,6 +2772,11 @@ nodes:
       DMD 按 chunk 渲染。
     limits: 已知推理设置需要 8 卡，且每步耗时 218ms；其他计算代价、适用范围与局限未见明确说明。
     has_abstract: false
+  cpm: null
+  repro: closed
+  inherited: 1
+  inherited_by:
+  - solarrenderer
 - id: sol-engine
   title: 'Sol Video Inference Engine: Agent-Native Full-Stack Acceleration'
   arxiv: '2606.23743'
@@ -2577,6 +2822,10 @@ nodes:
     limits: 优化效果具有实例依赖性，需要针对部署目标进行调优并由人检查生成质量；摘要未见明确说明优化耗时、人工反馈成本及各项技术的兼容性限制。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: streaming-code-wm
   title: streaming-code-world-model (community impl)
   arxiv: ''
@@ -2628,6 +2877,10 @@ nodes:
     diff: 相较于不按块处理的生成方式，该实现采用因果块式生成，并用滑动 KV cache 延续历史上下文。其 proxy 仍是深度加语义 ID。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: agentgarten
   title: 'AgentGarten: Code Worlds for Evolving Agents'
   arxiv: '2610.12374'
@@ -2678,6 +2931,10 @@ nodes:
       对照可在 4 轮而非数百万轮中学习。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: exeworldbench
   title: 'ExeWorldBench: Benchmarking Code-Based Executable 3D World Modeling'
   arxiv: '2610.15166'
@@ -2718,6 +2975,10 @@ nodes:
     limits: 摘要未明确说明评测代价与局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: prowbench
   title: 'PROWBench: Do Video Models Render What the Program Specifies?'
   arxiv: '2610.02205'
@@ -2760,6 +3021,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: physcodegym
   title: 'PhysCodeGym: Verifiable 4D Physics Reconstruction for Coding Agents'
   arxiv: '2610.17288'
@@ -2803,6 +3068,10 @@ nodes:
     limits: 摘要显示存在 artifact quality 与 completion 之间的权衡，且不同 reasoning-effort 设置会影响完成情况。完整任务覆盖多类物理现象并需要工具交互，代价与更具体的局限未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: physcodebench
   title: PhysCodeBench
   arxiv: ''
@@ -2839,6 +3108,10 @@ nodes:
     diff: 与仅检查代码文本或输出结果的做法不同，该方法通过运行代码并检查生成的物理轨迹来评估物理正确性。它覆盖动量、自由落体与斜面运动以及弹性和非弹性碰撞等过程。
     limits: 未见明确说明
     has_abstract: false
+  cpm: null
+  repro: closed
+  inherited: 0
+  inherited_by: []
 - id: infinite-rope
   title: 'Infinity-RoPE: Action-Controllable Infinite Video Generation Emerges From
     Autoregressive Self-Rollout'
@@ -2885,6 +3158,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: deep-forcing
   title: 'Deep Forcing: Training-Free Long Video Generation with Deep Sink and Participative
     Compression'
@@ -2933,6 +3210,10 @@ nodes:
     limits: 摘要未见明确说明计算与显存代价、适用模型范围及失败情形。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: rolling-sink
   title: 'Rolling Sink: Bridging Limited-Horizon Training and Open-Ended Testing in
     Autoregressive Video Diffusion'
@@ -2986,6 +3267,10 @@ nodes:
     limits: 摘要报告吞吐量变化约为 0.56%，GPU 内存保持恒定。验证覆盖 1 分钟和 5 分钟评测，并展示 30 分钟定性结果；作者明确不声称任意时长都能保证质量。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: lol
   title: 'LoL: Longer than Longer, Scaling Video Generation to Hour'
   date: '2026-01-23'
@@ -3028,6 +3313,10 @@ nodes:
     limits: 摘要未报告额外计算开销、jitter 超参数敏感性、适用模型范围或失败案例。方法主要缓解 sink-collapse，长期生成中的全部质量衰减是否都能消除仍未明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: flex
   title: 'Train Short, Inference Long: Training-free Horizon Extension for Autoregressive
     Video Generation'
@@ -3076,6 +3365,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: anchor-forcing
   title: 'Anchor Forcing: Anchor Memory and Tri-Region RoPE for Interactive Streaming
     Video Diffusion'
@@ -3129,6 +3422,10 @@ nodes:
     limits: 摘要未见明确说明具体计算与存储开销、适用范围或失败情形。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: packforcing
   title: 'PackForcing: Short Video Training Suffices for Long Video Sampling and Long
     Context Inference'
@@ -3178,6 +3475,10 @@ nodes:
     limits: 摘要未见明确说明方法在不同视频内容、分辨率或硬件条件下的局限，也未提供压缩质量与计算开销的详细分析。
     has_abstract: true
   citations: 1
+  cpm: 0.14
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: dysink
   title: 'DySink: Dynamic Frame Sinks for Autoregressive Long Video Generation'
   date: '2026-05-20'
@@ -3222,6 +3523,10 @@ nodes:
     limits: 摘要未见明确说明计算与存储代价，也未说明方法在不同任务、模型或视频长度上的适用边界。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: fadem
   title: 'FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion'
   date: '2026-06-09'
@@ -3265,6 +3570,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: moc
   title: Mixture of Contexts for Long Video Generation
   date: '2025-08-28'
@@ -3311,6 +3620,10 @@ nodes:
     limits: 摘要指出密集 self-attention 的二次计算成本会使长序列的内存与计算难以承受，但未见明确说明 MoC 的具体适用边界、失败模式或其他局限。
     has_abstract: true
   citations: 1
+  cpm: 0.07
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: omnimem
   title: 'OmniMem: Scalable and Adaptive Memory Retrieval for Long Video Generation'
   date: '2026-05-28'
@@ -3355,6 +3668,10 @@ nodes:
     limits: 稀疏检索仍需访问历史 KV，具体计算开销及其随视频长度的变化摘要未给；实验称内存使用与基线相当，但未见明确说明其他局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: memlearner
   title: 'MemLearner: Learning to Query Context memory for Video World Models'
   date: '2026-06-30'
@@ -3398,6 +3715,12 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 2
+  inherited_by:
+  - memactive
+  - layerrecall
 - id: slotmemory
   title: 'SlotMemory: Object-Centric KV Memory for Streaming Long-Video Generation'
   date: '2026-05-29'
@@ -3448,6 +3771,10 @@ nodes:
     limits: 摘要未明确说明计算与存储开销、槽位构造细节、适用场景边界或局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: tethercache
   title: 'TetherCache: Stabilizing Autoregressive Long-Form Video Generation with
     Gated Recall and Trusted Alignment'
@@ -3492,6 +3819,10 @@ nodes:
     limits: 仍受固定缓存预算约束，无法保留完整历史；摘要未见明确说明额外计算代价、适用边界或其他局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: layerrecall
   title: 'LayerRecall: A State-Conditioned Memory Router for Long-Horizon Consistency
     in Video Generation'
@@ -3538,6 +3869,10 @@ nodes:
     limits: 摘要称推理开销可忽略，但未见明确说明其他代价与局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: weave-forcing
   title: 'Weave Forcing: Compositional Memory Routing for Interactive Long Video Generation'
   date: '2026-10-02'
@@ -3583,6 +3918,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: reel
   title: 'REEL: Learning to Retrieve, Evaluate, and Evolve Visual Memory for Any Long-Horizon
     Multi-Shot Video Generation'
@@ -3629,6 +3968,10 @@ nodes:
     limits: 摘要未见明确说明计算代价、数据构建成本或适用范围限制。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: gear
   title: Geometry as Address (GEAR)
   date: '2026-09-28'
@@ -3673,6 +4016,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: lyra2
   title: Lyra 2.0 - Explorable Generative 3D Worlds
   date: '2026-04-14'
@@ -3719,6 +4066,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: ucm
   title: UCM - Unified Modeling of Camera Control and Memory
   date: '2026-02-26'
@@ -3761,6 +4112,10 @@ nodes:
     limits: 摘要指出相关既有路线存在灵活性、细粒度结构保持或可控性方面的困难，但未见对 UCM 自身代价与局限的明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: anchorweave
   title: AnchorWeave
   date: '2026-02-16'
@@ -3806,6 +4161,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 1
+  cpm: 0.12
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: worldstereo
   title: WorldStereo
   date: '2026-03-02'
@@ -3850,6 +4209,11 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - hy-world-2
 - id: evoworld
   title: EvoWorld
   date: '2025-10-01'
@@ -3892,6 +4256,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: geo-context
   title: Geometry-as-context
   date: '2026-02-25'
@@ -3934,6 +4302,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: gim-world
   title: 'GIM-World: Geometry-Aware Implicit Memory for Video World Models'
   date: '2026-06-01'
@@ -3979,6 +4351,10 @@ nodes:
     limits: 摘要未见明确说明方法局限；训练阶段需要冻结 foundation model 和几何头，具体计算代价未给出。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: infinite-world
   title: Infinite-World
   date: '2026-02-02'
@@ -4023,6 +4399,10 @@ nodes:
     limits: 摘要未见明确说明具体计算代价、适用范围限制或失败情形；固定预算记忆压缩旨在限制计算成本，但摘要未给出预算大小或开销数据。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: decmem
   title: DecMem
   date: '2026-05-29'
@@ -4065,6 +4445,10 @@ nodes:
     limits: 摘要未见明确说明 DecMem 的代价与局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: memory-forcing
   title: Memory Forcing
   date: '2025-10-03'
@@ -4112,6 +4496,11 @@ nodes:
     limits: 摘要指出空间记忆可能使模型过度依赖不足的空间上下文，从而损害新场景生成质量；Hybrid Training 用于应对这一权衡。具体计算开销、适用边界及其他局限未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - memory-forcing-train
 - id: spatial-ttt
   title: Spatial-TTT
   date: '2026-03-12'
@@ -4156,6 +4545,10 @@ nodes:
     limits: 摘要未见明确说明计算与显存代价、长时间运行时 fast weights 的管理方式，以及稠密 3D 描述数据的构建成本。
     has_abstract: true
   citations: 1
+  cpm: 0.14
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: loger
   title: LoGeR
   date: '2026-03-03'
@@ -4204,6 +4597,10 @@ nodes:
     limits: 摘要未见明确说明计算、显存或运行时间代价，也未说明在不同场景或数据分布下的局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: mem3r
   title: Mem3R
   date: '2026-04-08'
@@ -4249,6 +4646,10 @@ nodes:
     limits: 摘要未见明确说明具体局限；模型采用固定大小状态，并报告保持恒定 GPU 内存使用量和相近推理吞吐。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: mit3
   title: MIT^3 - Memory Internalization via Test-Time Training
   date: '2026-10-17'
@@ -4292,6 +4693,10 @@ nodes:
     diff: 已有参数化视频记忆方法主要依赖合成文本，并采用固定的适配配置。MIT^3 根据视频问答中的因果记忆效用选择写入层，并通过视觉记忆蒸馏保留视频片段对表示的影响。
     limits: 摘要未见明确说明额外计算代价、适用边界或失败情形；方法需针对每个视频进行适配。
     has_abstract: true
+  cpm: null
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: rad
   title: Recurrent Autoregressive Diffusion (RAD)
   date: '2025-11-17'
@@ -4338,6 +4743,10 @@ nodes:
     limits: 摘要未见明确说明方法的局限或计算代价。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: onstm
   title: Online Neural Space Time Memory (NSTM)
   date: '2026-07-16'
@@ -4382,6 +4791,10 @@ nodes:
     limits: 摘要指出记忆更新开销高且长上下文中可能不稳定，但提出的方法未消除周期更新本身的计算成本。具体适用边界与局限未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: zo3t
   title: Zo3T
   date: '2025-09-08'
@@ -4425,6 +4838,10 @@ nodes:
     limits: 摘要未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: comoe
   title: Composition of Memory Experts
   date: '2026-05-12'
@@ -4465,6 +4882,10 @@ nodes:
     limits: 摘要未见明确说明具体计算代价、测试时微调开销及方法局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: alayaworld
   title: 'AlayaWorld: Interactive Long-Horizon World Modeling — Full Technical Report
     (v1.1)'
@@ -4511,6 +4932,10 @@ nodes:
     limits: 摘要未见明确说明计算代价、点缓存维护开销或方法局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: waypoint-15
   title: 'Waypoint-1.5: A Real-Time Video World Model for Consumer Hardware'
   date: '2026-09-29'
@@ -4549,6 +4974,10 @@ nodes:
     limits: 摘要强调实时交互受延迟、吞吐量和硬件条件约束，但未提供具体性能数值或适用硬件范围；其他代价与局限未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: state-world-models
   title: 'State World Models: Execute the Rules, Generate the Pixels'
   date: '2026-10-19'
@@ -4589,6 +5018,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: mass
   title: 'MASS: Multiplayer World Models with Authoritative Shared State'
   date: '2026-08-06'
@@ -4630,6 +5063,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: gamedirector
   title: 'GameDirector: Decoupling Gameplay Logic from Rendering for Player-Configured
     Worlds'
@@ -4671,6 +5108,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: causal-forcing
   title: 'Causal Forcing: Autoregressive Diffusion Distillation Done Right for High-Quality
     Real-Time Interactive Video Generation'
@@ -4717,6 +5158,13 @@ nodes:
     limits: 摘要未见明确说明方法的计算代价、局限或适用范围。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 3
+  inherited_by:
+  - dreamx-world
+  - rolling-sink
+  - minwm
 - id: context-forcing
   title: 'Context Forcing: Consistent Autoregressive Video Generation with Long-Context
     Forcing'
@@ -4760,6 +5208,10 @@ nodes:
     limits: 摘要指出超长时长需要上下文管理以降低计算开销；其他明确局限未见说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: longforcing
   title: 'LongForcing: Scaling Temporal Manifold Matching for Long-Horizon World Models'
   date: '2026-10-13'
@@ -4803,6 +5255,10 @@ nodes:
     limits: 摘要未见明确说明训练代价与方法局限；推理阶段不增加开销。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: forgewm
   title: 'ForgeWM: Progressive Causal Training for Few-Step Action-Conditioned Video
     World Models'
@@ -4852,6 +5308,10 @@ nodes:
     limits: 摘要未见明确说明方法局限、训练成本或部署资源需求。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: causal-rcm
   title: 'Causal-rCM: A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive
     Video Diffusion'
@@ -4903,6 +5363,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: longtake
   title: 'LongTake: Learning to Sustain Dynamics in Long-Horizon Video Generation'
   date: '2026-09-29'
@@ -4947,6 +5411,11 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - longforcing
 - id: glance-forcing
   title: 'Glance Forcing: Making Bidirectional Diffusion Autoregressive at a Glance'
   date: '2026-10-14'
@@ -4995,6 +5464,10 @@ nodes:
     limits: 摘要未见明确说明适用范围、推理开销或失败情形；方法仍需 PF-ODE 轨迹采集及训练两个 expert，具体训练和推理成本未给。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: astronex-world
   title: 'Astronex-World 1.0: Real-Time Interactive World Model Foundation'
   date: '2026-09-17'
@@ -5044,6 +5517,10 @@ nodes:
     limits: 训练需要两张 NVIDIA L20 48 GB GPU；摘要未见明确说明数据来源、控制精度、长时生成稳定性及不同硬件上的推理代价。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: minwm
   title: 'minWM: A Full-Stack Open-Source Framework for Real-Time Interactive Video
     World Models'
@@ -5093,6 +5570,10 @@ nodes:
     limits: 摘要未提供具体算力、训练成本、延迟或生成质量数据；其效果与适用范围可能受训练数据、骨干架构和蒸馏配置影响，但摘要未明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: helixworld
   title: 'HelixWorld: A Real-Time Interactive Audio-Visual World Model'
   date: '2026-09-29'
@@ -5133,6 +5614,11 @@ nodes:
     limits: 摘要未见明确说明计算与数据构建代价、适用场景边界或失败模式。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - solarrenderer
 - id: worldroambench
   title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive
     World Models'
@@ -5174,6 +5660,11 @@ nodes:
     limits: 摘要未见明确说明评测成本、指标实现细节或基准覆盖范围方面的局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - longforcing
 - id: wbench
   title: 'WBench: A Comprehensive Multi-turn Benchmark for Interactive Video World
     Models'
@@ -5214,6 +5705,13 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 3
+  inherited_by:
+  - velox
+  - prowbench
+  - pawbench
 - id: worldmark
   title: 'WorldMark: A Unified Benchmark Suite for Interactive Video World Models'
   date: '2026-04-23'
@@ -5253,6 +5751,10 @@ nodes:
     limits: 每个新模型需要新增一个适配器。摘要未见明确说明其他代价与局限。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: memobench
   title: 'MemoBench: Benchmarking World Modeling in Dynamically Changing Environments'
   date: '2026-06-25'
@@ -5293,6 +5795,11 @@ nodes:
     limits: 未见明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 1
+  inherited_by:
+  - layerrecall
 - id: playworld
   title: 'PlayWorld: Benchmarking World Models with Agent Players over Long-Horizon
     Objectives'
@@ -5333,6 +5840,10 @@ nodes:
     limits: 摘要未见明确的评测代价或方法局限说明；实验指出当前模型在长程交互目标上仍不可靠，尤其难以维持空间一致性和持久状态演化。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: code_only
+  inherited: 0
+  inherited_by: []
 - id: mist
   title: 'Execution Before Memory: Diagnosing Memory Failures in Video World Models
     (MIST)'
@@ -5375,6 +5886,10 @@ nodes:
     limits: 摘要未见明确说明评估成本、适用范围或 M3-Agent 递归改写的具体限制。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: worldoracle
   title: 'WorldOracle: Benchmarking Action-Conditioned World Models against Real-World
     Executions'
@@ -5415,6 +5930,10 @@ nodes:
     limits: 摘要未明确说明基准的计算与数据采集成本、评估指标的具体计算方式，也未说明其适用范围限制。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: pvbench
   title: 'PVBench: Quantifying Physical Plausibility in Video Generation with Object-Level
     Measurements'
@@ -5455,6 +5974,10 @@ nodes:
     limits: 摘要未明确说明计算代价、专用视觉模型的适用范围限制或评测误差来源。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: orbia
   title: 'Orbia: Do Generated Videos Form a Consistent 3D World?'
   date: '2026-10-14'
@@ -5496,6 +6019,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: pawbench
   title: 'PAWBench: How Far Are We from Probabilistically Aligned World Modeling?'
   date: '2026-08-27'
@@ -5541,6 +6068,10 @@ nodes:
     limits: 摘要指出，在 50 个情景和 11 个系统中，没有模型能持续匹配参考概率并恢复有效行为范围；摘要未见对评测代价或其他局限的明确说明。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: memory-forcing-train
   title: 'Memory Forcing: Attendable Mid-Horizon History for Streaming Video Generation'
   arxiv: '2610.11756'
@@ -5591,6 +6122,10 @@ nodes:
     limits: 未见明确说明
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
 - id: solarrenderer
   title: 'SolarRenderer: Few-Step Generative Reference Rendering'
   arxiv: '2610.28630'
@@ -5650,6 +6185,10 @@ nodes:
   confidence: high
   note: Show Lab（Mike Zheng Shou 组）Guian Fang 等；Elo 用 gemini-3.8-flash 当裁判、每对交换顺序判两次，另有真人盲测同向。泛化基准
     208 例、同分布 53 段均开源。
+  cpm: null
+  repro: code_weights
+  inherited: 0
+  inherited_by: []
 - id: wan-streamer
   title: Video = World + Event Stream (Wan Streamer v0.3)
   arxiv: '2607.15038'
@@ -5703,3 +6242,7 @@ nodes:
     limits: 分辨率 640x368 偏低；自由动作受限于可被语言描述的行为；把通用动作控制扩展到更广交互场景留作未来工作。
     has_abstract: true
   citations: 0
+  cpm: 0.0
+  repro: paper_only
+  inherited: 0
+  inherited_by: []
