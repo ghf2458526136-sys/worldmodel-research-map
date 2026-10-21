@@ -182,7 +182,7 @@ def layout(nodes, order, color):
                 "training": n.get("training") or "", "status": n.get("status") or "",
                 "one_liner": n.get("one_liner") or "", "mechanism": n.get("mechanism") or "",
                 "detail": n.get("detail") or None,
-                "tags": n.get("tags") or [], "explain": n.get("explain") or "",
+                "tags": n.get("tags") or [], "concepts": n.get("concepts") or [], "explain": n.get("explain") or "",
                 "key_numbers": n.get("key_numbers") or [],
                 "self_measured": n.get("self_measured") or [],
                 "media": n.get("media") or [], "links": n.get("links") or [],
@@ -296,7 +296,10 @@ HTML = r"""<!DOCTYPE html>
   .glow.g4 .halo{stroke:#F0A500;filter:drop-shadow(0 0 17px rgba(240,165,0,.98)) drop-shadow(0 0 36px rgba(240,165,0,.68))}
   @keyframes gbreathe{0%,100%{stroke-opacity:.30}50%{stroke-opacity:.92}}
   @keyframes gring{0%,100%{stroke-opacity:.55}50%{stroke-opacity:1}}
-  .cite-badge{font-size:10.5px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;opacity:.92}
+  .cpt{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 10px}
+.cpt-chip{border:1px solid #0F766E33;background:#0F766E0F;color:#0F766E;font-size:12px;padding:4px 9px;border-radius:999px;cursor:pointer;font-family:inherit}
+.cpt-chip:hover{background:#0F766E1F}
+.cite-badge{font-size:10.5px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;opacity:.92}
   .inherit-badge{font-size:10px;font-weight:700;letter-spacing:.01em;font-variant-numeric:tabular-nums}
   /* ---- 面板「影响力」小节 ---- */
   .imp{display:flex;flex-direction:column;gap:1px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
@@ -428,7 +431,7 @@ const PANEL_W = () => panel.classList.contains("open") ? panel.offsetWidth : 0;
 const byId = {}, cards = {}, links = {}, kids = {}, stickies = [];
 DATA.nodes.forEach(n => {
   byId[n.id] = n;
-  n.hay = [n.title, n.mechanism, n.one_liner, n.lane, n.branch, (n.tags||[]).join(" "), n.explain].join(" ").toLowerCase();
+  n.hay = [n.title, n.mechanism, n.one_liner, n.lane, n.branch, (n.tags||[]).join(" "), (n.concepts||[]).join(" "), n.explain].join(" ").toLowerCase();
 });
 DATA.nodes.forEach(n => { if(n.parent && byId[n.parent]) (kids[n.parent] = kids[n.parent] || []).push(n.id); });
 
@@ -710,6 +713,17 @@ function openPanel(n){
     };
     b.appendChild(btn);
     b.appendChild(box);
+  }
+  if((n.concepts||[]).length){
+    add("lab", "做法概念");
+    const cw = document.createElement("div"); cw.className = "cpt";
+    n.concepts.forEach(c => {
+      const chip = document.createElement("button");
+      chip.className = "cpt-chip"; chip.textContent = c;
+      chip.onclick = ev => { ev.stopPropagation(); closePanel(); const qi2 = document.getElementById("q"); qi2.value = c; qi2.dispatchEvent(new Event("input")); };
+      cw.appendChild(chip);
+    });
+    b.appendChild(cw);
   }
   if(n.one_liner){ add("lab", "一句话"); add("p", n.one_liner); }
   addImpact(b, n);

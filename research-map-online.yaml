@@ -90,6 +90,9 @@ nodes:
   - deep-forcing
   - rolling-forcing
   inherited_chain: 6
+  concepts:
+  - 全局锚点KV
+  - 滑窗注意力
 - id: videophy
   title: VideoPhy
   date: '2024-10-07'
@@ -131,6 +134,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: causvid
   title: CausVid
   date: '2024-12-01'
@@ -188,6 +193,8 @@ nodes:
   inherited_by:
   - self-forcing
   inherited_chain: 1
+  concepts:
+  - 少步蒸馏
 - id: cosmos
   title: Cosmos
   date: '2025-01-07'
@@ -230,6 +237,7 @@ nodes:
   inherited_by:
   - causal-rcm
   inherited_chain: 0
+  concepts: []
 - id: worldmodelbench
   title: WorldModelBench
   date: '2025-02-13'
@@ -275,6 +283,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: gen3c
   title: GEN3C
   date: '2025-03-18'
@@ -321,6 +331,8 @@ nodes:
   - worldstereo
   - octworld
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
 - id: worldsimbench
   title: WorldSimBench
   date: '2025-03-24'
@@ -362,6 +374,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: framepack
   title: FramePack
   date: '2025-04-01'
@@ -413,6 +427,8 @@ nodes:
   inherited_by:
   - context-forcing
   inherited_chain: 0
+  concepts:
+  - 长上下文扩展
 - id: worldscore
   title: WorldScore
   date: '2025-04-01'
@@ -463,6 +479,7 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts: []
 - id: loopnav
   title: LoopNav
   date: '2025-05-01'
@@ -509,6 +526,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: vmem
   title: VMem
   date: '2025-10-01'
@@ -570,6 +589,10 @@ nodes:
   - smart
   - ucm
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 位姿对齐检索
+  - 视野重叠检索
 - id: spmem
   title: spmem
   date: '2025-06-01'
@@ -619,6 +642,8 @@ nodes:
   inherited_by:
   - octworld
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
 - id: self-forcing
   title: Self-Forcing
   date: '2025-06-01'
@@ -680,6 +705,9 @@ nodes:
   - streaming-code-wm
   - context-forcing
   inherited_chain: 0
+  concepts:
+  - 少步蒸馏
+  - 自回放训练
 - id: genie3
   title: Genie 3
   date: '2025-08-05'
@@ -726,6 +754,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
 - id: rolling-forcing
   title: Rolling Forcing
   date: '2025-09-01'
@@ -793,6 +823,9 @@ nodes:
   - echo-infinity
   - worldplay
   inherited_chain: 2
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
 - id: longlive
   title: LongLive
   date: '2025-09-01'
@@ -847,6 +880,10 @@ nodes:
   - context-forcing
   - flex
   inherited_chain: 0
+  concepts:
+  - 全局锚点KV
+  - 滑窗注意力
+  - 长上下文扩展
 - id: sora2-veo31
   title: Sora 2 / Veo 3.1
   date: '2025-10-01'
@@ -889,6 +926,7 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts: []
 - id: marble
   title: Marble
   date: '2025-11-12'
@@ -933,6 +971,7 @@ nodes:
   inherited_by:
   - hy-world-2
   inherited_chain: 0
+  concepts: []
 - id: worldplay
   title: WorldPlay (HY-World 1.5)
   date: '2025-12-01'
@@ -996,6 +1035,9 @@ nodes:
   - hy-world-2
   - worldtrace
   inherited_chain: 0
+  concepts:
+  - 视野重叠检索
+  - 动作条件控制
 - id: lingbot-world
   title: LingBot-World
   date: '2026-01-01'
@@ -1046,6 +1088,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
 - id: mind
   title: MIND
   date: '2026-02-01'
@@ -1092,6 +1136,8 @@ nodes:
   inherited_by:
   - gim-world
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: memrope
   title: MemRoPE
   date: '2026-03-01'
@@ -1144,6 +1190,9 @@ nodes:
   inherited_by:
   - echo-infinity
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - KV压缩或淘汰
 - id: matrix-game-3
   title: Matrix-Game 3.0
   date: '2026-04-01'
@@ -1201,6 +1250,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 视野重叠检索
+  - 几何对应编码
+  - 全局锚点KV
+  - 自回放训练
 - id: echo-forcing
   title: Echo-Forcing
   date: '2026-05-01'
@@ -1250,6 +1304,10 @@ nodes:
   inherited_by:
   - echo-infinity
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
+  - KV压缩或淘汰
 - id: sana-wm
   title: SANA-WM
   date: '2026-05-01'
@@ -1304,6 +1362,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
+  - 长上下文扩展
+  - 记忆评测基准
 - id: echo-infinity
   title: Echo-Infinity
   date: '2026-06-01'
@@ -1357,6 +1419,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 滑窗注意力
+  - 潜在记忆库
 - id: memactive
   title: MemActive
   date: '2026-06-01'
@@ -1398,6 +1464,7 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts: []
 - id: longlive-rag
   title: LongLive-RAG
   date: '2026-07-01'
@@ -1456,6 +1523,9 @@ nodes:
   - smi
   - l2r
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
+  - 检索增强
 - id: dreamx-world
   title: DreamX-World
   date: '2026-06-01'
@@ -1516,6 +1586,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 几何对应编码
+  - 动作条件控制
+  - 少步蒸馏
+  - 自回放训练
 - id: mirage
   title: Mirage
   date: '2026-06-01'
@@ -1574,6 +1649,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
+  - 几何对应编码
 - id: captain-safari
   title: Captain Safari
   date: '2026-06-15'
@@ -1627,6 +1705,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 位姿对齐检索
+  - 检索增强
 - id: hy-world-2
   title: HY-World 2.0
   date: '2026-07-15'
@@ -1676,6 +1757,7 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts: []
 - id: worldtrace
   title: WorldTrace
   date: '2026-08-01'
@@ -1735,6 +1817,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - KV压缩或淘汰
+  - 记忆写入淘汰
+  - 长上下文扩展
 - id: r2m-bench
   title: R2M-Bench
   date: '2026-08-01'
@@ -1791,6 +1878,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: octworld
   title: OctWorld
   date: '2026-09-01'
@@ -1841,6 +1930,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 多尺度表示
 - id: solarwm
   title: SolarWM
   date: '2026-09-01'
@@ -1898,6 +1990,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 教师强制
+  - 少步蒸馏
 - id: honeycomb
   title: Honeycomb
   date: '2026-09-01'
@@ -1952,6 +2048,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
 - id: mosaichunk
   title: MosaiChunk
   date: '2026-10-01'
@@ -2000,6 +2098,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 分块因果缓存
+  - KV压缩或淘汰
+  - 检索增强
 - id: smi
   title: SMI
   date: '2026-10-01'
@@ -2049,6 +2151,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆写入淘汰
+  - 检索增强
 - id: smart
   title: SMART
   date: '2026-10-01'
@@ -2125,6 +2230,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 位姿对齐检索
 - id: velox
   title: Velox
   date: '2026-10-01'
@@ -2181,6 +2288,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 视野重叠检索
 - id: hla-wm
   title: HLA-WM
   date: '2026-10-01'
@@ -2239,6 +2348,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 分块因果缓存
+  - 位姿对齐检索
 - id: l2r
   title: L2R
   date: '2026-10-01'
@@ -2294,6 +2406,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
+  - 位姿对齐检索
+  - 视野重叠检索
 - id: world-t3
   title: World-T3
   date: '2026-10-01'
@@ -2349,6 +2465,10 @@ nodes:
   inherited_by:
   - mit3
   inherited_chain: 0
+  concepts:
+  - 测试时训练
+  - 位姿对齐检索
+  - 少步蒸馏
 - id: pwm
   title: PWM
   date: '2026-10-01'
@@ -2398,6 +2518,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
 - id: worldmembench
   title: WorldMemBench
   date: '2026-10-01'
@@ -2446,6 +2569,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: keepsake
   title: Keepsake
   date: '2026-10-05'
@@ -2503,6 +2628,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆写入淘汰
 - id: atas
   title: ATAS
   date: '2026-10-14'
@@ -2552,6 +2679,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 检索增强
+  - 记忆写入淘汰
 - id: matrix-game-4
   title: Matrix-Game 4.0
   date: '2026-10-20'
@@ -2609,6 +2740,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
+  - 流式分块推理
 - id: codewm-brain
   title: 'Code World Model: Coding Agent as World Brain'
   arxiv: '2608.25927'
@@ -2671,6 +2806,9 @@ nodes:
   inherited_by:
   - gamedirector
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
 - id: videococo
   title: 'VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation'
   arxiv: '2607.27380'
@@ -2720,6 +2858,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
 - id: alaya-renderer-flash
   title: 'AlayaRenderer-Flash: Generative World Renderer at the Speed of Play'
   arxiv: '2607.18703'
@@ -2781,6 +2922,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 结构条件渲染
+  - 少步蒸馏
+  - 流式分块推理
 - id: streamrender-h3
   title: 'StreamRender-H3: Code runs the world, a video model renders it'
   arxiv: ''
@@ -2834,6 +2979,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
+  - 少步蒸馏
+  - 流式分块推理
 - id: sol-engine
   title: 'Sol Video Inference Engine: Agent-Native Full-Stack Acceleration'
   arxiv: '2606.23743'
@@ -2885,6 +3035,8 @@ nodes:
   inherited_by:
   - streamrender-h3
   inherited_chain: 0
+  concepts:
+  - KV压缩或淘汰
 - id: streaming-code-wm
   title: streaming-code-world-model (community impl)
   arxiv: ''
@@ -2941,6 +3093,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 滑窗注意力
+  - 分块因果缓存
+  - 流式分块推理
 - id: agentgarten
   title: 'AgentGarten: Code Worlds for Evolving Agents'
   arxiv: '2610.12374'
@@ -2996,6 +3153,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
 - id: exeworldbench
   title: 'ExeWorldBench: Benchmarking Code-Based Executable 3D World Modeling'
   arxiv: '2610.15166'
@@ -3041,6 +3201,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 物理因果评测
 - id: prowbench
   title: 'PROWBench: Do Video Models Render What the Program Specifies?'
   arxiv: '2610.02205'
@@ -3088,6 +3251,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
+  - 记忆评测基准
 - id: physcodegym
   title: 'PhysCodeGym: Verifiable 4D Physics Reconstruction for Coding Agents'
   arxiv: '2610.17288'
@@ -3136,6 +3303,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: physcodebench
   title: PhysCodeBench
   arxiv: ''
@@ -3177,6 +3346,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: infinite-rope
   title: 'Infinity-RoPE: Action-Controllable Infinite Video Generation Emerges From
     Autoregressive Self-Rollout'
@@ -3230,6 +3401,10 @@ nodes:
   - context-forcing
   - flex
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
+  - KV压缩或淘汰
 - id: deep-forcing
   title: 'Deep Forcing: Training-Free Long Video Generation with Deep Sink and Participative
     Compression'
@@ -3283,6 +3458,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
+  - 滑窗注意力
+  - KV压缩或淘汰
 - id: rolling-sink
   title: 'Rolling Sink: Bridging Limited-Horizon Training and Open-Ended Testing in
     Autoregressive Video Diffusion'
@@ -3342,6 +3522,10 @@ nodes:
   inherited_by:
   - packforcing
   inherited_chain: 0
+  concepts:
+  - 全局锚点KV
+  - KV压缩或淘汰
+  - 训练无关
 - id: lol
   title: 'LoL: Longer than Longer, Scaling Video Generation to Hour'
   date: '2026-01-23'
@@ -3389,6 +3573,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
+  - 训练无关
 - id: flex
   title: 'Train Short, Inference Long: Training-free Horizon Extension for Autoregressive
     Video Generation'
@@ -3442,6 +3630,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
+  - 训练无关
 - id: anchor-forcing
   title: 'Anchor Forcing: Anchor Memory and Tri-Region RoPE for Interactive Streaming
     Video Diffusion'
@@ -3500,6 +3692,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
 - id: packforcing
   title: 'PackForcing: Short Video Training Suffices for Long Video Sampling and Long
     Context Inference'
@@ -3554,6 +3749,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 全局锚点KV
+  - KV压缩或淘汰
+  - 多尺度表示
 - id: dysink
   title: 'DySink: Dynamic Frame Sinks for Autoregressive Long Video Generation'
   date: '2026-05-20'
@@ -3603,6 +3802,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
+  - 检索增强
+  - 滑窗注意力
 - id: fadem
   title: 'FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion'
   date: '2026-06-09'
@@ -3651,6 +3854,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - KV压缩或淘汰
+  - 多尺度表示
 - id: moc
   title: Mixture of Contexts for Long Video Generation
   date: '2025-08-28'
@@ -3702,6 +3908,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 检索增强
+  - 滑窗注意力
 - id: omnimem
   title: 'OmniMem: Scalable and Adaptive Memory Retrieval for Long Video Generation'
   date: '2026-05-28'
@@ -3751,6 +3960,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 检索增强
 - id: memlearner
   title: 'MemLearner: Learning to Query Context memory for Video World Models'
   date: '2026-06-30'
@@ -3800,6 +4011,8 @@ nodes:
   inherited_by:
   - layerrecall
   inherited_chain: 0
+  concepts:
+  - 检索增强
 - id: slotmemory
   title: 'SlotMemory: Object-Centric KV Memory for Streaming Long-Video Generation'
   date: '2026-05-29'
@@ -3855,6 +4068,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
+  - 检索增强
 - id: tethercache
   title: 'TetherCache: Stabilizing Autoregressive Long-Form Video Generation with
     Gated Recall and Trusted Alignment'
@@ -3904,6 +4120,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 全局锚点KV
+  - KV压缩或淘汰
+  - 训练无关
 - id: layerrecall
   title: 'LayerRecall: A State-Conditioned Memory Router for Long-Horizon Consistency
     in Video Generation'
@@ -3955,6 +4175,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 检索增强
 - id: weave-forcing
   title: 'Weave Forcing: Compositional Memory Routing for Interactive Long Video Generation'
   date: '2026-10-02'
@@ -4005,6 +4227,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 检索增强
+  - 训练无关
 - id: reel
   title: 'REEL: Learning to Retrieve, Evaluate, and Evolve Visual Memory for Any Long-Horizon
     Multi-Shot Video Generation'
@@ -4056,6 +4282,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 检索增强
 - id: gear
   title: Geometry as Address (GEAR)
   date: '2026-09-28'
@@ -4105,6 +4333,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 位姿对齐检索
+  - 几何对应编码
 - id: lyra2
   title: Lyra 2.0 - Explorable Generative 3D Worlds
   date: '2026-04-14'
@@ -4156,6 +4387,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 位姿对齐检索
+  - 几何对应编码
+  - 自回放训练
 - id: ucm
   title: UCM - Unified Modeling of Camera Control and Memory
   date: '2026-02-26'
@@ -4203,6 +4439,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 几何对应编码
 - id: anchorweave
   title: AnchorWeave
   date: '2026-02-16'
@@ -4253,6 +4491,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 位姿对齐检索
+  - 视野重叠检索
 - id: worldstereo
   title: WorldStereo
   date: '2026-03-02'
@@ -4303,6 +4545,10 @@ nodes:
   inherited_by:
   - hy-world-2
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 潜在记忆库
+  - 几何对应编码
 - id: evoworld
   title: EvoWorld
   date: '2025-10-01'
@@ -4350,6 +4596,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 结构条件渲染
+  - 记忆评测基准
 - id: geo-context
   title: Geometry-as-context
   date: '2026-02-25'
@@ -4397,6 +4647,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 结构条件渲染
 - id: gim-world
   title: 'GIM-World: Geometry-Aware Implicit Memory for Video World Models'
   date: '2026-06-01'
@@ -4447,6 +4699,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
 - id: infinite-world
   title: Infinite-World
   date: '2026-02-02'
@@ -4496,6 +4750,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
+  - 动作条件控制
 - id: decmem
   title: DecMem
   date: '2026-05-29'
@@ -4543,6 +4800,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 潜在记忆库
 - id: memory-forcing
   title: Memory Forcing
   date: '2025-10-03'
@@ -4596,6 +4855,10 @@ nodes:
   inherited_by:
   - memory-forcing-train
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 视野重叠检索
+  - 几何对应编码
 - id: spatial-ttt
   title: Spatial-TTT
   date: '2026-03-12'
@@ -4645,6 +4908,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
+  - 滑窗注意力
+  - 几何对应编码
 - id: loger
   title: LoGeR
   date: '2026-03-03'
@@ -4698,6 +4965,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
+  - 滑窗注意力
+  - 流式分块推理
 - id: mem3r
   title: Mem3R
   date: '2026-04-08'
@@ -4748,6 +5019,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
 - id: mit3
   title: MIT^3 - Memory Internalization via Test-Time Training
   date: '2026-10-17'
@@ -4796,6 +5069,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
 - id: rad
   title: Recurrent Autoregressive Diffusion (RAD)
   date: '2025-11-17'
@@ -4847,6 +5122,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 滑窗注意力
+  - 流式分块推理
 - id: onstm
   title: Online Neural Space Time Memory (NSTM)
   date: '2026-07-16'
@@ -4896,6 +5174,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
 - id: zo3t
   title: Zo3T
   date: '2025-09-08'
@@ -4944,6 +5224,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
+  - 动作条件控制
 - id: comoe
   title: Composition of Memory Experts
   date: '2026-05-12'
@@ -4989,6 +5272,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 测试时训练
 - id: alayaworld
   title: 'AlayaWorld: Interactive Long-Horizon World Modeling — Full Technical Report
     (v1.1)'
@@ -5040,6 +5325,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 显式3D缓存
+  - 结构条件渲染
 - id: waypoint-15
   title: 'Waypoint-1.5: A Real-Time Video World Model for Consumer Hardware'
   date: '2026-09-29'
@@ -5083,6 +5371,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
 - id: state-world-models
   title: 'State World Models: Execute the Rules, Generate the Pixels'
   date: '2026-10-19'
@@ -5128,6 +5418,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 代码定状态
+  - 结构条件渲染
 - id: mass
   title: 'MASS: Multiplayer World Models with Authoritative Shared State'
   date: '2026-08-06'
@@ -5174,6 +5467,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
+  - 结构条件渲染
 - id: gamedirector
   title: 'GameDirector: Decoupling Gameplay Logic from Rendering for Player-Configured
     Worlds'
@@ -5220,6 +5516,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
 - id: causal-forcing
   title: 'Causal Forcing: Autoregressive Diffusion Distillation Done Right for High-Quality
     Real-Time Interactive Video Generation'
@@ -5274,6 +5572,8 @@ nodes:
   - minwm
   - dreamx-world
   inherited_chain: 0
+  concepts:
+  - 少步蒸馏
 - id: context-forcing
   title: 'Context Forcing: Consistent Autoregressive Video Generation with Long-Context
     Forcing'
@@ -5322,6 +5622,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 教师强制
+  - 长上下文扩展
+  - 多尺度表示
 - id: longforcing
   title: 'LongForcing: Scaling Temporal Manifold Matching for Long-Horizon World Models'
   date: '2026-10-13'
@@ -5370,6 +5674,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 教师强制
+  - 自回放训练
 - id: forgewm
   title: 'ForgeWM: Progressive Causal Training for Few-Step Action-Conditioned Video
     World Models'
@@ -5424,6 +5731,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 教师强制
+  - 少步蒸馏
+  - 自回放训练
+  - 动作条件控制
 - id: causal-rcm
   title: 'Causal-rCM: A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive
     Video Diffusion'
@@ -5480,6 +5792,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 教师强制
+  - 自回放训练
+  - 动作条件控制
 - id: longtake
   title: 'LongTake: Learning to Sustain Dynamics in Long-Horizon Video Generation'
   date: '2026-09-29'
@@ -5530,6 +5846,10 @@ nodes:
   inherited_by:
   - longforcing
   inherited_chain: 0
+  concepts:
+  - 教师强制
+  - 自回放训练
+  - 长上下文扩展
 - id: glance-forcing
   title: 'Glance Forcing: Making Bidirectional Diffusion Autoregressive at a Glance'
   date: '2026-10-14'
@@ -5583,6 +5903,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 少步蒸馏
 - id: astronex-world
   title: 'Astronex-World 1.0: Real-Time Interactive World Model Foundation'
   date: '2026-09-17'
@@ -5637,6 +5959,11 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 分块因果缓存
+  - 少步蒸馏
+  - 动作条件控制
 - id: minwm
   title: 'minWM: A Full-Stack Open-Source Framework for Real-Time Interactive Video
     World Models'
@@ -5691,6 +6018,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 少步蒸馏
+  - 动作条件控制
 - id: helixworld
   title: 'HelixWorld: A Real-Time Interactive Audio-Visual World Model'
   date: '2026-09-29'
@@ -5737,6 +6067,9 @@ nodes:
   inherited_by:
   - solarrenderer
   inherited_chain: 0
+  concepts:
+  - 少步蒸馏
+  - 动作条件控制
 - id: worldroambench
   title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive
     World Models'
@@ -5784,6 +6117,9 @@ nodes:
   inherited_by:
   - longforcing
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
+  - 物理因果评测
 - id: wbench
   title: 'WBench: A Comprehensive Multi-turn Benchmark for Interactive Video World
     Models'
@@ -5830,6 +6166,9 @@ nodes:
   inherited_by:
   - velox
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
+  - 物理因果评测
 - id: worldmark
   title: 'WorldMark: A Unified Benchmark Suite for Interactive Video World Models'
   date: '2026-04-23'
@@ -5874,6 +6213,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 动作条件控制
+  - 记忆评测基准
 - id: memobench
   title: 'MemoBench: Benchmarking World Modeling in Dynamically Changing Environments'
   date: '2026-06-25'
@@ -5920,6 +6262,8 @@ nodes:
   inherited_by:
   - layerrecall
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: playworld
   title: 'PlayWorld: Benchmarking World Models with Agent Players over Long-Horizon
     Objectives'
@@ -5965,6 +6309,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
+  - 动作条件控制
 - id: mist
   title: 'Execution Before Memory: Diagnosing Memory Failures in Video World Models
     (MIST)'
@@ -6012,6 +6359,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: worldoracle
   title: 'WorldOracle: Benchmarking Action-Conditioned World Models against Real-World
     Executions'
@@ -6057,6 +6406,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
+  - 动作条件控制
 - id: pvbench
   title: 'PVBench: Quantifying Physical Plausibility in Video Generation with Object-Level
     Measurements'
@@ -6102,6 +6454,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: orbia
   title: 'Orbia: Do Generated Videos Form a Consistent 3D World?'
   date: '2026-10-14'
@@ -6148,6 +6502,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 记忆评测基准
 - id: pawbench
   title: 'PAWBench: How Far Are We from Probabilistically Aligned World Modeling?'
   date: '2026-08-27'
@@ -6198,6 +6554,8 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 物理因果评测
 - id: memory-forcing-train
   title: 'Memory Forcing: Attendable Mid-Horizon History for Streaming Video Generation'
   arxiv: '2610.11756'
@@ -6253,6 +6611,10 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 旋转位置编码
+  - 全局锚点KV
+  - KV压缩或淘汰
 - id: solarrenderer
   title: 'SolarRenderer: Few-Step Generative Reference Rendering'
   arxiv: '2610.28630'
@@ -6317,6 +6679,9 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts:
+  - 结构条件渲染
+  - 流式分块推理
 - id: wan-streamer
   title: Video = World + Event Stream (Wan Streamer v0.3)
   arxiv: '2607.15038'
@@ -6375,3 +6740,4 @@ nodes:
   inherited: 0
   inherited_by: []
   inherited_chain: 0
+  concepts: []
