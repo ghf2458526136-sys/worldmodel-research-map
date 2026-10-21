@@ -5561,3 +5561,55 @@ nodes:
   confidence: high
   note: Show Lab（Mike Zheng Shou 组）Guian Fang 等；Elo 用 gemini-3.8-flash 当裁判、每对交换顺序判两次，另有真人盲测同向。泛化基准
     208 例、同分布 53 段均开源。
+- id: wan-streamer
+  title: Video = World + Event Stream (Wan Streamer v0.3)
+  arxiv: '2607.15038'
+  date: '2026-07-01'
+  precision: month
+  lane: 框架层
+  branch: 闭源产品
+  one_liner: 世界设定与事件流拆开学，实时全双工对话
+  mechanism: 通用视频预训练把场景角色外观声音当作持久世界、把说话动作镜头环境变化当作事件流；预训练后适配全双工交互，自然语言动作写进括号与说话共用一条流，同步渲染音视频。
+  tags:
+  - 世界事件分解
+  - 全双工实时
+  - 音视频同步
+  training: 需训
+  status: 速读
+  key_numbers:
+  - 640x368 @25fps
+  - 模型侧 ~200ms
+  - 端到端 ~550ms
+  - v0.1 为 192x336
+  self_measured: []
+  media:
+  - https://wan-streamer.com/v0.3/assets/video/engineer-captioned.mp4
+  - https://wan-streamer.com/v0.3/assets/video/italian-captioned.mp4
+  - https://wan-streamer.com/v0.3/assets/video/pretraining-cooking.mp4
+  links:
+  - https://arxiv.org/abs/2607.15038
+  - https://wan-streamer.com/v0.3/
+  parent: null
+  link_strength: ''
+  confidence: high
+  note: 官方项目页未见权重或代码入口，按产品线对待；数字均来自项目页对照表
+  explain: 想象一个咖啡馆里的虚拟店员：桌椅和人物一直在，店员却要边听你说话，边回答、做动作，还同步生成画面和声音。难点是，若每一帧都重画整个世界，场景容易变样，互动也会变慢。Wan
+    Streamer 把视频拆成两部分来学：持久世界是场景、角色外观和声音；事件流则记录说话、动作、镜头和环境变化。先用通用视频训练，再适配实时全双工对话，也就是模型生成时仍能接收你的输入；动作指令写在括号里，与说话共用一条流。这样只需持续更新变化，较能保住世界的一致性，并同步渲染音视频。v0.3
+    达到 640×368、每秒 25 帧，模型侧约 200 毫秒、端到端约 550 毫秒；早期 v0.1 只有 192×336。
+  detail:
+    position: 把视频拆成“一直不变的世界”和“逐刻发生的事件流”，先用通用视频预训练学世界，再适配成实时全双工音视频交互。
+    io: 输入是用户的镜头画面、麦克风和文字，以及预先填好的世界上下文；输出是同步的语音、视频，以及可被渲染的自然语言行为指令。
+    steps:
+    - 分解：场景、角色、外观、声音归入世界设定；说话、动作、镜头移动、环境变化归入事件流。
+    - 预训练：把普通视频当作训练材料，先确立世界，再沿时间线学习“接下来会发生什么”。
+    - 适配：在预训练模型上做交互数据微调，转成全双工实时对话模型，保留 v0.2 的分辨率与延迟。
+    - 自由行为：动作写成括号内的自然语言，与说话共享同一条流，时机一起学习而不是事后编排。
+    - 推理拓扑：thinker 规划加上单卡并行 performer 出帧，模型侧约 200 ms。
+    formulas:
+    - tex: p_\theta(x_{1:T}, a_{1:T} \mid w)=\prod_{t=1}^{T} p_\theta(x_t, a_t \mid
+        x_{<t}, a_{<t}, w)
+      caption: 把视频与行为建模为给定世界上下文的自回归分解，世界 w 固定、事件随时间展开（标准写法，非原文逐字）
+    train: 两阶段：先用大规模通用视频做世界-事件预训练，再用交互数据适配全双工对话；线上服务用蒸馏后的流式模型。
+    diff: v0.1/v0.2 只学说话与倾听，v0.3 增加通用视频预训练与自由行为；相比数字人方案，动作不是后处理编排，而是与语音同流生成。
+    limits: 分辨率 640x368 偏低；自由动作受限于可被语言描述的行为；把通用动作控制扩展到更广交互场景留作未来工作。
+    has_abstract: true
