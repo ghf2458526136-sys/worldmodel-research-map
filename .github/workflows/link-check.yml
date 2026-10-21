@@ -30,7 +30,22 @@ jobs:
             try { bad = JSON.parse(fs.readFileSync('link-report.json', 'utf8')); } catch (e) {}
             const summary = fs.existsSync('summary.txt') ? fs.readFileSync('summary.txt', 'utf8') : '';
             if (!bad.length) {
-              core.info('全部链接正常，无需开 issue');
+              const openClean = await github.rest.issues.listForRepo({
+                owner: context.repo.owner, repo: context.repo.repo,
+                state: 'open', labels: 'link-check', per_page: 20,
+              });
+              for (const it of openClean.data) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: it.number,
+                  body: '本轮体检全部通过，自动关闭。',
+                });
+                await github.rest.issues.update({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: it.number, state: 'closed',
+                });
+              }
+              core.info('全部链接正常');
               return;
             }
             const title = `链接体检：${bad.length} 条失效`;
