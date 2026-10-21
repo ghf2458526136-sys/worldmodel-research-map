@@ -5502,3 +5502,62 @@ nodes:
       区。它还通过 Bank-aware RoPE 处理绝对时间索引越出训练范围的问题。
     limits: 未见明确说明
     has_abstract: true
+- id: solarrenderer
+  title: 'SolarRenderer: Few-Step Generative Reference Rendering'
+  arxiv: '2610.28630'
+  date: '2026-10-01'
+  precision: month
+  venue: Technical Report (Show Lab)
+  lane: 代码世界模型
+  branch: 神经渲染器
+  parent: streamrender-h3
+  link_strength: 同底座与同分工
+  training: 需训
+  status: 速读
+  one_liner: 任意结构输进来，四步渲成实拍
+  mechanism: control LoRA 教冻结的 MiniMax-H3 跟结构视频；少步 LoRA 带结构引导后训压到四步；block-causal 版按块出流
+  tags:
+  - 结构条件渲染
+  - 四步LoRA
+  - 未见结构泛化
+  key_numbers:
+  - 4 步（对比 50 步 12.3×）
+  - 16 种结构，11 种训练未见
+  - 208 例泛化基准
+  - 53 段同分布测试
+  - 136,289 训练片段
+  - 4 个 LoRA（控制/四步 × 全片/流式）
+  explain: 想象把摄像机轨迹、深度图或边缘骨架交给模型，它要四次“落笔”就生成连贯的实拍画面。SolarRenderer解决的是结构难跟、生成要反复采样、视频难实时流出的麻烦。它先训练控制LoRA（只增加少量参数的适配器），让冻结的MiniMax-H3跟随结构视频；再用结构引导训练少步LoRA，把50步压到4步，快12.3倍。先学会对齐“骨架—画面”，再压缩采样，所以控制和质量都能保住。流式版本采用block-causal机制（按块生成，只依赖当前及过去块）。模型用136,289段片段训练，覆盖16种结构，含11种未见结构，并在208例泛化基准、53段同分布测试上验证；四个LoRA覆盖控制/四步与全片/流式。
+  detail:
+    position: 把游戏引擎或 agent 产出的结构（点云、骨架、线框、深度、法线、体素、遮挡掩码等）直接渲成写实视频，让「谁定布局」和「谁定外观」彻底分开。
+    io: 输入是一段结构视频（逐帧的几何/骨架/掩码信号）加一张参考图和一句文本；输出是同布局、同运动、同机位的写实视频。结构只编码布局与相机，纹理光照全部交给渲染器。
+    steps:
+    - 在冻结的 MiniMax-H3 上加 control LoRA，训练它把结构视频当条件通道读进去，参考图决定这一条片子的世界长什么样。
+    - 用结构引导对少步 LoRA 做后训练，把采样步数从 50 压到 4，同时要求结构一致性不退化。
+    - 同一套 LoRA 再训一个 block-causal 变体：按块生成、只看向过去，用于流式出画面。
+    - 推理时结构从引擎/agent 来，参考图取第一帧，四步出片；流式版本按块推进。
+    formulas:
+    - tex: \mathcal{L}_{\mathrm{ctrl}}=\mathbb{E}_{t,\epsilon}\left\|\epsilon-\epsilon_{\theta+\Delta
+        W_{\mathrm{ctrl}}}\left(z_t,t,c_{\mathrm{ref}},c_{\mathrm{struct}}\right)\right\|^{2}
+      caption: 控制 LoRA 的训练目标：冻结主干 θ，只学增量 ΔW，让去噪网络同时吃参考图和结构条件。（标准写法，非原文逐字）
+    - tex: \mathcal{L}_{\mathrm{few}}=\mathbb{E}_{t}\left\|v_{\theta+\Delta W_{\mathrm{few}}}(z_t,t)-v_{\mathrm{teacher}}^{\mathrm{sg}}(z_t,t)\right\|^{2}
+      caption: 少步 LoRA 的蒸馏目标：以 50 步教师的速度场为目标（sg 表示不回传梯度），把 4 步学生的轨迹拉到教师轨迹上。（标准写法，非原文逐字）
+    train: 136,289 条训练片段（公开 57,738 条带视频）；共 4 个 LoRA：控制与四步各一套，全片与因果流式各一套。
+    diff: 和 StreamRender-H3 同底座同分工，但把「什么结构都能吃」做成主目标：16 种结构里 11 种训练时没见过，仍能渲染；HelixWorld/AlayaRenderer
+      类工作通常只针对 G-buffer 或语义图一种条件。
+    limits: 仍是 MiniMax-H3 这个量级的主干，四步也只是采样步数压缩，不是换小模型；结构视频本身要有正确的布局和相机，结构错了它不会纠正。
+    has_abstract: true
+  media:
+  - https://enderfga.cn/SolarRenderer/media/film/solarrenderer-film.mp4
+  - https://enderfga.cn/SolarRenderer/media/realtime/games.mp4
+  - https://enderfga.cn/SolarRenderer/media/realtime/characters.mp4
+  - https://enderfga.cn/SolarRenderer/media/hero/gb-castle__photoreal.mp4
+  links:
+  - https://arxiv.org/abs/2610.28630
+  - https://enderfga.cn/SolarRenderer
+  - https://github.com/Enderfga/SolarRenderer
+  - https://huggingface.co/Enderfga/SolarRenderer
+  - https://huggingface.co/datasets/Enderfga/SolarRenderer-Data
+  confidence: high
+  note: Show Lab（Mike Zheng Shou 组）Guian Fang 等；Elo 用 gemini-3.8-flash 当裁判、每对交换顺序判两次，另有真人盲测同向。泛化基准
+    208 例、同分布 53 段均开源。
