@@ -60,8 +60,6 @@ nodes:
   self_measured: []
   media:
   - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/64f4d7bc66b126fda1628b30_collage-1-1-removebg-preview.png
-  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/65137c744a095aedb47276b3_han-logo-32.png
-  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/65137c787ca95e90b345d4f6_han-logo-256.png
   links:
   - https://arxiv.org/abs/2309.17453
   note: 报告只给年份 2023，无 arXiv 号；training=免训为推断，报告未述其训练需求。
@@ -473,8 +471,8 @@ nodes:
   - 6s 768×576
   - 59.6s 1280×720
   media:
-  - https://v-mem.github.io/img/video_0_pair/final_video_1_compressed.mp4
-  - https://v-mem.github.io/img/video-1min-encoded_720p.mp4
+  - demos/VMem/pair_demo.mp4
+  - demos/VMem/onemin_720p.mp4
   links:
   - https://arxiv.org/abs/2506.18903
   note: 报告只给到月份 2025-10，未给提交日；training=免训依 §11『VMem（插件）』与矩阵『免训插件』。
@@ -963,8 +961,7 @@ nodes:
   mechanism: 报告只在 L2『压缩 KV / 摘要槽』一级把它与 WorldTrace-Field 并列，未述具体读写。
   key_numbers: []
   self_measured: []
-  media:
-  - https://memrope.github.io/favicon.png
+  media: []
   links:
   - https://arxiv.org/abs/2603.12513
   note: 同上，来自 §3.6 合并提及 + §12 历史文献；L2 级归属来自 §1.3 表格。
@@ -1015,7 +1012,7 @@ nodes:
   - 15s 1080p/30fps
   self_measured: []
   media:
-  - https://matrix-game-v3.github.io/static/videos/teaser.mp4
+  - demos/MatrixGame3/teaser.mp4
   links:
   - https://arxiv.org/abs/2604.08995
   note: 报告只给到月份 2026-04；FPS 为宣传口径，需多卡 DiT。
@@ -1060,8 +1057,7 @@ nodes:
   mechanism: 报告未展开，只归入组内『记忆+位置重写』路线，细节另开笔记。
   key_numbers: []
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2605.16003
   note: 同上，来自 §3.6 的合并提及 + §12 参考文献，报告无独立描述。
@@ -1110,8 +1106,7 @@ nodes:
   - 80 场景×2
   - 961 帧@16fps
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-nc-sa-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2605.15178
   note: 报告只给到月份 2026-05（§1.5 时间线），无首次提交日；lane 为暂定，报告未说明寻址方式；§2 明确『相机控制精度数据待补』。
@@ -1153,8 +1148,7 @@ nodes:
     相似。
   key_numbers: []
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2606.04527
   note: 报告只在 §3.6 以『Echo 系列（2606.04527 / 2605.16003 / 2603.12513）』合并提及一句，三条的拆分依 §12
@@ -1240,8 +1234,7 @@ nodes:
   - 约 10 毫秒（检索）
   - 约 480 毫秒（编码）
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2606.02553
   note: 只给到月份 2026-07；training=需训指检索器需训练；官方未提供演示片段。
@@ -1487,8 +1480,9 @@ nodes:
   self_measured:
   - 35s
   media:
-  - https://research.nvidia.com/labs/sil/projects/WorldTrace/videos/appendix/worldtrace-landmark/aba/1/ours.mp4
-  - https://research.nvidia.com/labs/sil/projects/WorldTrace/videos/appendix/worldtrace-field/ours.mp4
+  - demos/WorldTrace/aba_side_by_side.mp4
+  - demos/WorldTrace/field_compare_35s.png
+  - demos/WorldTrace/field_ours.mp4
   links:
   - https://arxiv.org/abs/2608.07408
   note: 只给到月份 2026-08；同论文自带基准 LoopBench/LoopMem（TempSSIM、PAC）未单列条目；§3.0 称 demos/WorldTrace
@@ -1583,8 +1577,7 @@ nodes:
   mechanism: 报告只把它列入 L4 显式几何缓存（与 GEN3C、spmem 同类），未述读写细节；该类依赖深度估计。
   key_numbers: []
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2609.03919
   note: 仅摘要级【摘】，引用前须核对；只给到月份 2026-09；training=需训为按 L4 类推断。
@@ -1633,8 +1626,7 @@ nodes:
   - 1.43M clips
   - 约 25TB
   self_measured: []
-  media:
-  - https://junchao-cs.github.io/SolarWM-Web/assets/icons/easy.png
+  media: []
   links:
   - https://arxiv.org/abs/2609.02886
   note: §2 表列为可跑模型、§3.6 又归训练侧，lane 按 §3.6 填；报告只给到月份 2026-09。
@@ -1830,11 +1822,15 @@ nodes:
   - 54.6s 1024×256
   - 226s 1024×256
   media:
-  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/gt.mp4
-  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/ours.mp4
-  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/dfot.mp4
-  - https://eren-cetin.github.io/SMART/static/videos/memory_maze/L0401_ep000001/causal.mp4
-  - https://eren-cetin.github.io/SMART/static/videos/minecraft/cc_0000088/ours.mp4
+  - demos/SMART/still_grid_4x2.png
+  - demos/SMART/return_4up.mp4
+  - demos/SMART/diff_2up.mp4
+  - demos/SMART/maze_gt.mp4
+  - demos/SMART/maze_ours.mp4
+  - demos/SMART/maze_dfot.mp4
+  - demos/SMART/maze_causal_FAIL.mp4
+  - demos/SMART/mc_still_4up_188.png
+  - demos/SMART/mc_4up.mp4
   links:
   - https://arxiv.org/abs/2610.19257
   note: 所有 PSNR 都是报告作者在官方 demo 视频上自算，非论文指标（报告明确禁止当论文表格引用）；只给到月份 2026-10。
@@ -1934,8 +1930,8 @@ nodes:
   self_measured:
   - PSNR +0.74dB
   media:
-  - https://caesarhhh.github.io/hla-wm/videos/ar_refiner_hard80_game_style_005_f472_f708_ours.mp4
-  - https://caesarhhh.github.io/hla-wm/videos/ar_refiner_hard80_game_style_005_f472_f708_baseline.mp4
+  - demos/HLAWM/refiner_ours.mp4
+  - demos/HLAWM/refiner_baseline_FAIL.mp4
   links:
   - https://arxiv.org/abs/2610.05739
   note: 数字是相对其自身基线，报告强调不可跨论文横比；只给到月份 2026-10。
@@ -2034,8 +2030,7 @@ nodes:
   - PSNR 13.52→18.31dB
   - 旋转误差 3.344°→1.075°
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2610.17434
   note: 报告指出摘要未说明 PSNR 基线是哪个配置，引用须注明；只给到月份 2026-10；站点资产 404，无演示。
@@ -2168,8 +2163,7 @@ nodes:
   - 保留 32 帧
   - FVD 降低 35.1%
   self_measured: []
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/html/2610.06588
   note: FVD 降幅是固定容量比较下的画质指标，不是回访事件成绩（报告明确口径）；日期来自报告正文括号，是全篇唯一带日的条目之一。
@@ -2218,8 +2212,7 @@ nodes:
   - 3 关写回（成片审查/重建注册/状态准入）
   - 2 份记忆（场景/事件）
   self_measured: []
-  media:
-  - https://lhmd.top/atas/assets/brand/favicon-32.png
+  media: []
   links:
   - https://arxiv.org/abs/2610.20571
   note: training=不适用：它是流水线框架，生成依赖短视频生成器与 Pi3X、SAM3 等几何服务；报告明确不能当 5B 可跑 baseline。
@@ -2271,10 +2264,10 @@ nodes:
   - 低模代理渲染
   - 单卡实时
   media:
-  - https://matrix-game-v4-0.github.io/page/assets/video/teaser_en.mp4
-  - https://matrix-game-v4-0.github.io/page/assets/long/long_castle.mp4
-  - https://matrix-game-v4-0.github.io/page/assets/long/long_racing.mp4
-  - https://matrix-game-v4-0.github.io/page/assets/gallery/castle_04.mp4
+  - demos/MatrixGame4/teaser.mp4
+  - demos/MatrixGame4/long_castle.mp4
+  - demos/MatrixGame4/long_racing.mp4
+  - demos/MatrixGame4/castle_04.mp4
   links:
   - https://arxiv.org/abs/2610.27999
   - https://matrix-game-v4-0.github.io/page/
@@ -3545,8 +3538,7 @@ nodes:
   - ST-Bench 跨镜头一致性 +15.1%（JoyAI-Echo 1.5）/ +20.7%（MiniMax H3）
   - REEL-Bench Core-100 +2.41 / +8.32
   - REEL-SFT-4k + REEL-RL-1k 两个数据集
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2610.16632
   note: 把记忆管理从「生成器内部机制」抽成外挂可训练策略，与理解模型管理分支的 agent 化路线同源；与 LongLive-RAG 的区别是它不只检索，还能补拍缺失证据并回写记忆，且对黑盒生成器通用。
@@ -3762,8 +3754,7 @@ nodes:
   key_numbers:
   - 透视/全景图输入
   - 摘要未给帧数
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2603.02049
   note: 走"生成即可重建"路线，与 GEN3C 同族但记忆拆成粗点云+细立体两级；training=微调为摘要"基于蒸馏 VDM 主干、无需联合训练"的推断。
@@ -3806,8 +3797,7 @@ nodes:
   key_numbers:
   - 单张全景图输入
   - 含闭环检测的评测集
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2510.01183
   - https://github.com/JiahaoPlus/EvoWorld
@@ -3848,8 +3838,7 @@ nodes:
   key_numbers:
   - CVPR 2026
   - 往返（forth-and-back）轨迹
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2602.21929
   note: 把几何当"中间上下文 token"而非外部库，是显式几何库与上下文两条路的缝合；已验证往返轨迹场景。
@@ -3890,8 +3879,7 @@ nodes:
   key_numbers:
   - MIND 基准
   - 摘要未给具体数值
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2606.02436
   - https://gim-world.github.io/
@@ -5419,8 +5407,7 @@ nodes:
   - 50 个场景
   - 11个系统
   - 无一稳定对齐
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   links:
   - https://arxiv.org/abs/2608.27345
   note: 测的是"同一条件下多次生成的分布形状"，与所有单视频合理性基准正交；结论是现有系统连方向都没对上，别急着谈记忆。
@@ -5471,8 +5458,7 @@ nodes:
   explain: 想象镜头一路跟着人穿过街巷，几分钟后又回到最初的咖啡馆：人物和场景都该认得出来。可流式视频模型的缓存容量固定，旧画面不断被挤掉，隔久了再回来就容易忘记中程发生过什么。Memory
     Forcing把缓存分成三段：保留开头的“水槽区”、保存多样旧事件的“归档区”，以及存放眼前画面的“工作区”。绝对时间索引超出范围时，它用Bank-aware
     RoPE（一种按缓存区重新编码时间位置的方法）让模型分清各段记忆，无须增加缓存。这样，模型既能看当前画面，也能按需取回关键往事。实验中，1.3B模型和Wan2.2-5B都受益；从5秒延长到60秒时性能下降最小，也能复现离开后再返回的场景。
-  media:
-  - https://arxiv.org/icons/licenses/by-4.0.png
+  media: []
   detail:
     position: 本文解决流式视频生成中的 mid-horizon forgetting：固定大小的 KV cache 通常只保留开头帧和最近帧，导致较早但仍重要的中程事件无法被后续帧访问。Memory
       Forcing 在不增大缓存的前提下保留这类历史。

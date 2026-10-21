@@ -1,0 +1,200 @@
+[
+ {
+  "id": "alaya-renderer-flash",
+  "url": "https://alaya-renderer-flash.alayalab.ai/",
+  "status": 501,
+  "info": "Not Implemented"
+ },
+ {
+  "id": "anchor-forcing",
+  "url": "https://github.com/vivoCameraResearch/Anchor-Forcing",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "causal-forcing",
+  "url": "https://github.com/thu-ml/Causal-Forcing",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "codewm-brain",
+  "url": "https://github.com/buaacyw/code-world-model",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "codewm-brain",
+  "url": "https://huggingface.co/datasets/NTU-yiwen/code-world-model-project-page-videos/resolve/main/project_page_final/control_world/undersea-airplane.mp4",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "codewm-brain",
+  "url": "https://huggingface.co/datasets/NTU-yiwen/code-world-model-project-page-videos/resolve/main/project_page_final/teaser/code_world_model_full_demo.mp4",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "dysink",
+  "url": "https://github.com/yebo0216best/DySink",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "evoworld",
+  "url": "https://github.com/JiahaoPlus/EvoWorld",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "longforcing",
+  "url": "https://github.com/Fantasy-AMAP/LongForcing",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "longlive",
+  "url": "https://github.com/NVlabs/LongLive/raw/main/LongLive-Plug/assets/readme/method.png",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "longlive",
+  "url": "https://github.com/NVlabs/LongLive/raw/main/LongLive-Plug/assets/readme/overview-first-frame.png",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "longlive",
+  "url": "https://github.com/NVlabs/LongLive/raw/main/LongLive1.0/assets/video-first-frame.png",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "minwm",
+  "url": "https://github.com/shengshu-ai/minWM",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "octworld",
+  "url": "https://arxiv.org/abs/2609.03919",
+  "status": 0,
+  "info": "TimeoutError"
+ },
+ {
+  "id": "octworld",
+  "url": "https://arxiv.org/icons/licenses/by-4.0.png",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "omnimem",
+  "url": "https://arxiv.org/abs/2605.30519",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "onstm",
+  "url": "https://arxiv.org/abs/2607.15271",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "orbia",
+  "url": "https://arxiv.org/abs/2610.20693",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "packforcing",
+  "url": "https://arxiv.org/abs/2603.25730",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "packforcing",
+  "url": "https://github.com/ShandaAI/PackForcing",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "pawbench",
+  "url": "https://arxiv.org/abs/2608.27345",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "pawbench",
+  "url": "https://arxiv.org/icons/licenses/by-4.0.png",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "physcodegym",
+  "url": "https://arxiv.org/abs/2610.17288",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "playworld",
+  "url": "https://arxiv.org/abs/2608.13552",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "playworld",
+  "url": "https://github.com/kxding/PlayWorld",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "prowbench",
+  "url": "https://arxiv.org/abs/2610.02205",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "pvbench",
+  "url": "https://arxiv.org/abs/2610.26711",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "pwm",
+  "url": "https://arxiv.org/abs/2609.10540",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "solarrenderer",
+  "url": "https://github.com/Enderfga/SolarRenderer",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "solarrenderer",
+  "url": "https://huggingface.co/Enderfga/SolarRenderer",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "solarrenderer",
+  "url": "https://huggingface.co/datasets/Enderfga/SolarRenderer-Data",
+  "status": 0,
+  "info": "URLError"
+ },
+ {
+  "id": "sora2-veo31",
+  "url": "https://openai.com/index/sora-2/",
+  "status": 403,
+  "info": "head-blocked"
+ },
+ {
+  "id": "streaming-code-wm",
+  "url": "https://github.com/TingtingLiao/streaming-code-world-model",
+  "status": 0,
+  "info": "URLError"
+ }
+]

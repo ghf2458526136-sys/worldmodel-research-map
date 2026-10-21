@@ -1,0 +1,90 @@
+name: 提交一篇论文
+description: 往图谱里加一篇论文（会自动转成一条 YAML，维护者核对后合并）
+title: "[论文] "
+labels: ["new-paper"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        填完这个表单就行，不必自己改代码。字段含义见 [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md)。
+
+  - type: input
+    id: title
+    attributes:
+      label: 论文标题
+      description: 用官方全名；有简称可以在括号里补
+      placeholder: "Addressable Memory for Video World Models (WorldTrace)"
+    validations:
+      required: true
+
+  - type: input
+    id: arxiv
+    attributes:
+      label: arXiv 编号
+      description: 没有 arXiv 就填项目页地址
+      placeholder: "2608.07408"
+
+  - type: dropdown
+    id: lane
+    attributes:
+      label: 归到哪条路线
+      description: 不确定就选「框架层」，维护者会再调
+      options:
+        - 代码世界模型
+        - 位置时间寻址
+        - 几何位姿寻址
+        - 内容学习寻址
+        - 参数化记忆
+        - 框架层
+        - 训练侧
+        - 评测基准
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: 子分支（可留空）
+      placeholder: "锚 sink / 位姿视锥 / 神经渲染器 …"
+
+  - type: input
+    id: date
+    attributes:
+      label: 首次公开的年月
+      placeholder: "2026-08"
+    validations:
+      required: true
+
+  - type: textarea
+    id: one_liner
+    attributes:
+      label: 一句话
+      description: 25 字以内，说清它把什么问题怎么解决的
+      placeholder: "记忆不是没存下，是地址失效了"
+    validations:
+      required: true
+
+  - type: textarea
+    id: mechanism
+    attributes:
+      label: 机制
+      description: 80 字以内，写清关键动作
+    validations:
+      required: true
+
+  - type: textarea
+    id: media
+    attributes:
+      label: 官方演示素材（可留空）
+      description: 项目页里的 mp4 或图片直链，一行一个。不要放许可图标、logo
+      placeholder: "https://example.github.io/proj/assets/demo.mp4"
+
+  - type: checkboxes
+    id: checked
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我打开过论文或项目页，标题和编号对得上
+          required: true
+        - label: 演示链接是我实际能播放的，不是从别处转抄的
+          required: false
