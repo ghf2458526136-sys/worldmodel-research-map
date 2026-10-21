@@ -58,7 +58,10 @@ nodes:
   key_numbers:
   - '2023'
   self_measured: []
-  media: []
+  media:
+  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/64f4d7bc66b126fda1628b30_collage-1-1-removebg-preview.png
+  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/65137c744a095aedb47276b3_han-logo-32.png
+  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/65137c787ca95e90b345d4f6_han-logo-256.png
   links:
   - https://arxiv.org/abs/2309.17453
   note: 报告只给年份 2023，无 arXiv 号；training=免训为推断，报告未述其训练需求。
@@ -135,7 +138,10 @@ nodes:
   key_numbers:
   - 2024-12
   self_measured: []
-  media: []
+  media:
+  - https://causvid.github.io/images/methods.jpg
+  - https://causvid.github.io/images/preference.jpg
+  - https://causvid.github.io/images/radar.jpg
   links:
   - https://arxiv.org/abs/2412.07772
   note: 报告只给到月份 2024-12。
@@ -376,7 +382,10 @@ nodes:
   key_numbers:
   - 3000 例
   self_measured: []
-  media: []
+  media:
+  - https://haoyi-duan.github.io/WorldScore/assets/images/control/camera_control/2.jpg
+  - https://haoyi-duan.github.io/WorldScore/assets/images/overview/dataset_overview.jpg
+  - https://haoyi-duan.github.io/WorldScore/assets/images/overview/full_screen.png
   links:
   - https://arxiv.org/abs/2504.00983
   note: 报告只给 arXiv 号与 ICCV 2025，无提交日期。
@@ -508,7 +517,10 @@ nodes:
   mechanism: 报告未述具体读写；在 L4 显式几何缓存一行，并被列为『几何依赖、动态场景下失效』的代表。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://spmem.github.io/static/images/data.jpg
+  - https://spmem.github.io/static/images/teaser.jpg
+  - https://spmem.github.io/static/videos/demo_page.mp4
   links:
   - https://arxiv.org/abs/2506.05284
   note: 仅摘要级【摘】；报告只在 §1.3、§1.2 失效机制、§8.4 三处提及名字。
@@ -547,7 +559,10 @@ nodes:
   mechanism: 不改记忆结构：学生自己 rollout 出带误差的历史，教师对这段自生成历史打分蒸馏，让模型习惯自己的错误。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://self-forcing.github.io/static/results.png
+  - https://self-forcing.github.io/static/teaser.jpg
+  - https://self-forcing.github.io/static/videos/30s/0006.mp4
   links:
   - https://arxiv.org/abs/2506.08009
   note: 报告未给日期，仅列于 §3.6 与参考文献。
@@ -636,7 +651,10 @@ nodes:
   - 832×480 16FPS
   - 多分钟
   self_measured: []
-  media: []
+  media:
+  - https://kunhao-liu.github.io/Rolling_Forcing_Webpage/videos/transition/action0.mp4
+  - https://kunhao-liu.github.io/Rolling_Forcing_Webpage/videos/transition/action1.mp4
+  - https://kunhao-liu.github.io/Rolling_Forcing_Webpage/videos/transition/action2.mp4
   links:
   - https://arxiv.org/abs/2509.25161
   note: 报告中出现两次（§3.1 方法、§3.6 训练侧），已合并为一条；只给到月份 2025-09；官方仓库 404，无演示片段。
@@ -686,7 +704,10 @@ nodes:
   mechanism: 把自回归生成与少步采样结合，靠 KV 重算和帧级注意力维持长程一致；报告未描述记忆检索结构。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://github.com/NVlabs/LongLive/raw/main/LongLive-Plug/assets/readme/method.png
+  - https://github.com/NVlabs/LongLive/raw/main/LongLive-Plug/assets/readme/overview-first-frame.png
+  - https://github.com/NVlabs/LongLive/raw/main/LongLive1.0/assets/video-first-frame.png
   links:
   - https://arxiv.org/abs/2509.22622
   note: 与 LongLive-RAG（2606.02553）同名不同物，勿混；报告只给了一句描述。
@@ -766,7 +787,8 @@ nodes:
   mechanism: 闭源；做 3D 场景生成与编辑，不沿相机轨迹逐帧生成，因此不构成可比的回访基线。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://wlt-ai-cdn.art/videos/2025-11-12-clean-720p-24crf/chisel-bedroom2-3d.mp4
   links:
   - https://marble.worldlabs.ai/
   note: World Labs 产品，报告未给论文、日期与 arXiv。
@@ -809,7 +831,9 @@ nodes:
   - 4 段轨迹漫游
   self_measured:
   - 6.7s 1600×900
-  media: []
+  media:
+  - demos/WorldPlay/traj_10.mp4
+  - demos/WorldPlay/show02_demo.mp4
   links:
   - https://arxiv.org/abs/2512.14614
   note: 报告只给到月份 2025-12；§3.1 网页实测的两条失败记录（转满 360° 后遗忘、人物变枕头）没有 demos 相对路径。
@@ -859,7 +883,10 @@ nodes:
   - 10min
   - 16FPS@480p
   self_measured: []
-  media: []
+  media:
+  - https://mdn.alipayobjects.com/huamei_u94ywh/afts/img/M40ASpFi9icAAAAAQCAAAAgADkxfAQFr/original.png
+  - https://mdn.alipayobjects.com/huamei_u94ywh/afts/img/OWOnSJW7mOQAAAAAgFAAAAgADkxfAQFr/original.png
+  - https://mdn.alipayobjects.com/huamei_u94ywh/afts/img/TiIlTLkPTg8AAAAAQBAAAAgADkxfAQFr/original.png
   links:
   - https://arxiv.org/abs/2601.20540
   note: lane 暂定，报告无记忆机制描述；§8 提及其自述仅支持单智能体、不支持物体交互；无提交日期。
@@ -936,7 +963,8 @@ nodes:
   mechanism: 报告只在 L2『压缩 KV / 摘要槽』一级把它与 WorldTrace-Field 并列，未述具体读写。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://memrope.github.io/favicon.png
   links:
   - https://arxiv.org/abs/2603.12513
   note: 同上，来自 §3.6 合并提及 + §12 历史文献；L2 级归属来自 §1.3 表格。
@@ -1032,7 +1060,8 @@ nodes:
   mechanism: 报告未展开，只归入组内『记忆+位置重写』路线，细节另开笔记。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2605.16003
   note: 同上，来自 §3.6 的合并提及 + §12 参考文献，报告无独立描述。
@@ -1081,7 +1110,8 @@ nodes:
   - 80 场景×2
   - 961 帧@16fps
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-nc-sa-4.0.png
   links:
   - https://arxiv.org/abs/2605.15178
   note: 报告只给到月份 2026-05（§1.5 时间线），无首次提交日；lane 为暂定，报告未说明寻址方式；§2 明确『相机控制精度数据待补』。
@@ -1123,7 +1153,8 @@ nodes:
     相似。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2606.04527
   note: 报告只在 §3.6 以『Echo 系列（2606.04527 / 2605.16003 / 2603.12513）』合并提及一句，三条的拆分依 §12
@@ -1209,7 +1240,8 @@ nodes:
   - 约 10 毫秒（检索）
   - 约 480 毫秒（编码）
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2606.02553
   note: 只给到月份 2026-07；training=需训指检索器需训练；官方未提供演示片段。
@@ -1258,7 +1290,8 @@ nodes:
   - 5s@720p 26s/40G
   - ~40GB
   self_measured: []
-  media: []
+  media:
+  - https://amap-ml.github.io/DreamX_World/assets/demo_videos/long_video/long_02.mp4
   links:
   - https://arxiv.org/abs/2606.16993
   note: 报告未给提交日期；lane 依『PRoPE 相机条件』推断，非报告明述。
@@ -1306,7 +1339,10 @@ nodes:
   mechanism: 报告只有一句：存的是 latent 缓存，不是显式几何，归档在 L2 与 L3 之间。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://microsoft.github.io/LatentSpatialMemory/assets/figures/concept_hd.png
+  - https://microsoft.github.io/LatentSpatialMemory/assets/figures/efficiency.png
+  - https://microsoft.github.io/LatentSpatialMemory/assets/figures/pipeline_hd.png
   links:
   - https://arxiv.org/abs/2606.09828
   note: 摘要级；lane 依『latent 缓存』暂定，报告未述寻址方式；无日期。
@@ -1547,7 +1583,8 @@ nodes:
   mechanism: 报告只把它列入 L4 显式几何缓存（与 GEN3C、spmem 同类），未述读写细节；该类依赖深度估计。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2609.03919
   note: 仅摘要级【摘】，引用前须核对；只给到月份 2026-09；training=需训为按 L4 类推断。
@@ -1596,7 +1633,8 @@ nodes:
   - 1.43M clips
   - 约 25TB
   self_measured: []
-  media: []
+  media:
+  - https://junchao-cs.github.io/SolarWM-Web/assets/icons/easy.png
   links:
   - https://arxiv.org/abs/2609.02886
   note: §2 表列为可跑模型、§3.6 又归训练侧，lane 按 §3.6 填；报告只给到月份 2026-09。
@@ -1642,7 +1680,9 @@ nodes:
   mechanism: 报告只在 L3『恒定槽位』与趋势 4『恒定容量+显式锚点』两处点名，未述寻址键与读写细节。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://jackswl.github.io/honeycomb/resources/revisit/living_honeycomb.mp4
+  - https://jackswl.github.io/honeycomb/resources/revisit/living_spatia.mp4
   links:
   - https://arxiv.org/abs/2609.37690
   note: 摘要级；lane 无报告依据（L3 表头写『按位置或几何寻址』），存疑；只给到月份 2026-09。
@@ -1731,7 +1771,8 @@ nodes:
   key_numbers:
   - 四个原子操作
   self_measured: []
-  media: []
+  media:
+  - https://spatial-memory-intelligence.github.io/assets/teaser.png
   links:
   - https://arxiv.org/abs/2610.02521
   note: 只给到月份 2026-10；报告提醒每次管理都要调用大模型，开销与延迟高。
@@ -1841,7 +1882,8 @@ nodes:
   - 约 4.36 倍（chunk 48 注意力加速）
   - 约 2.43 倍（整体去噪加速）
   self_measured: []
-  media: []
+  media:
+  - https://media.velox-world.com/velox/videos/thumbs/clip_01.jpg
   links:
   - https://arxiv.org/abs/2610.22311
   note: 只给到月份 2026-10；报告称官方交互 demo 无 mp4 可下载。
@@ -1992,7 +2034,8 @@ nodes:
   - PSNR 13.52→18.31dB
   - 旋转误差 3.344°→1.075°
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2610.17434
   note: 报告指出摘要未说明 PSNR 基线是哪个配置，引用须注明；只给到月份 2026-10；站点资产 404，无演示。
@@ -2125,7 +2168,8 @@ nodes:
   - 保留 32 帧
   - FVD 降低 35.1%
   self_measured: []
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/html/2610.06588
   note: FVD 降幅是固定容量比较下的画质指标，不是回访事件成绩（报告明确口径）；日期来自报告正文括号，是全篇唯一带日的条目之一。
@@ -2174,7 +2218,8 @@ nodes:
   - 3 关写回（成片审查/重建注册/状态准入）
   - 2 份记忆（场景/事件）
   self_measured: []
-  media: []
+  media:
+  - https://lhmd.top/atas/assets/brand/favicon-32.png
   links:
   - https://arxiv.org/abs/2610.20571
   note: training=不适用：它是流水线框架，生成依赖短视频生成器与 Pi3X、SAM3 等几何服务；报告明确不能当 5B 可跑 baseline。
@@ -2277,7 +2322,9 @@ nodes:
   note: 组会主线论文；proxy 是深度+语义 ID，不是 Blender 白模
   venue: ''
   self_measured: []
-  media: []
+  media:
+  - https://huggingface.co/datasets/NTU-yiwen/code-world-model-project-page-videos/resolve/main/project_page_final/teaser/code_world_model_full_demo.mp4
+  - https://huggingface.co/datasets/NTU-yiwen/code-world-model-project-page-videos/resolve/main/project_page_final/control_world/undersea-airplane.mp4
   parent: null
   link_strength: ''
   precision: day
@@ -3316,7 +3363,9 @@ nodes:
   - 60 秒交互叙事质量分 81.61
   - 动态一致性相对提升 22.8%
   - Wan2.1-T2V-1.3B 骨干
-  media: []
+  media:
+  - https://tj12323.github.io/SlotMemory/static/videos/60s-1.mp4
+  - https://tj12323.github.io/SlotMemory/static/videos/60s-2.mp4
   links:
   - https://arxiv.org/abs/2605.31033
   - https://tj12323.github.io/SlotMemory/
@@ -3496,7 +3545,8 @@ nodes:
   - ST-Bench 跨镜头一致性 +15.1%（JoyAI-Echo 1.5）/ +20.7%（MiniMax H3）
   - REEL-Bench Core-100 +2.41 / +8.32
   - REEL-SFT-4k + REEL-RL-1k 两个数据集
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2610.16632
   note: 把记忆管理从「生成器内部机制」抽成外挂可训练策略，与理解模型管理分支的 agent 化路线同源；与 LongLive-RAG 的区别是它不只检索，还能补拍缺失证据并回写记忆，且对黑盒生成器通用。
@@ -3539,7 +3589,9 @@ nodes:
   key_numbers:
   - 分钟级视频生成
   - 摘要未给帧数/指标
-  media: []
+  media:
+  - https://zju3dv.github.io/geometry-as-address/material/Motivation/motivation.mp4
+  - https://zju3dv.github.io/geometry-as-address/material/Methods/vis_method.mp4
   links:
   - https://arxiv.org/abs/2609.34722
   - https://zju3dv.github.io/geometry-as-address/
@@ -3624,7 +3676,9 @@ nodes:
   - 双流DiT
   key_numbers:
   - 50万+单目视频
-  media: []
+  media:
+  - https://humanaigc.github.io/ucm-webpage/video/demo/0001_gen.mp4
+  - https://humanaigc.github.io/ucm-webpage/video/demo/0002_gen.mp4
   links:
   - https://arxiv.org/abs/2602.22960
   - https://humanaigc.github.io/ucm-webpage/
@@ -3663,7 +3717,9 @@ nodes:
   - 多锚融合
   key_numbers:
   - ECCV 2026
-  media: []
+  media:
+  - https://zhangyuejoslin.github.io/images/anchorweaver_teaser.mp4
+  - https://zunwang1.github.io/AnchorWeave/long_videos/alley.mp4
   links:
   - https://arxiv.org/abs/2602.14941
   - https://zunwang1.github.io/AnchorWeave
@@ -3706,7 +3762,8 @@ nodes:
   key_numbers:
   - 透视/全景图输入
   - 摘要未给帧数
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2603.02049
   note: 走"生成即可重建"路线，与 GEN3C 同族但记忆拆成粗点云+细立体两级；training=微调为摘要"基于蒸馏 VDM 主干、无需联合训练"的推断。
@@ -3749,7 +3806,8 @@ nodes:
   key_numbers:
   - 单张全景图输入
   - 含闭环检测的评测集
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2510.01183
   - https://github.com/JiahaoPlus/EvoWorld
@@ -3790,7 +3848,8 @@ nodes:
   key_numbers:
   - CVPR 2026
   - 往返（forth-and-back）轨迹
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2602.21929
   note: 把几何当"中间上下文 token"而非外部库，是显式几何库与上下文两条路的缝合；已验证往返轨迹场景。
@@ -3831,7 +3890,8 @@ nodes:
   key_numbers:
   - MIND 基准
   - 摘要未给具体数值
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2606.02436
   - https://gim-world.github.io/
@@ -3875,7 +3935,9 @@ nodes:
   key_numbers:
   - 1000+ 帧
   - 30 分钟重访微调集
-  media: []
+  media:
+  - https://rq-wu.github.io/projects/infinite-world/assets/videos/teaser.mp4
+  - https://rq-wu.github.io/projects/infinite-world/assets/videos/82_A_street_in_a_fantasy_city_whe_button.mp4
   links:
   - https://arxiv.org/abs/2602.02393
   note: 明确回避显式几何先验（真实视频位姿噪声大），用固定预算压缩替代 3D 库，是容量管理分支的强基线。
@@ -4047,7 +4109,9 @@ nodes:
   - 128帧训练→数千帧推理
   - KITTI ATE -74%
   - 19k 帧序列
-  media: []
+  media:
+  - https://LoGeR-project.github.io/files/loger_teaser_vid.mp4
+  - https://LoGeR-project.github.io/files/loger_teaser_vid_lowres.mp4
   links:
   - https://arxiv.org/abs/2603.03269
   note: 3D 重建而非视频生成，但"参数化记忆负责全局锚、滑窗负责局部精度"的分工可直接搬到长视频记忆设计。
@@ -4092,7 +4156,9 @@ nodes:
   - 793M→644M 参数
   - ATE -39%
   - 500-1000 帧
-  media: []
+  media:
+  - https://lck666666.github.io/Mem3R/static/videos/mem3r_video2.mp4
+  - https://lck666666.github.io/Mem3R/static/videos/stanford_arch_fixed.mp4
   links:
   - https://arxiv.org/abs/2604.07279
   - https://lck666666.github.io/Mem3R/
@@ -4176,7 +4242,9 @@ nodes:
   key_numbers:
   - Memory Maze / Minecraft
   - LSTM≈TTT≈Mamba2
-  media: []
+  media:
+  - https://yeyutaihan.github.io/recurrent-autoregressive-diffusion/videos/chunk_mamba/000000.mp4
+  - https://yeyutaihan.github.io/recurrent-autoregressive-diffusion/videos/chunk_ttt/000000.mp4
   links:
   - https://arxiv.org/abs/2511.12940
   note: 便宜的参数化记忆基线——若 LSTM 状态已够，复杂的 TTT 写入未必划算，是我们做消融时的下限对照。
@@ -4219,7 +4287,8 @@ nodes:
   key_numbers:
   - 分钟级记忆持久
   - 摊销实时速度
-  media: []
+  media:
+  - https://nst-mem.github.io/videos/hero_combined.mp4
   links:
   - https://arxiv.org/abs/2607.15271
   - https://nst-mem.github.io
@@ -5310,7 +5379,8 @@ nodes:
   - 720 实例
   - 27个模型
   - 6种探索-重访协议
-  media: []
+  media:
+  - https://orbia-bench.github.io/assets/nus.png
   links:
   - https://arxiv.org/abs/2610.20693
   note: 测两个不同信号：模型自己造出来的内容回头还在不在（content persistence），以及多视角是否描述同一场景（3D self-consistency），长分钟级探索才算过关。
@@ -5349,7 +5419,8 @@ nodes:
   - 50 个场景
   - 11个系统
   - 无一稳定对齐
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   links:
   - https://arxiv.org/abs/2608.27345
   note: 测的是"同一条件下多次生成的分布形状"，与所有单视频合理性基准正交；结论是现有系统连方向都没对上，别急着谈记忆。
@@ -5400,7 +5471,8 @@ nodes:
   explain: 想象镜头一路跟着人穿过街巷，几分钟后又回到最初的咖啡馆：人物和场景都该认得出来。可流式视频模型的缓存容量固定，旧画面不断被挤掉，隔久了再回来就容易忘记中程发生过什么。Memory
     Forcing把缓存分成三段：保留开头的“水槽区”、保存多样旧事件的“归档区”，以及存放眼前画面的“工作区”。绝对时间索引超出范围时，它用Bank-aware
     RoPE（一种按缓存区重新编码时间位置的方法）让模型分清各段记忆，无须增加缓存。这样，模型既能看当前画面，也能按需取回关键往事。实验中，1.3B模型和Wan2.2-5B都受益；从5秒延长到60秒时性能下降最小，也能复现离开后再返回的场景。
-  media: []
+  media:
+  - https://arxiv.org/icons/licenses/by-4.0.png
   detail:
     position: 本文解决流式视频生成中的 mid-horizon forgetting：固定大小的 KV cache 通常只保留开头帧和最近帧，导致较早但仍重要的中程事件无法被后续帧访问。Memory
       Forcing 在不增大缓存的前提下保留这类历史。
@@ -5470,7 +5542,11 @@ nodes:
       类工作通常只针对 G-buffer 或语义图一种条件。
     limits: 仍是 MiniMax-H3 这个量级的主干，四步也只是采样步数压缩，不是换小模型；结构视频本身要有正确的布局和相机，结构错了它不会纠正。
     has_abstract: true
-  media: []
+  media:
+  - https://enderfga.cn/SolarRenderer/media/film/solarrenderer-film.mp4
+  - https://enderfga.cn/SolarRenderer/media/realtime/games.mp4
+  - https://enderfga.cn/SolarRenderer/media/realtime/characters.mp4
+  - https://enderfga.cn/SolarRenderer/media/hero/gb-castle__photoreal.mp4
   links:
   - https://arxiv.org/abs/2610.28630
   - https://enderfga.cn/SolarRenderer
