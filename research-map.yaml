@@ -58,7 +58,10 @@ nodes:
   key_numbers:
   - '2023'
   self_measured: []
-  media: []
+  media:
+  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/64f4d7bc66b126fda1628b30_collage-1-1-removebg-preview.png
+  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/65137c744a095aedb47276b3_han-logo-32.png
+  - https://cdn.prod.website-files.com/64f4d663be17b6544a586bac/65137c787ca95e90b345d4f6_han-logo-256.png
   links:
   - https://arxiv.org/abs/2309.17453
   note: 报告只给年份 2023，无 arXiv 号；training=免训为推断，报告未述其训练需求。
@@ -108,7 +111,10 @@ nodes:
   key_numbers:
   - 2024-12
   self_measured: []
-  media: []
+  media:
+  - https://causvid.github.io/images/methods.jpg
+  - https://causvid.github.io/images/preference.jpg
+  - https://causvid.github.io/images/radar.jpg
   links:
   - https://arxiv.org/abs/2412.07772
   note: 报告只给到月份 2024-12。
@@ -256,7 +262,10 @@ nodes:
   key_numbers:
   - 3000 例
   self_measured: []
-  media: []
+  media:
+  - https://haoyi-duan.github.io/WorldScore/assets/images/control/camera_control/2.jpg
+  - https://haoyi-duan.github.io/WorldScore/assets/images/overview/dataset_overview.jpg
+  - https://haoyi-duan.github.io/WorldScore/assets/images/overview/full_screen.png
   links:
   - https://arxiv.org/abs/2504.00983
   note: 报告只给 arXiv 号与 ICCV 2025，无提交日期。
@@ -341,7 +350,10 @@ nodes:
   mechanism: 报告未述具体读写；在 L4 显式几何缓存一行，并被列为『几何依赖、动态场景下失效』的代表。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://spmem.github.io/static/images/data.jpg
+  - https://spmem.github.io/static/images/teaser.jpg
+  - https://spmem.github.io/static/videos/demo_page.mp4
   links:
   - https://arxiv.org/abs/2506.05284
   note: 仅摘要级【摘】；报告只在 §1.3、§1.2 失效机制、§8.4 三处提及名字。
@@ -365,7 +377,10 @@ nodes:
   mechanism: 不改记忆结构：学生自己 rollout 出带误差的历史，教师对这段自生成历史打分蒸馏，让模型习惯自己的错误。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://self-forcing.github.io/static/results.png
+  - https://self-forcing.github.io/static/teaser.jpg
+  - https://self-forcing.github.io/static/videos/30s/0006.mp4
   links:
   - https://arxiv.org/abs/2506.08009
   note: 报告未给日期，仅列于 §3.6 与参考文献。
@@ -421,7 +436,10 @@ nodes:
   - 832×480 16FPS
   - 多分钟
   self_measured: []
-  media: []
+  media:
+  - https://kunhao-liu.github.io/Rolling_Forcing_Webpage/videos/transition/action0.mp4
+  - https://kunhao-liu.github.io/Rolling_Forcing_Webpage/videos/transition/action1.mp4
+  - https://kunhao-liu.github.io/Rolling_Forcing_Webpage/videos/transition/action2.mp4
   links:
   - https://arxiv.org/abs/2509.25161
   note: 报告中出现两次（§3.1 方法、§3.6 训练侧），已合并为一条；只给到月份 2025-09；官方仓库 404，无演示片段。
@@ -448,7 +466,10 @@ nodes:
   mechanism: 把自回归生成与少步采样结合，靠 KV 重算和帧级注意力维持长程一致；报告未描述记忆检索结构。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://github.com/NVlabs/LongLive/raw/main/LongLive-Plug/assets/readme/method.png
+  - https://github.com/NVlabs/LongLive/raw/main/LongLive-Plug/assets/readme/overview-first-frame.png
+  - https://github.com/NVlabs/LongLive/raw/main/LongLive1.0/assets/video-first-frame.png
   links:
   - https://arxiv.org/abs/2509.22622
   note: 与 LongLive-RAG（2606.02553）同名不同物，勿混；报告只给了一句描述。
@@ -497,7 +518,8 @@ nodes:
   mechanism: 闭源；做 3D 场景生成与编辑，不沿相机轨迹逐帧生成，因此不构成可比的回访基线。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://wlt-ai-cdn.art/videos/2025-11-12-clean-720p-24crf/chisel-bedroom2-3d.mp4
   links:
   - https://marble.worldlabs.ai/
   note: World Labs 产品，报告未给论文、日期与 arXiv。
@@ -558,7 +580,10 @@ nodes:
   - 10min
   - 16FPS@480p
   self_measured: []
-  media: []
+  media:
+  - https://mdn.alipayobjects.com/huamei_u94ywh/afts/img/M40ASpFi9icAAAAAQCAAAAgADkxfAQFr/original.png
+  - https://mdn.alipayobjects.com/huamei_u94ywh/afts/img/OWOnSJW7mOQAAAAAgFAAAAgADkxfAQFr/original.png
+  - https://mdn.alipayobjects.com/huamei_u94ywh/afts/img/TiIlTLkPTg8AAAAAQBAAAAgADkxfAQFr/original.png
   links:
   - https://arxiv.org/abs/2601.20540
   note: lane 暂定，报告无记忆机制描述；§8 提及其自述仅支持单智能体、不支持物体交互；无提交日期。
@@ -808,7 +833,8 @@ nodes:
   - 5s@720p 26s/40G
   - ~40GB
   self_measured: []
-  media: []
+  media:
+  - https://amap-ml.github.io/DreamX_World/assets/demo_videos/long_video/long_02.mp4
   links:
   - https://arxiv.org/abs/2606.16993
   note: 报告未给提交日期；lane 依『PRoPE 相机条件』推断，非报告明述。
@@ -834,7 +860,10 @@ nodes:
   mechanism: 报告只有一句：存的是 latent 缓存，不是显式几何，归档在 L2 与 L3 之间。
   key_numbers: []
   self_measured: []
-  media: []
+  media:
+  - https://microsoft.github.io/LatentSpatialMemory/assets/figures/concept_hd.png
+  - https://microsoft.github.io/LatentSpatialMemory/assets/figures/efficiency.png
+  - https://microsoft.github.io/LatentSpatialMemory/assets/figures/pipeline_hd.png
   links:
   - https://arxiv.org/abs/2606.09828
   note: 摘要级；lane 依『latent 缓存』暂定，报告未述寻址方式；无日期。
@@ -874,7 +903,7 @@ nodes:
   title: HY-World 2.0
   date: '2026-07-15'
   precision: day
-  arxiv: ''
+  arxiv: '2604.14268'
   venue: ''
   lane: 框架层
   branch: 闭源产品
@@ -889,6 +918,7 @@ nodes:
   media: []
   links:
   - https://3d-models.hunyuan.tencent.com/
+  - https://arxiv.org/abs/2604.14268
   note: 腾讯混元 HY-World 产品页，前端渲染，脚本抓不到正文
   tags:
   - 开源系列

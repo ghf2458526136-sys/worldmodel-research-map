@@ -867,7 +867,7 @@ nodes:
   title: HY-World 2.0
   date: '2026-07-15'
   precision: day
-  arxiv: ''
+  arxiv: '2604.14268'
   venue: ''
   lane: 框架层
   branch: 闭源产品
@@ -882,6 +882,7 @@ nodes:
   media: []
   links:
   - https://3d-models.hunyuan.tencent.com/
+  - https://arxiv.org/abs/2604.14268
   note: 腾讯混元 HY-World 产品页，前端渲染，脚本抓不到正文
   tags:
   - 开源系列
