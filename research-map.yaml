@@ -6741,3 +6741,379 @@ nodes:
   inherited_by: []
   inherited_chain: 0
   concepts: []
+- id: "aeon"
+  title: "AEON: Unifying Video and 3D World Models"
+  date: "2026-10-20"
+  precision: "day"
+  arxiv: "2610.28631"
+  venue: ""
+  lane: "几何位姿寻址"
+  branch: "显式几何库"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "用四维高斯持久化视频世界"
+  mechanism: "模型在视频潜空间生成可渲染的4D高斯与相机位姿，蒸馏域适配器把视频潜变量转为4D表示，再按预测轨迹渲染并持久保存场景动态。"
+  key_numbers:
+  - "摘要未给具体数值"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.28631"
+  - "https://weiqi-zhang.github.io/AEON"
+  note: "显式4D几何表示直接支撑相机轨迹下的持久场景回溯。"
+  tags:
+  - "4D高斯"
+  - "几何记忆"
+  - "相机轨迹"
+- id: "vpm"
+  title: "Learning the 4D World through Point Trajectory Forecasting"
+  date: "2026-10-20"
+  precision: "day"
+  arxiv: "2610.28594"
+  venue: ""
+  lane: "几何位姿寻址"
+  branch: "显式几何库"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "用跨视角点轨迹锚定四维预测"
+  mechanism: "模型把跨视角持久点的3D轨迹与未来视频联合预测，点监督将多相机外观变化锚到共享运动描述，代价是需同步多视角轨迹数据。"
+  key_numbers:
+  - "摘要未给具体数值"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.28594"
+  note: "持久点轨迹提供跨视角的几何寻址与回溯锚点。"
+  tags:
+  - "点轨迹"
+  - "多视角"
+  - "4D预测"
+- id: "frechet-forcing"
+  title: "Frechet Forcing: Training Long-Horizon Streaming World Models from Short Clips"
+  date: "2026-10-19"
+  precision: "day"
+  arxiv: "2610.25666"
+  venue: ""
+  lane: "训练侧"
+  branch: "恒定上下文"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "短片统计约束把世界模型推过四千帧"
+  mechanism: "模型在真实片段结尾接自生成历史，用生成锚定、上下文保真和真实度三种统计约束训练部署采样器，避免教师与长视频并保持动作条件。"
+  key_numbers:
+  - "253帧预训练片段"
+  - "381帧微调片段"
+  - "超过4,000帧稳定生成"
+  - "最多36 GPU小时"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.25666"
+  note: "以短片统计约束解决长程自回归漂移，直接对应主线的长视频稳定训练。"
+  tags:
+  - "长程训练"
+  - "统计约束"
+  - "流式生成"
+- id: "wildawm"
+  title: "Agent World Model in the Wild: Computer-Use Agent Environment Synthesis"
+  date: "2026-10-19"
+  precision: "day"
+  arxiv: "2610.26828"
+  venue: ""
+  lane: "代码世界模型"
+  branch: "Agent 环境"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "可执行环境合成支撑长程电脑代理"
+  mechanism: "流水线生成同时支持GUI、MCP和命令行的可执行环境，以多代理回滚、交叉评审和反事实探针做质量门，再用合成世界训练代理。"
+  key_numbers:
+  - "341个长程环境任务"
+  - "超过100步可需"
+  - "8个分布外基准"
+  - "GPT-6-Astra解出60%"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.26828"
+  - "https://github.com/MSR-Orchard/WildAWM"
+  note: "属于代码世界模型与可执行环境生成，但主要面向电脑代理而非相机视频。"
+  tags:
+  - "可执行环境"
+  - "质量门"
+  - "代理训练"
+- id: "mallea"
+  title: "Mallea: Building, Steering, and Memorizing Worlds with Coding Agent"
+  date: "2026-10-15"
+  precision: "day"
+  arxiv: "2610.21283"
+  venue: ""
+  lane: "代码世界模型"
+  branch: "代码定状态"
+  parent: null
+  link_strength: null
+  training: "未披露"
+  status: "速读"
+  one_liner: "对象规则与外观记忆共同驱动可编辑世界"
+  mechanism: "编码代理把对象结构、属性和规则写成可执行世界状态，纹理记忆复用白盒对象外观并随对象变化更新，渲染器再合成当前观测。"
+  key_numbers:
+  - "摘要未给具体数值"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.21283"
+  - "https://lxycopper.github.io/Mallea"
+  note: "显式状态、可执行规则与对象级外观记忆形成代码世界的回溯闭环。"
+  tags:
+  - "代码世界"
+  - "对象记忆"
+  - "可编辑"
+- id: "globebench"
+  title: "GlobeBench: Evaluating Text-Based World Model Capabilities for Scalable Environment Simulations"
+  date: "2026-10-15"
+  precision: "day"
+  arxiv: "2610.22708"
+  venue: ""
+  lane: "评测基准"
+  branch: "状态转移评测"
+  parent: null
+  link_strength: null
+  training: "未披露"
+  status: "速读"
+  one_liner: "用执行参照评测文本世界状态回溯"
+  mechanism: "基准给定完整代理轨迹和动作，要求模型预测环境状态转移，再以执行派生参照和确定性门加语义裁判检验关联对象传播。"
+  key_numbers:
+  - "1,632个任务"
+  - "5个领域"
+  - "19种模拟技能"
+  - "20个模型"
+  - "49.57%最高成功率"
+  - "631个任务无人解决"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.22708"
+  note: "是文本可执行世界模型基准，非相机视频评测，因可迁移的轨迹状态回溯能力暂收。"
+  tags:
+  - "执行评测"
+  - "状态转移"
+  - "长程推理"
+- id: "holo4d"
+  title: "Holo4D: Holistic 4D Reconstruction as Geometric Control for Video Diffusion"
+  date: "2026-10-18"
+  precision: "day"
+  arxiv: "2610.25276"
+  venue: ""
+  lane: "几何位姿寻址"
+  branch: "显式几何库"
+  parent: null
+  link_strength: null
+  training: "未训练"
+  status: "速读"
+  one_liner: "以重建轨迹几何约束相机视角生成"
+  mechanism: "将重建的源视角4D轨迹投影到目标相机视图，并编码几何与源外观作为扩散条件；已观测区域由脚手架锚定，未支持区域交给生成先验补全。"
+  key_numbers:
+  - "摘要未给具体数值"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.25276"
+  note: "直接以相机轨迹和重建几何约束视频重拍，归入显式几何寻址。"
+  tags:
+  - "4D轨迹"
+  - "相机控制"
+  - "几何约束"
+- id: "map2vid"
+  title: "Map2Vid: Embodied Navigation Video Generation with Human-Friendly Motion Control"
+  date: "2026-10-18"
+  precision: "day"
+  arxiv: "2610.25223"
+  venue: ""
+  lane: "评测基准"
+  branch: "导航视频生成"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "以俯视地图控制导航视频生成"
+  mechanism: "将全局布局与导航路线编码为BEV地图条件视频生成，并用逐步弱化非地图输入的课程训练支持地图单条件推理；代价是任务聚焦具身导航场景。"
+  key_numbers:
+  - "导航序列 100K+（61个室内场景）"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.25223"
+  note: "相机轨迹与地图条件的导航视频生成及基准，归入评测基准。"
+  tags:
+  - "地图控制"
+  - "导航视频"
+  - "评测基准"
+- id: "recam"
+  title: "Recast the Past: Stable Long Video Generation with Full Context Memory"
+  date: "2026-10-20"
+  precision: "day"
+  arxiv: "2610.27986"
+  venue: ""
+  lane: "位置时间寻址"
+  branch: "重排位置"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "压缩全历史并保持回溯一致"
+  mechanism: "将历史潜变量的局部时空块聚成记忆向量并投影到DiT隐空间，以自注意力读取全历史，再用双指针去噪分离近期上下文与目标帧噪声调度，代价是额外记忆投影计算。"
+  key_numbers:
+  - "VBench-Long 80.1（整体得分）"
+  - "R2M-Bench 4.09（服装一致性）"
+  - "R2M-Bench 3.03（最佳基线服装一致性）"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.27986"
+  note: "通过历史块记忆与双指针去噪直接解决长程生成的历史保留和静态场景回看一致性。"
+  tags:
+  - "全历史"
+  - "回溯一致"
+  - "长视频"
+- id: "ppmem"
+  title: "Persistent Planar Memory for Video World Models"
+  date: "2026-10-16"
+  precision: "day"
+  arxiv: "2610.23795"
+  venue: ""
+  lane: "几何位姿寻址"
+  branch: "显式几何库"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "平面几何库持久记忆视频世界"
+  mechanism: "模型用平面预测头从每个自回归块联合生成RGB与平面几何，合并入持久平面库并渲染深度回读，代价是需维护约十万平面基元。"
+  key_numbers:
+  - "7个参数/平面基元"
+  - "约100K个平面基元"
+  - "5MB完整场景"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.23795"
+  - "https://hyzcluster.github.io/ppmem"
+  note: "显式平面几何库按生成过程持久化并跨视角回读，直接对应场景回溯。"
+  tags:
+  - "平面记忆"
+  - "几何库"
+  - "深度回读"
+- id: "slot-jepa"
+  title: "Slot-JEPA: Object-Structured Prediction Interfaces for Latent World Models"
+  date: "2026-10-20"
+  precision: "day"
+  arxiv: "2610.28074"
+  venue: ""
+  lane: "内容学习寻址"
+  branch: "学习路由"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "对象槽与转移记忆压缩历史检索"
+  mechanism: "Slot-JEPA把密集特征分解为稳定语义槽与时变掩码，转移记忆按对应槽统计检索紧凑历史并分离槽内外动力学，代价是需预训练槽接口。"
+  key_numbers:
+  - "7个视觉理解基准"
+  - "6个平面环境"
+  - "4个机械臂任务"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.28074"
+  - "https://github.com/KID-7391/Slot-JEPA.git"
+  note: "对象级槽统计驱动历史转移检索，机制可迁移但论文主评测偏规划而非相机视频。"
+  tags:
+  - "对象槽"
+  - "转移记忆"
+  - "历史检索"
+- id: "reading-writing-world-video"
+  title: "Reading, Writing, Sharing, and Interacting with the World through Video"
+  date: "2026-10-22"
+  precision: "day"
+  arxiv: "2610.31668"
+  venue: ""
+  lane: "框架层"
+  branch: "符号状态"
+  parent: null
+  link_strength: null
+  training: "未训练"
+  status: "速读"
+  one_liner: "以读写共享交互统一视频世界模型视角"
+  mechanism: "将视频视为潜在时序世界的有损观测，按读取、写入、共享与交互组织模型任务，并以持久状态、可控演化和交互评测区分时序连贯与世界状态一致性。"
+  key_numbers:
+  - "102页（综述篇幅）"
+  - "17幅图（论文统计）"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.31668"
+  - "https://vid-gen.github.io/video-world-model-survey"
+  note: "综述统一世界建模框架，属框架层；未提供训练方法。"
+  tags:
+  - "世界状态"
+  - "视频模型"
+  - "交互评测"
+- id: "cadre"
+  title: "Rethinking Video Autoencoders for Interactive World Models"
+  date: "2026-10-21"
+  precision: "day"
+  arxiv: "2610.30129"
+  venue: ""
+  lane: "训练侧"
+  branch: "恒定上下文"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "因果压缩自编码器折中交互延迟与画质"
+  mechanism: "以冻结特征上的小瓶颈控制时空压缩，并用自蒸馏扩散解码器重建；同一世界模型在不同压缩率下训练比较，按相机运动调整压缩以兼顾延迟与质量。"
+  key_numbers:
+  - "2个领域（操作与导航）"
+  - "4个环境（每领域两个）"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.30129"
+  - "https://kyutai.org/blog/2026-10-21-cadre"
+  note: "研究交互世界模型的表示训练与压缩权衡，归训练侧。"
+  tags:
+  - "因果自编码"
+  - "时空压缩"
+  - "交互延迟"
+- id: "operator-mismatch-contrastive"
+  title: "Operator-Mismatch Contrastive Learning for World-Relative Trajectory Coherence"
+  date: "2026-10-18"
+  precision: "day"
+  arxiv: "2610.25360"
+  venue: ""
+  lane: "评测基准"
+  branch: "世界相对连贯性"
+  parent: null
+  link_strength: null
+  training: "训练"
+  status: "速读"
+  one_liner: "用错算子负例测量世界相对轨迹一致性"
+  mechanism: "在轨迹评分器训练中构造物理合理但服从错误世界算子的难负例，并以算子敏感协议测量相对连贯性；缓解通用排序掩盖规则错配，作为可外挂的辅助评分信号。"
+  key_numbers:
+  - "0.99通用top-1（随机水平的算子区分）"
+  self_measured: []
+  media: []
+  links:
+  - "https://arxiv.org/abs/2610.25360"
+  note: "提供世界相对轨迹连贯性协议而非生成模型，归评测基准。"
+  tags:
+  - "轨迹一致性"
+  - "算子错配"
+  - "对比学习"
