@@ -6618,8 +6618,8 @@ nodes:
 - id: solarrenderer
   title: 'SolarRenderer: Few-Step Generative Reference Rendering'
   arxiv: '2610.28630'
-  date: '2026-10-01'
-  precision: month
+  date: '2026-10-20'
+  precision: day
   venue: Technical Report (Show Lab)
   lane: 代码世界模型
   branch: 神经渲染器
@@ -6640,6 +6640,7 @@ nodes:
   - 53 段同分布测试
   - 136,289 训练片段
   - 4 个 LoRA（控制/四步 × 全片/流式）
+  - 流式窗口 6 块 × 5 latent（约 20 帧/块）
   explain: 想象把摄像机轨迹、深度图或边缘骨架交给模型，它要四次“落笔”就生成连贯的实拍画面。SolarRenderer解决的是结构难跟、生成要反复采样、视频难实时流出的麻烦。它先训练控制LoRA（只增加少量参数的适配器），让冻结的MiniMax-H3跟随结构视频；再用结构引导训练少步LoRA，把50步压到4步，快12.3倍。先学会对齐“骨架—画面”，再压缩采样，所以控制和质量都能保住。流式版本采用block-causal机制（按块生成，只依赖当前及过去块）。模型用136,289段片段训练，覆盖16种结构，含11种未见结构，并在208例泛化基准、53段同分布测试上验证；四个LoRA覆盖控制/四步与全片/流式。
   detail:
     position: 把游戏引擎或 agent 产出的结构（点云、骨架、线框、深度、法线、体素、遮挡掩码等）直接渲成写实视频，让「谁定布局」和「谁定外观」彻底分开。
@@ -6658,7 +6659,9 @@ nodes:
     train: 136,289 条训练片段（公开 57,738 条带视频）；共 4 个 LoRA：控制与四步各一套，全片与因果流式各一套。
     diff: 和 StreamRender-H3 同底座同分工，但把「什么结构都能吃」做成主目标：16 种结构里 11 种训练时没见过，仍能渲染；HelixWorld/AlayaRenderer
       类工作通常只针对 G-buffer 或语义图一种条件。
-    limits: 仍是 MiniMax-H3 这个量级的主干，四步也只是采样步数压缩，不是换小模型；结构视频本身要有正确的布局和相机，结构错了它不会纠正。
+    limits: 仍是 MiniMax-H3 这个量级的主干，四步也只是采样步数压缩，不是换小模型；结构视频本身要有正确的布局和相机，结构错了它不会纠正。原生脚本按
+      bf16 装 135GB 且对全部帧做注意力，只有大卡能跑；ComfyUI 走 pruned INT8 加主机内存换页时 4090 能跑，但主机内存要 64GB 起，采样阶段常驻显存约
+      6.6GB，实测 832×480 15 秒 8 步要 25 到 30 分钟，实时那套卖点在消费卡上兑现不了。
     has_abstract: true
   media:
   - https://enderfga.cn/SolarRenderer/media/film/solarrenderer-film.mp4
@@ -6673,7 +6676,8 @@ nodes:
   - https://huggingface.co/datasets/Enderfga/SolarRenderer-Data
   confidence: high
   note: Show Lab（Mike Zheng Shou 组）Guian Fang 等；Elo 用 gemini-3.8-flash 当裁判、每对交换顺序判两次，另有真人盲测同向。泛化基准
-    208 例、同分布 53 段均开源。
+    208 例、同分布 53 段均开源。2026-10-24 补：causal 版在 1344×768 下 KV cache 上限约 80GB，放不下就落系统内存，这层固定窗口就是它自己的记忆结构；量化权重来自
+    Comfy-Org/MiniMax-H3，ref2va pruned INT8 21GB 加 Qwen3-VL-32B NVFP4 15.7GB，权重走 H3 Community License 含地域限制。
   cpm: null
   repro: code_weights
   inherited: 0
@@ -6682,6 +6686,7 @@ nodes:
   concepts:
   - 结构条件渲染
   - 流式分块推理
+  - 分块因果缓存
 - id: wan-streamer
   title: Video = World + Event Stream (Wan Streamer v0.3)
   arxiv: '2607.15038'
